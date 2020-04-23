@@ -1,0 +1,5 @@
+mutation ($id:ID!){
+  deleteReport(where: {id: $id}) {
+    id
+  }
+}

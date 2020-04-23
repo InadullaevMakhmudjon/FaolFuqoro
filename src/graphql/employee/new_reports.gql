@@ -1,0 +1,18 @@
+query ($id: ID){
+  reports(where: {
+    AND: [
+      {status: { id: 3 }},
+      {comments_some: { to: { id: $id } }}
+    ]
+  }) {
+    id
+    lat
+    lng
+    image
+    creator{
+      name
+      phone
+    }
+    createdAt
+  }
+}

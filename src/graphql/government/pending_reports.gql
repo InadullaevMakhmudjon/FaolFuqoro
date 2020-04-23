@@ -1,0 +1,20 @@
+query {
+  reports(where: {
+    status: {
+      AND: [
+        { id_not: 1 }
+        { id_not: 4 }
+      ]
+    }
+  }) {
+    id
+    lat
+    lng
+    image
+    creator{
+      name
+      phone
+    }
+    createdAt
+  }
+}

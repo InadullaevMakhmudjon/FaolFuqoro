@@ -1,0 +1,24 @@
+mutation ($comment: String!, $to: ID!, $id: ID!){
+  updateReport(data: {
+    status: {
+      connect: {
+        id: 2
+      }
+    }
+    comments: {
+      create: {
+        comment: $comment
+        status: {
+          connect: { id: 2 }
+        }
+        to: {
+          connect: {
+            id: $to
+          }
+        }
+      }
+    }
+  }, where: { id: $id }) {
+    id
+  }
+}

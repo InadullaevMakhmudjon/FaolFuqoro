@@ -1,0 +1,24 @@
+subscription {
+  report(where: {
+    node: {
+	  status: {
+        AND: [
+        { id_not: 1 }
+        { id_not: 4 }
+      ]
+      }
+    }
+  }) {
+  	node{
+    id
+    lat
+    lng
+    image
+    creator{
+      name
+      phone
+    }
+    createdAt
+  }
+  }
+}

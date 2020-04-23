@@ -1,0 +1,17 @@
+query {
+  reports(where: {
+    status: {
+      id: 1
+    }
+  }) {
+    id
+    lat
+    lng
+    image
+    creator{
+      name
+      phone
+    }
+    createdAt
+  }
+}

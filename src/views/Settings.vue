@@ -1,13 +1,8 @@
 <template lang="pug">
-  v-app
-    router-view
+    h1 Settings
 </template>
-
 <script>
 export default {
-  name: 'App',
-  data: () => ({
-    //
-  }),
+  name: 'Settings',
 };
 </script>

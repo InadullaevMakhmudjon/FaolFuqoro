@@ -1,0 +1,49 @@
+type Role {
+  id: ID! @id
+  name: String!
+}
+
+type Status {
+  id: ID! @id
+  name: String!
+}
+
+type People {
+  id: ID! @id
+  name: String!
+  phone: String!
+  password: String!
+  image: String!
+  reports: [Report!] @relation(name: "ReportForCreator", onDelete: SET_NULL)
+}
+
+type User {
+  id: ID! @id
+  name: String!
+  phone: String!
+  username: String!
+  password: String!
+  image: String!
+  role: Role! @relation(name: "RoleForUser", onDelete: SET_NULL)
+  reports: [ReportComment!] @relation(name: "ReportForUser", onDelete: SET_NULL)
+}
+
+type Report {
+  id: ID! @id
+  image: String!
+  lat: Float!
+  lng: Float!
+  creator: People! @relation(name: "ReportForCreator", onDelete: SET_NULL)
+  comments: [ReportComment !]! @relation(name: "CommentForReport", onDelete: CASCADE)
+  status: Status! @relation(name: "ReportStatus", onDelete: SET_NULL) 
+  createdAt: DateTime! @createdAt
+}
+
+type ReportComment {
+  id: ID! @id
+  comment: String
+  status: Status! @relation(name: "StatusOfReport", onDelete: SET_NULL)
+  report: Report! @relation(name: "CommentForReport", onDelete: SET_NULL)
+  to: User! @relation(name: "ReportForUser", onDelete: SET_NULL)
+  createdAt: DateTime! @createdAt
+}

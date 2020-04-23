@@ -1,0 +1,34 @@
+query ($id: ID!){
+  report(where: {
+		id: $id
+  }) {
+    id
+    lat
+    lng
+    image
+    status{
+      id
+      name
+    }
+    creator{
+      name
+      phone
+      image
+    }
+    comments {
+      comment
+      status{
+        id
+        name
+      }
+      to{
+        name
+        image
+        role{
+          name
+        }
+      }
+    }
+    createdAt
+  }
+}

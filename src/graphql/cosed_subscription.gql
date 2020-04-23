@@ -1,0 +1,21 @@
+subscription {
+  report(where: {
+    node: {
+	  status: {
+        id: 4
+      }
+    }
+  }) {
+  	node{
+    id
+    lat
+    lng
+    image
+    creator{
+      name
+      phone
+    }
+    createdAt
+  }
+  }
+}

@@ -12,54 +12,58 @@
           :key="item.id"
           v-if="item.v"
         ).pa-0
-          v-list-item(link justify-center)
+          v-list-item(
+            link
+            justify-center
+            @click="itemClick(item.path)"
+            :class="$route.name === item.path ? 'home-button' : ''"
+          )
             v-list-item-icon
               v-icon {{ item.icon }}
             v-list-item-content {{ item.name }}
         template(v-slot:append)
           .pa-2
-            v-btn(outlined large block color="grey" @click="logout") Logout
+            v-btn(outlined large block color="grey" @click="logout") Chiqish
       v-app-bar(app clipped-left)
         v-spacer
-        v-toolbar-title Name of the government
+        v-toolbar-title {{ title }}
         v-spacer
       v-content
         v-container(fluid)
-
+          router-view
 </template>
 
 <script>
 export default {
   name: 'Home',
-  props: {
-    role: {
-      type: Number,
-    },
-  },
   data() {
     return {
       items: [
         {
           id: 1,
-          name: 'Dashboard',
+          name: 'Statistika',
           icon: 'dashboard',
+          path: 'Dashboard',
           v: true,
         },
         {
           id: 2,
-          name: 'Reports',
+          name: 'Hisobotlar',
           icon: 'report',
+          path: 'Reports',
           v: true,
         },
         {
           id: 3,
-          name: 'Users',
+          name: 'Foydalanuvchilar',
           icon: 'people_alt',
+          path: 'Operators',
           v: this.role,
         },
         {
           id: 4,
-          name: 'Settings',
+          name: 'Sozlamar',
+          path: 'Settings',
           icon: 'settings',
           v: true,
         },
@@ -68,11 +72,19 @@ export default {
   },
   methods: {
     logout() {
-      this.$router.push({ name: 'Login' });
+      this.$store.dispatch('logout')
+        .then(() => this.$router.push({ name: 'Login' }));
+    },
+    itemClick(path) {
+      if (this.$route.name !== path) {
+        this.$router.push({ name: path });
+      }
     },
   },
-  mounted() {
-    if (typeof this.role !== 'number') this.logout();
+  computed: {
+    title() {
+      return this.$store.state.user.name
+    },
   },
 };
 </script>

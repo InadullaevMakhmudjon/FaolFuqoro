@@ -20,6 +20,7 @@ module.exports = {
         "vue"
     ],
     "rules": {
-        "linebreak-style": 0
+        "linebreak-style": 0,
+        "import/no-unresolved": 0
     }
 };

@@ -1,0 +1,22 @@
+query ($username: String!, $password: String!) {
+	users(where: {
+    AND: [
+      {
+        username: $username
+      }
+      {
+        password: $password
+      }
+    ]
+  }){
+    id
+    name
+    phone
+    username
+    image
+    role {
+      id
+      name
+    }
+  }
+}

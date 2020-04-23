@@ -1,0 +1,17 @@
+query{
+  users(where: {
+    role: {
+      id: 3
+    }
+  }){
+    id
+    name
+    username
+    password
+    image
+    role{
+      id
+      name
+    }
+  }
+}
