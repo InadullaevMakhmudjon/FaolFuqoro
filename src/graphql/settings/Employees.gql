@@ -1,0 +1,9 @@
+query ($id: ID!){
+	users(where: { manager: { id: $id } }){
+        id
+        name
+        phone
+        image
+        username
+    }
+}

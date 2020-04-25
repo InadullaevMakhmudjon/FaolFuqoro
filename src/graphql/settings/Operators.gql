@@ -1,0 +1,10 @@
+ # Write your query or mutation here
+query {
+  users(where: { role: { id: 2 } }){
+    id
+    name
+    phone
+    username
+    image
+  }
+}

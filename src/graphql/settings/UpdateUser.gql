@@ -1,0 +1,9 @@
+mutation ($id: ID!, $name: String!, $phone: String!, $username: String!){
+  updateUser(data: {
+    name: $name
+    phone: $phone
+    username: $username
+  }, where: { id: $id }) {
+    id
+  }
+}

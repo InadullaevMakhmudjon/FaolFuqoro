@@ -36,22 +36,29 @@ const routes = [
         component: () => import('../views/Dashboard.vue'),
       },
       {
-        path: '/reports',
+        path: 'reports',
         name: 'Reports',
         component: () => import('../views/reports/Reports.vue'),
       },
       {
-        path: '/operators',
-        name: 'Operators',
-        component: () => import('../views/Operators.vue'),
-      },
-      {
-        path: '/settings',
+        path: 'settings',
         name: 'Settings',
-        component: () => import('../views/Settings.vue'),
+        component: () => import('../views/settings/Settings.vue'),
+        children: [
+          {
+            path: 'organizations',
+            name: 'Organizations',
+            component: () => import('../views/settings/Organizations.vue'),
+          },
+          {
+            path: 'operators',
+            name: 'Operators',
+            component: () => import('../views/settings/Operators.vue'),
+          },
+        ],
       },
       {
-        path: '/report',
+        path: 'report',
         name: 'Report',
         props: true,
         component: () => import('../views/reports/Report.vue'),

@@ -1,0 +1,17 @@
+mutation ($managerId: ID!, $roleId: ID!, $name: String!, $phone: String!, $username: String!, $password: String!, $image: String!){
+	createUser(data: {
+        name: $name
+        phone: $phone
+        username: $username
+        password: $password
+        image: $image
+        role: {
+            connect: {id: $roleId}
+        }
+        manager: {
+            connect: {id: $managerId}
+        }
+  }) {
+    id
+  }
+}

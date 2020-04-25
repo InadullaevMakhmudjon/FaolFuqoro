@@ -1,0 +1,12 @@
+query {
+  operators: usersConnection(where: { role: { id: 2 } }) {
+    aggregate{
+      count
+    }
+  }
+  organizations: usersConnection(where: { role: { id: 3 } }) {
+    aggregate{
+      count
+    }
+  }
+}
