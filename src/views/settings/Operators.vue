@@ -2,7 +2,7 @@
     v-container
         v-layout.flex-row.justify-space-between
             v-btn(outlined @click="$router.push({ name: 'Settings' })") Back
-            .display-1 Operators
+            .display-1 {{ $store.state.user.id == '1' ? 'Operators' : 'Employees' }}
             v-btn(outlined color="green" @click="createUser") Create
         v-row.mt-5
             v-col
@@ -107,7 +107,9 @@ export default {
     createUser() {
       this.operator = {
         create: true,
-        image: 'https://cdn.iconscout.com/icon/free/png-512/operator-1411794-1194283.png',
+        image: this.$store.state.user.id == '1'
+          ? 'https://cdn.iconscout.com/icon/free/png-512/operator-1411794-1194283.png'
+          : 'https://png.pngtree.com/png-vector/20190228/ourlarge/pngtree-vector-engineer-icon-png-image_711642.jpg',
       };
       this.create = true;
       this.dialog = true;
