@@ -60,7 +60,7 @@ module.exports = [
     phone: '+998444444444',
     username: 'gazxodim',
     password: 'gazxodim',
-    image: 'https://pngimage.net/wp-content/uploads/2018/06/organization-people-png-7.png',
+    image: 'https://png.pngtree.com/png-vector/20190228/ourlarge/pngtree-vector-engineer-icon-png-image_711642.jpg',
     role: {
       connect: {
         id: 4,
@@ -74,7 +74,7 @@ module.exports = [
     phone: '+998444444444',
     username: 'suvxodim',
     password: 'suvxodim',
-    image: 'https://pngimage.net/wp-content/uploads/2018/06/organization-people-png-7.png',
+    image: 'https://png.pngtree.com/png-vector/20190228/ourlarge/pngtree-vector-engineer-icon-png-image_711642.jpg',
     role: {
       connect: {
         id: 4,
