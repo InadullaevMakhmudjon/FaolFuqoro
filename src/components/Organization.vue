@@ -3,65 +3,26 @@
         v-layout.flex-row.justify-space-between.align-center
             .display-1 {{ title }}
             v-btn(outlined @click="() => { $emit('click', id) }") Create
-        draggable(
-          v-model="deleteItems"
-          v-show="users.length"
-          draggable=".item"
-          group="a"
-        ).list-group.row.ma-5.custom-delete
-        draggable(
-          v-model="items"
-          draggable=".item"
-          group="a"
-        ).list-group.row.mt-5
-            v-col(cols="4" v-for="(item, index) in users" :key="index").list-group-item.item
-                v-card
-                    v-card-text
-                        v-layout.flex-row.align-center
-                            img(:src="item.image" alt="Organizations").image
-                            v-layout.ml-5.flex-column
-                                .caption {{ `Name: ${item.name}` }}
-                                .caption {{ `Username: ${item.username}` }}
-                                .caption {{ `Phone: ${item.phone}` }}
+        v-row
+          v-col(cols="4" v-for="(item, index) in users" :key="index").list-group-item.item
+              v-card
+                  v-card-text
+                      v-layout.flex-row.align-center
+                          img(:src="item.image" alt="Organizations").image
+                          v-layout.ml-5.flex-column
+                              .caption {{ `Name: ${item.name}` }}
+                              .caption {{ `Username: ${item.username}` }}
+                              .caption {{ `Phone: ${item.phone}` }}
+                              div
+                                v-btn(icon small @click="$emit('edited', item.id)")
+                                  v-icon(small) edit
+                                v-btn(icon small @click="$emit('deleted', item.id)")
+                                  v-icon(small).red--text delete
 </template>
 <script>
-import draggable from 'vuedraggable';
-
 export default {
-  props: {
-    users: {
-      required: true,
-      type: Array,
-    },
-    title: {
-      required: true,
-      type: String,
-    },
-  },
-  data() {
-    return {
-      items: [],
-      deleteItems: [],
-    };
-  },
-  methods: {
-    getAll() {
-
-    },
-  },
-  components: {
-    draggable,
-  },
-  watch: {
-    title() {
-      this.getAll();
-    },
-    deleteItems(value) {
-      if (value.length) { this.$emit('deleted', value[value.length - 1].id); }
-    },
-  },
-  mounted() {
-    this.getAll();
+  props: ['users', 'title', 'id'],
+  computed: {
   },
 };
 </script>

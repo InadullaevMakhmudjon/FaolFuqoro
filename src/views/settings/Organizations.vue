@@ -33,7 +33,13 @@
             v-row(v-if="item").justify-center
               v-col(cols="10")
                 v-card(style="height: 100%")
-                  Organization(:users="item ? item.users : []" :title="item ? item.name : ''" @click="createUser($event)" @deleted="deleteUser($event)")
+                  Organization(
+                    :users="item && item.users"
+                    :title="item && item.name"
+                    :id="item.id"
+                    @click="createUser($event)"
+                    @deleted="deleteUser($event)"
+                  )
         v-dialog(
           v-model="dialog"
           width="500"
@@ -94,18 +100,22 @@ export default {
     },
   },
   methods: {
+    fetchEmployees(id) {
+      this.$apollo.query({
+        query: EMPLOYEES,
+        variables: {
+          id,
+        },
+      }).then(({ data }) => {
+        this.item = { ...this.item, ...data };
+      });
+    },
     itemClicked(item) {
       if (this.item && (this.item.id === item.id)) {
         this.item = null;
       } else {
-        this.$apollo.query({
-          query: EMPLOYEES,
-          variables: {
-            id: item.id,
-          },
-        }).then(({ data }) => {
-          this.item = { ...item, ...data };
-        });
+        this.item = { ...item };
+        this.fetchEmployees(item.id);
       }
     },
     edit(item) {
@@ -136,7 +146,11 @@ export default {
             variables: { ...this.org },
           });
         }
-        this.saveLoading = false; this.dialog = false; this.$apollo.queries.users.refetch();
+        this.saveLoading = false;
+        this.dialog = false;
+        this.$apollo.queries.users.refetch();
+        if (this.item) this.fetchEmployees(this.item.id);
+        window.location.reload();
       }
     },
     createUser(orgId) {
@@ -151,7 +165,11 @@ export default {
       this.$apollo.mutate({
         mutation: DELETEUSER,
         variables: { id },
-      }).then(() => { this.$apollo.queries.users.refetch(); this.dialog = false; });
+      }).then(() => {
+        this.$apollo.queries.users.refetch();
+        this.dialog = false;
+        window.location.reload();
+      });
     },
   },
   components: {
