@@ -53,6 +53,8 @@ export default {
       this.lng = value.latLng.lng();
     },
     submit() {
+      if (!this.image) return;
+      if (!this.comment) return;
       this.$apollo.mutate({
         mutation: CREATEREPORT,
         variables: {

@@ -1,4 +1,4 @@
-query ($id: Int!){
+query ($id: ID!){
   reports(where: {
     AND: [
       { status: { id: 4 } },

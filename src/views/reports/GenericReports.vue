@@ -152,7 +152,7 @@ export default {
       const organization = [
         this.$apollo.query({
           query: ORG_NEW_REPORTS,
-          variables: { id: this.$store.state.user.id }
+          variables: { id: this.$store.state.user.id },
         }),
         this.$apollo.query({
           query: ORG_PENDING_REPORTS,
@@ -161,7 +161,7 @@ export default {
       const employee = [
         this.$apollo.query({
           query: EMPLOYEE_NEW_REPORTS,
-          variables: { id: this.$store.state.user.id }
+          variables: { id: this.$store.state.user.id },
         }),
       ];
       if (['1', '2'].includes(this.$getRole())) {
@@ -179,7 +179,7 @@ export default {
       Promise.all(task.tasks.concat([
         this.$apollo.query({
           query: CLOSED_REPORTS,
-          variables: { id }
+          variables: { id },
         }),
       ])).then(task.callBack);
     },
