@@ -19,6 +19,11 @@ const routes = [
     },
   },
   {
+    path: '/create-report',
+    name: 'CreateReport',
+    component: () => import('../views/CreateReport.vue'),
+  },
+  {
     path: '/',
     component: () => import('../views/Home.vue'),
     props: (route) => ({ ...route.params }),
@@ -37,6 +42,7 @@ const routes = [
       },
       {
         path: 'reports',
+        props: (route) => ({ ...route.params }),
         name: 'Reports',
         component: () => import('../views/reports/Reports.vue'),
       },
@@ -53,6 +59,7 @@ const routes = [
           {
             path: 'operators',
             name: 'Operators',
+            props: (route) => ({ ...route.params }),
             component: () => import('../views/settings/Operators.vue'),
           },
         ],

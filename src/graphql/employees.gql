@@ -1,8 +1,7 @@
-query{
+query ($id: ID){
   users(where: {
-    role: {
-      id: 4
-    }
+    manager: { id: $id }
+    role: { id: 4 }
   }){
     id
     name

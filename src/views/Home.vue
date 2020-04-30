@@ -36,9 +36,20 @@
 <script>
 export default {
   name: 'Home',
-  data() {
-    return {
-      items: [
+  methods: {
+    logout() {
+      this.$store.dispatch('logout')
+        .then(() => this.$router.push({ name: 'Login' }));
+    },
+    itemClick(path) {
+      if (this.$route.name !== path) {
+        this.$router.push({ name: path });
+      }
+    },
+  },
+  computed: {
+    items() {
+      return [
         {
           id: 1,
           name: 'Statistika',
@@ -65,23 +76,10 @@ export default {
           name: 'Sozlamar',
           path: 'Settings',
           icon: 'settings',
-          v: true,
+          v: ['1', '3'].includes(this.$store.state.user.role.id),
         },
-      ],
-    };
-  },
-  methods: {
-    logout() {
-      this.$store.dispatch('logout')
-        .then(() => this.$router.push({ name: 'Login' }));
+      ];
     },
-    itemClick(path) {
-      if (this.$route.name !== path) {
-        this.$router.push({ name: path });
-      }
-    },
-  },
-  computed: {
     title() {
       return this.$store.state.user.name;
     },

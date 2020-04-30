@@ -113,14 +113,14 @@ export default {
   },
   methods: {
     back() {
-      this.$router.push('/reports');
+      this.$router.push({ name: 'Reports', params: { reload: true } });
     },
     reject() {
       this.$apollo.mutate({
         mutation: REJECTREPORT,
         variables: { id: this.report.id },
       }).then(() => {
-        this.$router.push('/reports');
+        this.$router.push({ name: 'Reports', params: { reload: true } });
       });
     },
     delegate() {
@@ -132,7 +132,7 @@ export default {
           id: this.report.id,
         },
       }).then(() => {
-        this.$router.push('/reports');
+        this.$router.push({ name: 'Reports', params: { reload: true } });
       });
     },
     finish() {
@@ -140,7 +140,7 @@ export default {
         mutation: FINISHREPORT,
         variables: { id: this.report.id },
       }).then(() => {
-        this.$router.push('/reports');
+        this.$router.push({ name: 'Reports', params: { reload: true } });
       });
     },
   },
@@ -154,11 +154,10 @@ export default {
         }),
         this.$apollo.query({
           query: ORGS,
-          variables: { id },
         }),
         this.$apollo.query({
           query: EMPLOYEES,
-          variables: { id },
+          variables: { id: this.$store.state.user.id },
         }),
       ])
         .then(([{ data }, org, em]) => {

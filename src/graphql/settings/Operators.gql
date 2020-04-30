@@ -1,6 +1,6 @@
  # Write your query or mutation here
-query {
-  users(where: { role: { id: 2 } }){
+query ($id: ID, $roleId: ID){
+  users(where: { manager: { id: $id } role: { id: $roleId } }){
     id
     name
     phone

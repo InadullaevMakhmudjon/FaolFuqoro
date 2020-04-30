@@ -1,4 +1,4 @@
-mutation ($id: ID){
+mutation ($id: Int){
   updateReport(data: {
     status: {
       connect: {

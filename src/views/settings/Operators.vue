@@ -78,13 +78,14 @@ export default {
       this.dialog = true;
     },
     save() {
-      const common = () => { this.dialog = false; this.$apollo.queries.users.refetch(); };
+      const userId = this.$store.state.user.id;
+      const common = () => { window.location.reload(); };
       if (Object.keys(this.operator).length) {
         if (this.operator.create) {
           if (this.operator.password && this.isEqual) {
             this.$apollo.mutate({
               mutation: CREATEUSER,
-              variables: { ...this.operator, roleId: 2, managerId: 1 },
+              variables: { ...this.operator, roleId: userId == '1' ? 2 : 4, managerId: userId },
             }).then(common);
           }
         } else if (this.operator.password && this.isEqual) {
@@ -115,7 +116,16 @@ export default {
       this.$apollo.mutate({
         mutation: DELETEUSER,
         variables: { id },
-      }).then(() => { this.$apollo.queries.users.refetch(); });
+      }).then(() => { window.location.reload(); });
+    },
+    refetch() {
+      this.$apollo.query({
+        query: OPERATORS,
+        variables: {
+          id: this.$store.state.user.id,
+          roleId: this.$store.state.user.id == '1' ? 2 : 4,
+        },
+      }).then(({ data }) => { this.users = data.users; });
     },
   },
   watch: {
@@ -125,8 +135,8 @@ export default {
       }
     },
   },
-  apollo: {
-    users: OPERATORS,
+  mounted() {
+    this.refetch();
   },
 };
 </script>

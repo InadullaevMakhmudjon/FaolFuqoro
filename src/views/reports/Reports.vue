@@ -20,6 +20,12 @@ import GenericComponent from './GenericReports.vue';
 
 export default {
   name: 'Reports',
+  props: {
+    reload: {
+      required: false,
+      type: Boolean,
+    },
+  },
   data() {
     return {
       index: 0,
@@ -54,6 +60,16 @@ export default {
         },
       ],
     };
+  },
+  updated() {
+    if (this.reload) {
+      window.location.reload();
+    }
+  },
+  mounted() {
+    if (this.reload) {
+      window.location.reload();
+    }
   },
   components: {
     GenericComponent,

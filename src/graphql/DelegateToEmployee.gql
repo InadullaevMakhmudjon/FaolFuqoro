@@ -1,4 +1,4 @@
-mutation ($comment: String!, $to: ID!, $id: ID!){
+mutation ($comment: String!, $to: ID!, $id: Int!){
   updateReport(data: {
     status: {
       connect: {

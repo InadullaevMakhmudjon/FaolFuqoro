@@ -39,6 +39,7 @@
                     :id="item.id"
                     @click="createUser($event)"
                     @deleted="deleteUser($event)"
+                    @edited="edit($event, true)"
                   )
         v-dialog(
           v-model="dialog"
@@ -118,14 +119,16 @@ export default {
         this.fetchEmployees(item.id);
       }
     },
-    edit(item) {
-      this.org = { ...item, password: '', repead: '' };
+    edit(item, isEmp) {
+      this.org = {
+        ...item, password: '', repead: '', edited: !!isEmp,
+      };
       this.dialog = true;
     },
     async save() {
       this.saveLoading = true;
       if (Object.keys(this.org).length) {
-        if (this.org.create || this.org.orgId) {
+        if ((this.org.create || this.org.orgId) && !this.edited) {
           if (this.org.password && this.isEqual) {
             await this.$apollo.mutate({
               mutation: CREATEUSER,

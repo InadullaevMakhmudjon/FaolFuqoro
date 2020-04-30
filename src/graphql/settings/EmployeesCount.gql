@@ -1,0 +1,7 @@
+query ($id: ID){
+  usersConnection(where: { role: { id: 4 } manager: { id: $id } }) {
+    aggregate{
+      count
+    }
+  }
+}

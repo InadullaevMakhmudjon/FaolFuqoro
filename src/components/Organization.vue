@@ -14,7 +14,7 @@
                               .caption {{ `Username: ${item.username}` }}
                               .caption {{ `Phone: ${item.phone}` }}
                               div
-                                v-btn(icon small @click="$emit('edited', item.id)")
+                                v-btn(icon small @click="$emit('edited', item)")
                                   v-icon(small) edit
                                 v-btn(icon small @click="$emit('deleted', item.id)")
                                   v-icon(small).red--text delete
