@@ -24,6 +24,7 @@ module.exports = [
         id: 2,
       },
     },
+    manager: { connect: { id: 1 } }
   },
   {
     id: 3,
@@ -37,6 +38,7 @@ module.exports = [
         id: 3,
       },
     },
+    manager: { connect: { id: 1 } }
   },
   {
     id: 4,
@@ -50,6 +52,7 @@ module.exports = [
         id: 3,
       },
     },
+    manager: { connect: { id: 1 } }
   },
   {
     id: 5,
@@ -63,6 +66,7 @@ module.exports = [
         id: 4,
       },
     },
+    manager: { connect: { id: 3 } }
   },
   {
     id: 6,
@@ -76,5 +80,6 @@ module.exports = [
         id: 4,
       },
     },
+   manager: { connect: { id: 4 } }
   },
 ];

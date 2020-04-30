@@ -1120,6 +1120,8 @@ type User {
   image: String!
   role: Role!
   reports(where: ReportCommentWhereInput, orderBy: ReportCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ReportComment!]
+  employees(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  manager: User
 }
 
 type UserConnection {
@@ -1137,11 +1139,47 @@ input UserCreateInput {
   image: String!
   role: RoleCreateOneInput!
   reports: ReportCommentCreateManyWithoutToInput
+  employees: UserCreateManyWithoutManagerInput
+  manager: UserCreateOneWithoutEmployeesInput
+}
+
+input UserCreateManyWithoutManagerInput {
+  create: [UserCreateWithoutManagerInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateOneWithoutEmployeesInput {
+  create: UserCreateWithoutEmployeesInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutReportsInput {
   create: UserCreateWithoutReportsInput
   connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutEmployeesInput {
+  id: ID
+  name: String!
+  phone: String!
+  username: String!
+  password: String!
+  image: String!
+  role: RoleCreateOneInput!
+  reports: ReportCommentCreateManyWithoutToInput
+  manager: UserCreateOneWithoutEmployeesInput
+}
+
+input UserCreateWithoutManagerInput {
+  id: ID
+  name: String!
+  phone: String!
+  username: String!
+  password: String!
+  image: String!
+  role: RoleCreateOneInput!
+  reports: ReportCommentCreateManyWithoutToInput
+  employees: UserCreateManyWithoutManagerInput
 }
 
 input UserCreateWithoutReportsInput {
@@ -1152,6 +1190,8 @@ input UserCreateWithoutReportsInput {
   password: String!
   image: String!
   role: RoleCreateOneInput!
+  employees: UserCreateManyWithoutManagerInput
+  manager: UserCreateOneWithoutEmployeesInput
 }
 
 type UserEdge {
@@ -1183,6 +1223,96 @@ type UserPreviousValues {
   image: String!
 }
 
+input UserScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  phone: String
+  phone_not: String
+  phone_in: [String!]
+  phone_not_in: [String!]
+  phone_lt: String
+  phone_lte: String
+  phone_gt: String
+  phone_gte: String
+  phone_contains: String
+  phone_not_contains: String
+  phone_starts_with: String
+  phone_not_starts_with: String
+  phone_ends_with: String
+  phone_not_ends_with: String
+  username: String
+  username_not: String
+  username_in: [String!]
+  username_not_in: [String!]
+  username_lt: String
+  username_lte: String
+  username_gt: String
+  username_gte: String
+  username_contains: String
+  username_not_contains: String
+  username_starts_with: String
+  username_not_starts_with: String
+  username_ends_with: String
+  username_not_ends_with: String
+  password: String
+  password_not: String
+  password_in: [String!]
+  password_not_in: [String!]
+  password_lt: String
+  password_lte: String
+  password_gt: String
+  password_gte: String
+  password_contains: String
+  password_not_contains: String
+  password_starts_with: String
+  password_not_starts_with: String
+  password_ends_with: String
+  password_not_ends_with: String
+  image: String
+  image_not: String
+  image_in: [String!]
+  image_not_in: [String!]
+  image_lt: String
+  image_lte: String
+  image_gt: String
+  image_gte: String
+  image_contains: String
+  image_not_contains: String
+  image_starts_with: String
+  image_not_starts_with: String
+  image_ends_with: String
+  image_not_ends_with: String
+  AND: [UserScalarWhereInput!]
+  OR: [UserScalarWhereInput!]
+  NOT: [UserScalarWhereInput!]
+}
+
 type UserSubscriptionPayload {
   mutation: MutationType!
   node: User
@@ -1209,6 +1339,16 @@ input UserUpdateInput {
   image: String
   role: RoleUpdateOneRequiredInput
   reports: ReportCommentUpdateManyWithoutToInput
+  employees: UserUpdateManyWithoutManagerInput
+  manager: UserUpdateOneWithoutEmployeesInput
+}
+
+input UserUpdateManyDataInput {
+  name: String
+  phone: String
+  username: String
+  password: String
+  image: String
 }
 
 input UserUpdateManyMutationInput {
@@ -1219,11 +1359,59 @@ input UserUpdateManyMutationInput {
   image: String
 }
 
+input UserUpdateManyWithoutManagerInput {
+  create: [UserCreateWithoutManagerInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutManagerInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutManagerInput!]
+  deleteMany: [UserScalarWhereInput!]
+  updateMany: [UserUpdateManyWithWhereNestedInput!]
+}
+
+input UserUpdateManyWithWhereNestedInput {
+  where: UserScalarWhereInput!
+  data: UserUpdateManyDataInput!
+}
+
 input UserUpdateOneRequiredWithoutReportsInput {
   create: UserCreateWithoutReportsInput
   update: UserUpdateWithoutReportsDataInput
   upsert: UserUpsertWithoutReportsInput
   connect: UserWhereUniqueInput
+}
+
+input UserUpdateOneWithoutEmployeesInput {
+  create: UserCreateWithoutEmployeesInput
+  update: UserUpdateWithoutEmployeesDataInput
+  upsert: UserUpsertWithoutEmployeesInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateWithoutEmployeesDataInput {
+  name: String
+  phone: String
+  username: String
+  password: String
+  image: String
+  role: RoleUpdateOneRequiredInput
+  reports: ReportCommentUpdateManyWithoutToInput
+  manager: UserUpdateOneWithoutEmployeesInput
+}
+
+input UserUpdateWithoutManagerDataInput {
+  name: String
+  phone: String
+  username: String
+  password: String
+  image: String
+  role: RoleUpdateOneRequiredInput
+  reports: ReportCommentUpdateManyWithoutToInput
+  employees: UserUpdateManyWithoutManagerInput
 }
 
 input UserUpdateWithoutReportsDataInput {
@@ -1233,11 +1421,29 @@ input UserUpdateWithoutReportsDataInput {
   password: String
   image: String
   role: RoleUpdateOneRequiredInput
+  employees: UserUpdateManyWithoutManagerInput
+  manager: UserUpdateOneWithoutEmployeesInput
+}
+
+input UserUpdateWithWhereUniqueWithoutManagerInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateWithoutManagerDataInput!
+}
+
+input UserUpsertWithoutEmployeesInput {
+  update: UserUpdateWithoutEmployeesDataInput!
+  create: UserCreateWithoutEmployeesInput!
 }
 
 input UserUpsertWithoutReportsInput {
   update: UserUpdateWithoutReportsDataInput!
   create: UserCreateWithoutReportsInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutManagerInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateWithoutManagerDataInput!
+  create: UserCreateWithoutManagerInput!
 }
 
 input UserWhereInput {
@@ -1329,6 +1535,10 @@ input UserWhereInput {
   reports_every: ReportCommentWhereInput
   reports_some: ReportCommentWhereInput
   reports_none: ReportCommentWhereInput
+  employees_every: UserWhereInput
+  employees_some: UserWhereInput
+  employees_none: UserWhereInput
+  manager: UserWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

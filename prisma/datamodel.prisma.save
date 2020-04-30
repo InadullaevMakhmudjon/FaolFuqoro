@@ -17,6 +17,13 @@ type People {
   reports: [Report!] @relation(name: "ReportForCreator", onDelete: SET_NULL)
 }
 
+type Office {
+  id: ID! @id
+  role: Role! @relation(name: "UserOfficeManager", onDelete: SET_NULL)
+  user: User! @relation(name: "UserManager", onDelete: SET_NULL)
+  ceo: User! @relation(name: "UserCEO", onDelete: SET_NULL)
+}
+
 type User {
   id: ID! @id
   name: String!
@@ -24,10 +31,9 @@ type User {
   username: String!
   password: String!
   image: String!
+  from: Office @relation(name: "UserManager")
   role: Role! @relation(name: "RoleForUser", onDelete: SET_NULL)
   reports: [ReportComment!] @relation(name: "ReportForUser", onDelete: SET_NULL)
-  employees: [User!]! @relation(name: "UserEmployees", onDelete: CASCADE)
-  manager: User @relation(name: "UserEmployees", onDelete: SET_NULL)
 }
 
 type Report {

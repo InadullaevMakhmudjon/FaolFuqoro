@@ -322,6 +322,20 @@ export type ReportCommentOrderByInput =
   | "createdAt_ASC"
   | "createdAt_DESC";
 
+export type UserOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "phone_ASC"
+  | "phone_DESC"
+  | "username_ASC"
+  | "username_DESC"
+  | "password_ASC"
+  | "password_DESC"
+  | "image_ASC"
+  | "image_DESC";
+
 export type PeopleOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -341,20 +355,6 @@ export type StatusOrderByInput =
   | "id_DESC"
   | "name_ASC"
   | "name_DESC";
-
-export type UserOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "name_ASC"
-  | "name_DESC"
-  | "phone_ASC"
-  | "phone_DESC"
-  | "username_ASC"
-  | "username_DESC"
-  | "password_ASC"
-  | "password_DESC"
-  | "image_ASC"
-  | "image_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
@@ -672,6 +672,10 @@ export interface UserWhereInput {
   reports_every?: Maybe<ReportCommentWhereInput>;
   reports_some?: Maybe<ReportCommentWhereInput>;
   reports_none?: Maybe<ReportCommentWhereInput>;
+  employees_every?: Maybe<UserWhereInput>;
+  employees_some?: Maybe<UserWhereInput>;
+  employees_none?: Maybe<UserWhereInput>;
+  manager?: Maybe<UserWhereInput>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
@@ -796,6 +800,8 @@ export interface UserCreateWithoutReportsInput {
   password: String;
   image: String;
   role: RoleCreateOneInput;
+  employees?: Maybe<UserCreateManyWithoutManagerInput>;
+  manager?: Maybe<UserCreateOneWithoutEmployeesInput>;
 }
 
 export interface RoleCreateOneInput {
@@ -806,6 +812,85 @@ export interface RoleCreateOneInput {
 export interface RoleCreateInput {
   id?: Maybe<ID_Input>;
   name: String;
+}
+
+export interface UserCreateManyWithoutManagerInput {
+  create?: Maybe<
+    UserCreateWithoutManagerInput[] | UserCreateWithoutManagerInput
+  >;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutManagerInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  phone: String;
+  username: String;
+  password: String;
+  image: String;
+  role: RoleCreateOneInput;
+  reports?: Maybe<ReportCommentCreateManyWithoutToInput>;
+  employees?: Maybe<UserCreateManyWithoutManagerInput>;
+}
+
+export interface ReportCommentCreateManyWithoutToInput {
+  create?: Maybe<
+    ReportCommentCreateWithoutToInput[] | ReportCommentCreateWithoutToInput
+  >;
+  connect?: Maybe<
+    ReportCommentWhereUniqueInput[] | ReportCommentWhereUniqueInput
+  >;
+}
+
+export interface ReportCommentCreateWithoutToInput {
+  id?: Maybe<ID_Input>;
+  comment?: Maybe<String>;
+  status: StatusCreateOneInput;
+  report: ReportCreateOneWithoutCommentsInput;
+}
+
+export interface ReportCreateOneWithoutCommentsInput {
+  create?: Maybe<ReportCreateWithoutCommentsInput>;
+  connect?: Maybe<ReportWhereUniqueInput>;
+}
+
+export interface ReportCreateWithoutCommentsInput {
+  id?: Maybe<ID_Input>;
+  image: String;
+  lat: Float;
+  lng: Float;
+  creator: PeopleCreateOneWithoutReportsInput;
+  status: StatusCreateOneInput;
+}
+
+export interface PeopleCreateOneWithoutReportsInput {
+  create?: Maybe<PeopleCreateWithoutReportsInput>;
+  connect?: Maybe<PeopleWhereUniqueInput>;
+}
+
+export interface PeopleCreateWithoutReportsInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  phone: String;
+  password: String;
+  image: String;
+}
+
+export interface UserCreateOneWithoutEmployeesInput {
+  create?: Maybe<UserCreateWithoutEmployeesInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutEmployeesInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  phone: String;
+  username: String;
+  password: String;
+  image: String;
+  role: RoleCreateOneInput;
+  reports?: Maybe<ReportCommentCreateManyWithoutToInput>;
+  manager?: Maybe<UserCreateOneWithoutEmployeesInput>;
 }
 
 export interface PeopleUpdateInput {
@@ -925,6 +1010,8 @@ export interface UserUpdateWithoutReportsDataInput {
   password?: Maybe<String>;
   image?: Maybe<String>;
   role?: Maybe<RoleUpdateOneRequiredInput>;
+  employees?: Maybe<UserUpdateManyWithoutManagerInput>;
+  manager?: Maybe<UserUpdateOneWithoutEmployeesInput>;
 }
 
 export interface RoleUpdateOneRequiredInput {
@@ -943,15 +1030,129 @@ export interface RoleUpsertNestedInput {
   create: RoleCreateInput;
 }
 
-export interface UserUpsertWithoutReportsInput {
-  update: UserUpdateWithoutReportsDataInput;
-  create: UserCreateWithoutReportsInput;
+export interface UserUpdateManyWithoutManagerInput {
+  create?: Maybe<
+    UserCreateWithoutManagerInput[] | UserCreateWithoutManagerInput
+  >;
+  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  update?: Maybe<
+    | UserUpdateWithWhereUniqueWithoutManagerInput[]
+    | UserUpdateWithWhereUniqueWithoutManagerInput
+  >;
+  upsert?: Maybe<
+    | UserUpsertWithWhereUniqueWithoutManagerInput[]
+    | UserUpsertWithWhereUniqueWithoutManagerInput
+  >;
+  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  updateMany?: Maybe<
+    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
+  >;
 }
 
-export interface ReportCommentUpsertWithWhereUniqueWithoutReportInput {
+export interface UserUpdateWithWhereUniqueWithoutManagerInput {
+  where: UserWhereUniqueInput;
+  data: UserUpdateWithoutManagerDataInput;
+}
+
+export interface UserUpdateWithoutManagerDataInput {
+  name?: Maybe<String>;
+  phone?: Maybe<String>;
+  username?: Maybe<String>;
+  password?: Maybe<String>;
+  image?: Maybe<String>;
+  role?: Maybe<RoleUpdateOneRequiredInput>;
+  reports?: Maybe<ReportCommentUpdateManyWithoutToInput>;
+  employees?: Maybe<UserUpdateManyWithoutManagerInput>;
+}
+
+export interface ReportCommentUpdateManyWithoutToInput {
+  create?: Maybe<
+    ReportCommentCreateWithoutToInput[] | ReportCommentCreateWithoutToInput
+  >;
+  delete?: Maybe<
+    ReportCommentWhereUniqueInput[] | ReportCommentWhereUniqueInput
+  >;
+  connect?: Maybe<
+    ReportCommentWhereUniqueInput[] | ReportCommentWhereUniqueInput
+  >;
+  set?: Maybe<ReportCommentWhereUniqueInput[] | ReportCommentWhereUniqueInput>;
+  disconnect?: Maybe<
+    ReportCommentWhereUniqueInput[] | ReportCommentWhereUniqueInput
+  >;
+  update?: Maybe<
+    | ReportCommentUpdateWithWhereUniqueWithoutToInput[]
+    | ReportCommentUpdateWithWhereUniqueWithoutToInput
+  >;
+  upsert?: Maybe<
+    | ReportCommentUpsertWithWhereUniqueWithoutToInput[]
+    | ReportCommentUpsertWithWhereUniqueWithoutToInput
+  >;
+  deleteMany?: Maybe<
+    ReportCommentScalarWhereInput[] | ReportCommentScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | ReportCommentUpdateManyWithWhereNestedInput[]
+    | ReportCommentUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface ReportCommentUpdateWithWhereUniqueWithoutToInput {
   where: ReportCommentWhereUniqueInput;
-  update: ReportCommentUpdateWithoutReportDataInput;
-  create: ReportCommentCreateWithoutReportInput;
+  data: ReportCommentUpdateWithoutToDataInput;
+}
+
+export interface ReportCommentUpdateWithoutToDataInput {
+  comment?: Maybe<String>;
+  status?: Maybe<StatusUpdateOneRequiredInput>;
+  report?: Maybe<ReportUpdateOneRequiredWithoutCommentsInput>;
+}
+
+export interface ReportUpdateOneRequiredWithoutCommentsInput {
+  create?: Maybe<ReportCreateWithoutCommentsInput>;
+  update?: Maybe<ReportUpdateWithoutCommentsDataInput>;
+  upsert?: Maybe<ReportUpsertWithoutCommentsInput>;
+  connect?: Maybe<ReportWhereUniqueInput>;
+}
+
+export interface ReportUpdateWithoutCommentsDataInput {
+  image?: Maybe<String>;
+  lat?: Maybe<Float>;
+  lng?: Maybe<Float>;
+  creator?: Maybe<PeopleUpdateOneRequiredWithoutReportsInput>;
+  status?: Maybe<StatusUpdateOneRequiredInput>;
+}
+
+export interface PeopleUpdateOneRequiredWithoutReportsInput {
+  create?: Maybe<PeopleCreateWithoutReportsInput>;
+  update?: Maybe<PeopleUpdateWithoutReportsDataInput>;
+  upsert?: Maybe<PeopleUpsertWithoutReportsInput>;
+  connect?: Maybe<PeopleWhereUniqueInput>;
+}
+
+export interface PeopleUpdateWithoutReportsDataInput {
+  name?: Maybe<String>;
+  phone?: Maybe<String>;
+  password?: Maybe<String>;
+  image?: Maybe<String>;
+}
+
+export interface PeopleUpsertWithoutReportsInput {
+  update: PeopleUpdateWithoutReportsDataInput;
+  create: PeopleCreateWithoutReportsInput;
+}
+
+export interface ReportUpsertWithoutCommentsInput {
+  update: ReportUpdateWithoutCommentsDataInput;
+  create: ReportCreateWithoutCommentsInput;
+}
+
+export interface ReportCommentUpsertWithWhereUniqueWithoutToInput {
+  where: ReportCommentWhereUniqueInput;
+  update: ReportCommentUpdateWithoutToDataInput;
+  create: ReportCommentCreateWithoutToInput;
 }
 
 export interface ReportCommentScalarWhereInput {
@@ -1003,6 +1204,151 @@ export interface ReportCommentUpdateManyWithWhereNestedInput {
 
 export interface ReportCommentUpdateManyDataInput {
   comment?: Maybe<String>;
+}
+
+export interface UserUpsertWithWhereUniqueWithoutManagerInput {
+  where: UserWhereUniqueInput;
+  update: UserUpdateWithoutManagerDataInput;
+  create: UserCreateWithoutManagerInput;
+}
+
+export interface UserScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  phone?: Maybe<String>;
+  phone_not?: Maybe<String>;
+  phone_in?: Maybe<String[] | String>;
+  phone_not_in?: Maybe<String[] | String>;
+  phone_lt?: Maybe<String>;
+  phone_lte?: Maybe<String>;
+  phone_gt?: Maybe<String>;
+  phone_gte?: Maybe<String>;
+  phone_contains?: Maybe<String>;
+  phone_not_contains?: Maybe<String>;
+  phone_starts_with?: Maybe<String>;
+  phone_not_starts_with?: Maybe<String>;
+  phone_ends_with?: Maybe<String>;
+  phone_not_ends_with?: Maybe<String>;
+  username?: Maybe<String>;
+  username_not?: Maybe<String>;
+  username_in?: Maybe<String[] | String>;
+  username_not_in?: Maybe<String[] | String>;
+  username_lt?: Maybe<String>;
+  username_lte?: Maybe<String>;
+  username_gt?: Maybe<String>;
+  username_gte?: Maybe<String>;
+  username_contains?: Maybe<String>;
+  username_not_contains?: Maybe<String>;
+  username_starts_with?: Maybe<String>;
+  username_not_starts_with?: Maybe<String>;
+  username_ends_with?: Maybe<String>;
+  username_not_ends_with?: Maybe<String>;
+  password?: Maybe<String>;
+  password_not?: Maybe<String>;
+  password_in?: Maybe<String[] | String>;
+  password_not_in?: Maybe<String[] | String>;
+  password_lt?: Maybe<String>;
+  password_lte?: Maybe<String>;
+  password_gt?: Maybe<String>;
+  password_gte?: Maybe<String>;
+  password_contains?: Maybe<String>;
+  password_not_contains?: Maybe<String>;
+  password_starts_with?: Maybe<String>;
+  password_not_starts_with?: Maybe<String>;
+  password_ends_with?: Maybe<String>;
+  password_not_ends_with?: Maybe<String>;
+  image?: Maybe<String>;
+  image_not?: Maybe<String>;
+  image_in?: Maybe<String[] | String>;
+  image_not_in?: Maybe<String[] | String>;
+  image_lt?: Maybe<String>;
+  image_lte?: Maybe<String>;
+  image_gt?: Maybe<String>;
+  image_gte?: Maybe<String>;
+  image_contains?: Maybe<String>;
+  image_not_contains?: Maybe<String>;
+  image_starts_with?: Maybe<String>;
+  image_not_starts_with?: Maybe<String>;
+  image_ends_with?: Maybe<String>;
+  image_not_ends_with?: Maybe<String>;
+  AND?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  OR?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+}
+
+export interface UserUpdateManyWithWhereNestedInput {
+  where: UserScalarWhereInput;
+  data: UserUpdateManyDataInput;
+}
+
+export interface UserUpdateManyDataInput {
+  name?: Maybe<String>;
+  phone?: Maybe<String>;
+  username?: Maybe<String>;
+  password?: Maybe<String>;
+  image?: Maybe<String>;
+}
+
+export interface UserUpdateOneWithoutEmployeesInput {
+  create?: Maybe<UserCreateWithoutEmployeesInput>;
+  update?: Maybe<UserUpdateWithoutEmployeesDataInput>;
+  upsert?: Maybe<UserUpsertWithoutEmployeesInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutEmployeesDataInput {
+  name?: Maybe<String>;
+  phone?: Maybe<String>;
+  username?: Maybe<String>;
+  password?: Maybe<String>;
+  image?: Maybe<String>;
+  role?: Maybe<RoleUpdateOneRequiredInput>;
+  reports?: Maybe<ReportCommentUpdateManyWithoutToInput>;
+  manager?: Maybe<UserUpdateOneWithoutEmployeesInput>;
+}
+
+export interface UserUpsertWithoutEmployeesInput {
+  update: UserUpdateWithoutEmployeesDataInput;
+  create: UserCreateWithoutEmployeesInput;
+}
+
+export interface UserUpsertWithoutReportsInput {
+  update: UserUpdateWithoutReportsDataInput;
+  create: UserCreateWithoutReportsInput;
+}
+
+export interface ReportCommentUpsertWithWhereUniqueWithoutReportInput {
+  where: ReportCommentWhereUniqueInput;
+  update: ReportCommentUpdateWithoutReportDataInput;
+  create: ReportCommentCreateWithoutReportInput;
 }
 
 export interface ReportUpsertWithWhereUniqueWithoutCreatorInput {
@@ -1097,19 +1443,6 @@ export interface ReportCreateInput {
   status: StatusCreateOneInput;
 }
 
-export interface PeopleCreateOneWithoutReportsInput {
-  create?: Maybe<PeopleCreateWithoutReportsInput>;
-  connect?: Maybe<PeopleWhereUniqueInput>;
-}
-
-export interface PeopleCreateWithoutReportsInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  phone: String;
-  password: String;
-  image: String;
-}
-
 export interface ReportUpdateInput {
   image?: Maybe<String>;
   lat?: Maybe<Float>;
@@ -1117,25 +1450,6 @@ export interface ReportUpdateInput {
   creator?: Maybe<PeopleUpdateOneRequiredWithoutReportsInput>;
   comments?: Maybe<ReportCommentUpdateManyWithoutReportInput>;
   status?: Maybe<StatusUpdateOneRequiredInput>;
-}
-
-export interface PeopleUpdateOneRequiredWithoutReportsInput {
-  create?: Maybe<PeopleCreateWithoutReportsInput>;
-  update?: Maybe<PeopleUpdateWithoutReportsDataInput>;
-  upsert?: Maybe<PeopleUpsertWithoutReportsInput>;
-  connect?: Maybe<PeopleWhereUniqueInput>;
-}
-
-export interface PeopleUpdateWithoutReportsDataInput {
-  name?: Maybe<String>;
-  phone?: Maybe<String>;
-  password?: Maybe<String>;
-  image?: Maybe<String>;
-}
-
-export interface PeopleUpsertWithoutReportsInput {
-  update: PeopleUpdateWithoutReportsDataInput;
-  create: PeopleCreateWithoutReportsInput;
 }
 
 export interface ReportUpdateManyMutationInput {
@@ -1152,45 +1466,11 @@ export interface ReportCommentCreateInput {
   to: UserCreateOneWithoutReportsInput;
 }
 
-export interface ReportCreateOneWithoutCommentsInput {
-  create?: Maybe<ReportCreateWithoutCommentsInput>;
-  connect?: Maybe<ReportWhereUniqueInput>;
-}
-
-export interface ReportCreateWithoutCommentsInput {
-  id?: Maybe<ID_Input>;
-  image: String;
-  lat: Float;
-  lng: Float;
-  creator: PeopleCreateOneWithoutReportsInput;
-  status: StatusCreateOneInput;
-}
-
 export interface ReportCommentUpdateInput {
   comment?: Maybe<String>;
   status?: Maybe<StatusUpdateOneRequiredInput>;
   report?: Maybe<ReportUpdateOneRequiredWithoutCommentsInput>;
   to?: Maybe<UserUpdateOneRequiredWithoutReportsInput>;
-}
-
-export interface ReportUpdateOneRequiredWithoutCommentsInput {
-  create?: Maybe<ReportCreateWithoutCommentsInput>;
-  update?: Maybe<ReportUpdateWithoutCommentsDataInput>;
-  upsert?: Maybe<ReportUpsertWithoutCommentsInput>;
-  connect?: Maybe<ReportWhereUniqueInput>;
-}
-
-export interface ReportUpdateWithoutCommentsDataInput {
-  image?: Maybe<String>;
-  lat?: Maybe<Float>;
-  lng?: Maybe<Float>;
-  creator?: Maybe<PeopleUpdateOneRequiredWithoutReportsInput>;
-  status?: Maybe<StatusUpdateOneRequiredInput>;
-}
-
-export interface ReportUpsertWithoutCommentsInput {
-  update: ReportUpdateWithoutCommentsDataInput;
-  create: ReportCreateWithoutCommentsInput;
 }
 
 export interface ReportCommentUpdateManyMutationInput {
@@ -1222,22 +1502,8 @@ export interface UserCreateInput {
   image: String;
   role: RoleCreateOneInput;
   reports?: Maybe<ReportCommentCreateManyWithoutToInput>;
-}
-
-export interface ReportCommentCreateManyWithoutToInput {
-  create?: Maybe<
-    ReportCommentCreateWithoutToInput[] | ReportCommentCreateWithoutToInput
-  >;
-  connect?: Maybe<
-    ReportCommentWhereUniqueInput[] | ReportCommentWhereUniqueInput
-  >;
-}
-
-export interface ReportCommentCreateWithoutToInput {
-  id?: Maybe<ID_Input>;
-  comment?: Maybe<String>;
-  status: StatusCreateOneInput;
-  report: ReportCreateOneWithoutCommentsInput;
+  employees?: Maybe<UserCreateManyWithoutManagerInput>;
+  manager?: Maybe<UserCreateOneWithoutEmployeesInput>;
 }
 
 export interface UserUpdateInput {
@@ -1248,54 +1514,8 @@ export interface UserUpdateInput {
   image?: Maybe<String>;
   role?: Maybe<RoleUpdateOneRequiredInput>;
   reports?: Maybe<ReportCommentUpdateManyWithoutToInput>;
-}
-
-export interface ReportCommentUpdateManyWithoutToInput {
-  create?: Maybe<
-    ReportCommentCreateWithoutToInput[] | ReportCommentCreateWithoutToInput
-  >;
-  delete?: Maybe<
-    ReportCommentWhereUniqueInput[] | ReportCommentWhereUniqueInput
-  >;
-  connect?: Maybe<
-    ReportCommentWhereUniqueInput[] | ReportCommentWhereUniqueInput
-  >;
-  set?: Maybe<ReportCommentWhereUniqueInput[] | ReportCommentWhereUniqueInput>;
-  disconnect?: Maybe<
-    ReportCommentWhereUniqueInput[] | ReportCommentWhereUniqueInput
-  >;
-  update?: Maybe<
-    | ReportCommentUpdateWithWhereUniqueWithoutToInput[]
-    | ReportCommentUpdateWithWhereUniqueWithoutToInput
-  >;
-  upsert?: Maybe<
-    | ReportCommentUpsertWithWhereUniqueWithoutToInput[]
-    | ReportCommentUpsertWithWhereUniqueWithoutToInput
-  >;
-  deleteMany?: Maybe<
-    ReportCommentScalarWhereInput[] | ReportCommentScalarWhereInput
-  >;
-  updateMany?: Maybe<
-    | ReportCommentUpdateManyWithWhereNestedInput[]
-    | ReportCommentUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface ReportCommentUpdateWithWhereUniqueWithoutToInput {
-  where: ReportCommentWhereUniqueInput;
-  data: ReportCommentUpdateWithoutToDataInput;
-}
-
-export interface ReportCommentUpdateWithoutToDataInput {
-  comment?: Maybe<String>;
-  status?: Maybe<StatusUpdateOneRequiredInput>;
-  report?: Maybe<ReportUpdateOneRequiredWithoutCommentsInput>;
-}
-
-export interface ReportCommentUpsertWithWhereUniqueWithoutToInput {
-  where: ReportCommentWhereUniqueInput;
-  update: ReportCommentUpdateWithoutToDataInput;
-  create: ReportCommentCreateWithoutToInput;
+  employees?: Maybe<UserUpdateManyWithoutManagerInput>;
+  manager?: Maybe<UserUpdateOneWithoutEmployeesInput>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -1603,6 +1823,16 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  employees: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  manager: <T = UserPromise>() => T;
 }
 
 export interface UserSubscription
@@ -1624,6 +1854,16 @@ export interface UserSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  employees: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  manager: <T = UserSubscription>() => T;
 }
 
 export interface UserNullablePromise
@@ -1645,6 +1885,16 @@ export interface UserNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  employees: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  manager: <T = UserPromise>() => T;
 }
 
 export interface Role {
