@@ -363,20 +363,14 @@ export type PeopleWhereUniqueInput = AtLeastOne<{
 }>;
 
 export interface ReportWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
+  id?: Maybe<Int>;
+  id_not?: Maybe<Int>;
+  id_in?: Maybe<Int[] | Int>;
+  id_not_in?: Maybe<Int[] | Int>;
+  id_lt?: Maybe<Int>;
+  id_lte?: Maybe<Int>;
+  id_gt?: Maybe<Int>;
+  id_gte?: Maybe<Int>;
   image?: Maybe<String>;
   image_not?: Maybe<String>;
   image_in?: Maybe<String[] | String>;
@@ -716,7 +710,7 @@ export interface RoleWhereInput {
 }
 
 export type ReportWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
+  id: Maybe<Int>;
 }>;
 
 export type ReportCommentWhereUniqueInput = AtLeastOne<{
@@ -752,7 +746,6 @@ export interface ReportCreateManyWithoutCreatorInput {
 }
 
 export interface ReportCreateWithoutCreatorInput {
-  id?: Maybe<ID_Input>;
   image: String;
   lat: Float;
   lng: Float;
@@ -855,7 +848,6 @@ export interface ReportCreateOneWithoutCommentsInput {
 }
 
 export interface ReportCreateWithoutCommentsInput {
-  id?: Maybe<ID_Input>;
   image: String;
   lat: Float;
   lng: Float;
@@ -1358,20 +1350,14 @@ export interface ReportUpsertWithWhereUniqueWithoutCreatorInput {
 }
 
 export interface ReportScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
+  id?: Maybe<Int>;
+  id_not?: Maybe<Int>;
+  id_in?: Maybe<Int[] | Int>;
+  id_not_in?: Maybe<Int[] | Int>;
+  id_lt?: Maybe<Int>;
+  id_lte?: Maybe<Int>;
+  id_gt?: Maybe<Int>;
+  id_gte?: Maybe<Int>;
   image?: Maybe<String>;
   image_not?: Maybe<String>;
   image_in?: Maybe<String[] | String>;
@@ -1434,7 +1420,6 @@ export interface PeopleUpdateManyMutationInput {
 }
 
 export interface ReportCreateInput {
-  id?: Maybe<ID_Input>;
   image: String;
   lat: Float;
   lng: Float;
@@ -1666,7 +1651,7 @@ export interface PeopleNullablePromise
 }
 
 export interface Report {
-  id: ID_Output;
+  id: Int;
   image: String;
   lat: Float;
   lng: Float;
@@ -1674,7 +1659,7 @@ export interface Report {
 }
 
 export interface ReportPromise extends Promise<Report>, Fragmentable {
-  id: () => Promise<ID_Output>;
+  id: () => Promise<Int>;
   image: () => Promise<String>;
   lat: () => Promise<Float>;
   lng: () => Promise<Float>;
@@ -1695,7 +1680,7 @@ export interface ReportPromise extends Promise<Report>, Fragmentable {
 export interface ReportSubscription
   extends Promise<AsyncIterator<Report>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
+  id: () => Promise<AsyncIterator<Int>>;
   image: () => Promise<AsyncIterator<String>>;
   lat: () => Promise<AsyncIterator<Float>>;
   lng: () => Promise<AsyncIterator<Float>>;
@@ -1716,7 +1701,7 @@ export interface ReportSubscription
 export interface ReportNullablePromise
   extends Promise<Report | null>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
+  id: () => Promise<Int>;
   image: () => Promise<String>;
   lat: () => Promise<Float>;
   lng: () => Promise<Float>;
@@ -2365,7 +2350,7 @@ export interface ReportSubscriptionPayloadSubscription
 }
 
 export interface ReportPreviousValues {
-  id: ID_Output;
+  id: Int;
   image: String;
   lat: Float;
   lng: Float;
@@ -2375,7 +2360,7 @@ export interface ReportPreviousValues {
 export interface ReportPreviousValuesPromise
   extends Promise<ReportPreviousValues>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
+  id: () => Promise<Int>;
   image: () => Promise<String>;
   lat: () => Promise<Float>;
   lng: () => Promise<Float>;
@@ -2385,7 +2370,7 @@ export interface ReportPreviousValuesPromise
 export interface ReportPreviousValuesSubscription
   extends Promise<AsyncIterator<ReportPreviousValues>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
+  id: () => Promise<AsyncIterator<Int>>;
   image: () => Promise<AsyncIterator<String>>;
   lat: () => Promise<AsyncIterator<Float>>;
   lng: () => Promise<AsyncIterator<Float>>;
@@ -2595,6 +2580,11 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 export type String = string;
 
 /*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+*/
+export type Int = number;
+
+/*
 The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).
 */
 export type Float = number;
@@ -2608,11 +2598,6 @@ export type DateTimeInput = Date | string;
 DateTime scalar output type, which is always a string
 */
 export type DateTimeOutput = string;
-
-/*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-*/
-export type Int = number;
 
 /*
 The `Boolean` scalar type represents `true` or `false`.

@@ -31,7 +31,7 @@ type User {
 }
 
 type Report {
-  id: ID! @id
+  id: Int! @id(strategy: SEQUENCE) @sequence(name: "MY_SEQUENCE" initialValue:1 allocationSize:100)
   image: String!
   lat: Float!
   lng: Float!

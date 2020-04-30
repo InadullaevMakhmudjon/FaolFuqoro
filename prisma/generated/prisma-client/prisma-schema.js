@@ -312,7 +312,7 @@ type Query {
 }
 
 type Report {
-  id: ID!
+  id: Int!
   image: String!
   lat: Float!
   lng: Float!
@@ -583,7 +583,6 @@ type ReportConnection {
 }
 
 input ReportCreateInput {
-  id: ID
   image: String!
   lat: Float!
   lng: Float!
@@ -603,7 +602,6 @@ input ReportCreateOneWithoutCommentsInput {
 }
 
 input ReportCreateWithoutCommentsInput {
-  id: ID
   image: String!
   lat: Float!
   lng: Float!
@@ -612,7 +610,6 @@ input ReportCreateWithoutCommentsInput {
 }
 
 input ReportCreateWithoutCreatorInput {
-  id: ID
   image: String!
   lat: Float!
   lng: Float!
@@ -639,7 +636,7 @@ enum ReportOrderByInput {
 }
 
 type ReportPreviousValues {
-  id: ID!
+  id: Int!
   image: String!
   lat: Float!
   lng: Float!
@@ -647,20 +644,14 @@ type ReportPreviousValues {
 }
 
 input ReportScalarWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
+  id: Int
+  id_not: Int
+  id_in: [Int!]
+  id_not_in: [Int!]
+  id_lt: Int
+  id_lte: Int
+  id_gt: Int
+  id_gte: Int
   image: String
   image_not: String
   image_in: [String!]
@@ -800,20 +791,14 @@ input ReportUpsertWithWhereUniqueWithoutCreatorInput {
 }
 
 input ReportWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
+  id: Int
+  id_not: Int
+  id_in: [Int!]
+  id_not_in: [Int!]
+  id_lt: Int
+  id_lte: Int
+  id_gt: Int
+  id_gte: Int
   image: String
   image_not: String
   image_in: [String!]
@@ -863,7 +848,7 @@ input ReportWhereInput {
 }
 
 input ReportWhereUniqueInput {
-  id: ID
+  id: Int
 }
 
 type Role {
