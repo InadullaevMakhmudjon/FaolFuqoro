@@ -18,8 +18,10 @@ async function seed() {
     await execute(people, prisma.createPeople);
     await execute(users, prisma.createUser);
     await execute(reports, prisma.createReport);
+    // eslint-disable-next-line no-console
     console.log('Done');
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.log(e);
   }
 }
