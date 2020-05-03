@@ -6,7 +6,9 @@ const people = require('./people');
 const reports = require('./reports');
 const types = require('./report-types');
 
-const execute = (data, callBack) => Promise.mapSeries(data, callBack);
+const execute = (data, callBack) => data.reduce(
+  (p, x) => p.then(() => callBack(x)), Promise.resolve(),
+);
 
 async function seed() {
   try {
