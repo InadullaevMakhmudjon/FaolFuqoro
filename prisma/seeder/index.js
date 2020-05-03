@@ -6,16 +6,7 @@ const people = require('./people');
 const reports = require('./reports');
 const types = require('./report-types');
 
-const execute = (data, callBack) => new Promise(asnyc (resolve, reject) => {
-  try{
-    for(let i =0; i<data.length; i +=1) {
-      await callBack(data[i]);
-    }
-    resolve()
-  }catch(e) {
-    reject(e)
-  }
-});
+const execute = (data, callBack) => Promise.mapSeries(data, callBack);
 
 async function seed() {
   try {
