@@ -4,6 +4,7 @@ const statuses = require('./status');
 const users = require('./users');
 const people = require('./people');
 const reports = require('./reports');
+const types = require('./report-types');
 
 const execute = (data, callBack) => new Promise((resolve, reject) => {
   Promise.all(data.map((model) => callBack(model)))
@@ -11,12 +12,18 @@ const execute = (data, callBack) => new Promise((resolve, reject) => {
     .catch((err) => reject(err));
 });
 
-Promise.all([
-  execute(roles, prisma.createRole),
-  execute(statuses, prisma.createStatus),
-  execute(people, prisma.createPeople),
-  execute(users, prisma.createUser),
-  execute(reports, prisma.createReport),
-])
-  .then(() => console.log('Done'))
-  .catch((err) => console.log(err));
+async function seed() {
+  try {
+    await execute(roles, prisma.createRole);
+    await execute(statuses, prisma.createStatus);
+    await execute(types, prisma.createReportType);
+    await execute(people, prisma.createPeople);
+    await execute(users, prisma.createUser);
+    await execute(reports, prisma.createReport);
+    console.log('Done');
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+seed();
