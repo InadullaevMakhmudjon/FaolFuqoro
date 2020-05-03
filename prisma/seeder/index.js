@@ -6,10 +6,15 @@ const people = require('./people');
 const reports = require('./reports');
 const types = require('./report-types');
 
-const execute = (data, callBack) => new Promise((resolve, reject) => {
-  Promise.all(data.map((model) => callBack(model)))
-    .then(() => resolve())
-    .catch((err) => reject(err));
+const execute = (data, callBack) => new Promise(asnyc (resolve, reject) => {
+  try{
+    for(let i =0; i<data.length; i +=1) {
+      await callBack(data[i]);
+    }
+    resolve()
+  }catch(e) {
+    reject(e)
+  }
 });
 
 async function seed() {
