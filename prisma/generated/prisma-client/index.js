@@ -17,6 +17,10 @@ var models = [
     embedded: false
   },
   {
+    name: "ReportType",
+    embedded: false
+  },
+  {
     name: "User",
     embedded: false
   },

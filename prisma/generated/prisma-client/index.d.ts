@@ -19,6 +19,7 @@ export interface Exists {
   people: (where?: PeopleWhereInput) => Promise<boolean>;
   report: (where?: ReportWhereInput) => Promise<boolean>;
   reportComment: (where?: ReportCommentWhereInput) => Promise<boolean>;
+  reportType: (where?: ReportTypeWhereInput) => Promise<boolean>;
   role: (where?: RoleWhereInput) => Promise<boolean>;
   status: (where?: StatusWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
@@ -102,6 +103,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => ReportCommentConnectionPromise;
+  reportType: (where: ReportTypeWhereUniqueInput) => ReportTypeNullablePromise;
+  reportTypes: (args?: {
+    where?: ReportTypeWhereInput;
+    orderBy?: ReportTypeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<ReportType>;
+  reportTypesConnection: (args?: {
+    where?: ReportTypeWhereInput;
+    orderBy?: ReportTypeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => ReportTypeConnectionPromise;
   role: (where: RoleWhereUniqueInput) => RoleNullablePromise;
   roles: (args?: {
     where?: RoleWhereInput;
@@ -217,6 +237,22 @@ export interface Prisma {
   deleteManyReportComments: (
     where?: ReportCommentWhereInput
   ) => BatchPayloadPromise;
+  createReportType: (data: ReportTypeCreateInput) => ReportTypePromise;
+  updateReportType: (args: {
+    data: ReportTypeUpdateInput;
+    where: ReportTypeWhereUniqueInput;
+  }) => ReportTypePromise;
+  updateManyReportTypes: (args: {
+    data: ReportTypeUpdateManyMutationInput;
+    where?: ReportTypeWhereInput;
+  }) => BatchPayloadPromise;
+  upsertReportType: (args: {
+    where: ReportTypeWhereUniqueInput;
+    create: ReportTypeCreateInput;
+    update: ReportTypeUpdateInput;
+  }) => ReportTypePromise;
+  deleteReportType: (where: ReportTypeWhereUniqueInput) => ReportTypePromise;
+  deleteManyReportTypes: (where?: ReportTypeWhereInput) => BatchPayloadPromise;
   createRole: (data: RoleCreateInput) => RolePromise;
   updateRole: (args: {
     data: RoleUpdateInput;
@@ -283,6 +319,9 @@ export interface Subscription {
   reportComment: (
     where?: ReportCommentSubscriptionWhereInput
   ) => ReportCommentSubscriptionPayloadSubscription;
+  reportType: (
+    where?: ReportTypeSubscriptionWhereInput
+  ) => ReportTypeSubscriptionPayloadSubscription;
   role: (
     where?: RoleSubscriptionWhereInput
   ) => RoleSubscriptionPayloadSubscription;
@@ -311,6 +350,8 @@ export type ReportOrderByInput =
   | "lat_DESC"
   | "lng_ASC"
   | "lng_DESC"
+  | "deadline_ASC"
+  | "deadline_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC";
 
@@ -347,6 +388,12 @@ export type PeopleOrderByInput =
   | "password_DESC"
   | "image_ASC"
   | "image_DESC";
+
+export type ReportTypeOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC";
 
 export type RoleOrderByInput = "id_ASC" | "id_DESC" | "name_ASC" | "name_DESC";
 
@@ -406,6 +453,15 @@ export interface ReportWhereInput {
   comments_some?: Maybe<ReportCommentWhereInput>;
   comments_none?: Maybe<ReportCommentWhereInput>;
   status?: Maybe<StatusWhereInput>;
+  type?: Maybe<ReportTypeWhereInput>;
+  deadline?: Maybe<DateTimeInput>;
+  deadline_not?: Maybe<DateTimeInput>;
+  deadline_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  deadline_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  deadline_lt?: Maybe<DateTimeInput>;
+  deadline_lte?: Maybe<DateTimeInput>;
+  deadline_gt?: Maybe<DateTimeInput>;
+  deadline_gte?: Maybe<DateTimeInput>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -709,11 +765,49 @@ export interface RoleWhereInput {
   NOT?: Maybe<RoleWhereInput[] | RoleWhereInput>;
 }
 
+export interface ReportTypeWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  AND?: Maybe<ReportTypeWhereInput[] | ReportTypeWhereInput>;
+  OR?: Maybe<ReportTypeWhereInput[] | ReportTypeWhereInput>;
+  NOT?: Maybe<ReportTypeWhereInput[] | ReportTypeWhereInput>;
+}
+
 export type ReportWhereUniqueInput = AtLeastOne<{
   id: Maybe<Int>;
 }>;
 
 export type ReportCommentWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export type ReportTypeWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
@@ -751,6 +845,8 @@ export interface ReportCreateWithoutCreatorInput {
   lng: Float;
   comments?: Maybe<ReportCommentCreateManyWithoutReportInput>;
   status: StatusCreateOneInput;
+  type: ReportTypeCreateOneInput;
+  deadline: DateTimeInput;
 }
 
 export interface ReportCommentCreateManyWithoutReportInput {
@@ -853,6 +949,8 @@ export interface ReportCreateWithoutCommentsInput {
   lng: Float;
   creator: PeopleCreateOneWithoutReportsInput;
   status: StatusCreateOneInput;
+  type: ReportTypeCreateOneInput;
+  deadline: DateTimeInput;
 }
 
 export interface PeopleCreateOneWithoutReportsInput {
@@ -866,6 +964,16 @@ export interface PeopleCreateWithoutReportsInput {
   phone: String;
   password: String;
   image: String;
+}
+
+export interface ReportTypeCreateOneInput {
+  create?: Maybe<ReportTypeCreateInput>;
+  connect?: Maybe<ReportTypeWhereUniqueInput>;
+}
+
+export interface ReportTypeCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
 }
 
 export interface UserCreateOneWithoutEmployeesInput {
@@ -927,6 +1035,8 @@ export interface ReportUpdateWithoutCreatorDataInput {
   lng?: Maybe<Float>;
   comments?: Maybe<ReportCommentUpdateManyWithoutReportInput>;
   status?: Maybe<StatusUpdateOneRequiredInput>;
+  type?: Maybe<ReportTypeUpdateOneRequiredInput>;
+  deadline?: Maybe<DateTimeInput>;
 }
 
 export interface ReportCommentUpdateManyWithoutReportInput {
@@ -1115,6 +1225,8 @@ export interface ReportUpdateWithoutCommentsDataInput {
   lng?: Maybe<Float>;
   creator?: Maybe<PeopleUpdateOneRequiredWithoutReportsInput>;
   status?: Maybe<StatusUpdateOneRequiredInput>;
+  type?: Maybe<ReportTypeUpdateOneRequiredInput>;
+  deadline?: Maybe<DateTimeInput>;
 }
 
 export interface PeopleUpdateOneRequiredWithoutReportsInput {
@@ -1134,6 +1246,22 @@ export interface PeopleUpdateWithoutReportsDataInput {
 export interface PeopleUpsertWithoutReportsInput {
   update: PeopleUpdateWithoutReportsDataInput;
   create: PeopleCreateWithoutReportsInput;
+}
+
+export interface ReportTypeUpdateOneRequiredInput {
+  create?: Maybe<ReportTypeCreateInput>;
+  update?: Maybe<ReportTypeUpdateDataInput>;
+  upsert?: Maybe<ReportTypeUpsertNestedInput>;
+  connect?: Maybe<ReportTypeWhereUniqueInput>;
+}
+
+export interface ReportTypeUpdateDataInput {
+  name?: Maybe<String>;
+}
+
+export interface ReportTypeUpsertNestedInput {
+  update: ReportTypeUpdateDataInput;
+  create: ReportTypeCreateInput;
 }
 
 export interface ReportUpsertWithoutCommentsInput {
@@ -1388,6 +1516,14 @@ export interface ReportScalarWhereInput {
   lng_lte?: Maybe<Float>;
   lng_gt?: Maybe<Float>;
   lng_gte?: Maybe<Float>;
+  deadline?: Maybe<DateTimeInput>;
+  deadline_not?: Maybe<DateTimeInput>;
+  deadline_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  deadline_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  deadline_lt?: Maybe<DateTimeInput>;
+  deadline_lte?: Maybe<DateTimeInput>;
+  deadline_gt?: Maybe<DateTimeInput>;
+  deadline_gte?: Maybe<DateTimeInput>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -1410,6 +1546,7 @@ export interface ReportUpdateManyDataInput {
   image?: Maybe<String>;
   lat?: Maybe<Float>;
   lng?: Maybe<Float>;
+  deadline?: Maybe<DateTimeInput>;
 }
 
 export interface PeopleUpdateManyMutationInput {
@@ -1426,6 +1563,8 @@ export interface ReportCreateInput {
   creator: PeopleCreateOneWithoutReportsInput;
   comments?: Maybe<ReportCommentCreateManyWithoutReportInput>;
   status: StatusCreateOneInput;
+  type: ReportTypeCreateOneInput;
+  deadline: DateTimeInput;
 }
 
 export interface ReportUpdateInput {
@@ -1435,12 +1574,15 @@ export interface ReportUpdateInput {
   creator?: Maybe<PeopleUpdateOneRequiredWithoutReportsInput>;
   comments?: Maybe<ReportCommentUpdateManyWithoutReportInput>;
   status?: Maybe<StatusUpdateOneRequiredInput>;
+  type?: Maybe<ReportTypeUpdateOneRequiredInput>;
+  deadline?: Maybe<DateTimeInput>;
 }
 
 export interface ReportUpdateManyMutationInput {
   image?: Maybe<String>;
   lat?: Maybe<Float>;
   lng?: Maybe<Float>;
+  deadline?: Maybe<DateTimeInput>;
 }
 
 export interface ReportCommentCreateInput {
@@ -1460,6 +1602,14 @@ export interface ReportCommentUpdateInput {
 
 export interface ReportCommentUpdateManyMutationInput {
   comment?: Maybe<String>;
+}
+
+export interface ReportTypeUpdateInput {
+  name?: Maybe<String>;
+}
+
+export interface ReportTypeUpdateManyMutationInput {
+  name?: Maybe<String>;
 }
 
 export interface RoleUpdateInput {
@@ -1547,6 +1697,23 @@ export interface ReportCommentSubscriptionWhereInput {
   >;
   NOT?: Maybe<
     ReportCommentSubscriptionWhereInput[] | ReportCommentSubscriptionWhereInput
+  >;
+}
+
+export interface ReportTypeSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ReportTypeWhereInput>;
+  AND?: Maybe<
+    ReportTypeSubscriptionWhereInput[] | ReportTypeSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    ReportTypeSubscriptionWhereInput[] | ReportTypeSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    ReportTypeSubscriptionWhereInput[] | ReportTypeSubscriptionWhereInput
   >;
 }
 
@@ -1655,6 +1822,7 @@ export interface Report {
   image: String;
   lat: Float;
   lng: Float;
+  deadline: DateTimeOutput;
   createdAt: DateTimeOutput;
 }
 
@@ -1674,6 +1842,8 @@ export interface ReportPromise extends Promise<Report>, Fragmentable {
     last?: Int;
   }) => T;
   status: <T = StatusPromise>() => T;
+  type: <T = ReportTypePromise>() => T;
+  deadline: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
 }
 
@@ -1695,6 +1865,8 @@ export interface ReportSubscription
     last?: Int;
   }) => T;
   status: <T = StatusSubscription>() => T;
+  type: <T = ReportTypeSubscription>() => T;
+  deadline: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
@@ -1716,6 +1888,8 @@ export interface ReportNullablePromise
     last?: Int;
   }) => T;
   status: <T = StatusPromise>() => T;
+  type: <T = ReportTypePromise>() => T;
+  deadline: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
 }
 
@@ -1906,6 +2080,30 @@ export interface RoleNullablePromise
   name: () => Promise<String>;
 }
 
+export interface ReportType {
+  id: ID_Output;
+  name: String;
+}
+
+export interface ReportTypePromise extends Promise<ReportType>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+}
+
+export interface ReportTypeSubscription
+  extends Promise<AsyncIterator<ReportType>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ReportTypeNullablePromise
+  extends Promise<ReportType | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+}
+
 export interface PeopleConnection {
   pageInfo: PageInfo;
   edges: PeopleEdge[];
@@ -2089,6 +2287,62 @@ export interface AggregateReportCommentPromise
 
 export interface AggregateReportCommentSubscription
   extends Promise<AsyncIterator<AggregateReportComment>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface ReportTypeConnection {
+  pageInfo: PageInfo;
+  edges: ReportTypeEdge[];
+}
+
+export interface ReportTypeConnectionPromise
+  extends Promise<ReportTypeConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ReportTypeEdge>>() => T;
+  aggregate: <T = AggregateReportTypePromise>() => T;
+}
+
+export interface ReportTypeConnectionSubscription
+  extends Promise<AsyncIterator<ReportTypeConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ReportTypeEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateReportTypeSubscription>() => T;
+}
+
+export interface ReportTypeEdge {
+  node: ReportType;
+  cursor: String;
+}
+
+export interface ReportTypeEdgePromise
+  extends Promise<ReportTypeEdge>,
+    Fragmentable {
+  node: <T = ReportTypePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ReportTypeEdgeSubscription
+  extends Promise<AsyncIterator<ReportTypeEdge>>,
+    Fragmentable {
+  node: <T = ReportTypeSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateReportType {
+  count: Int;
+}
+
+export interface AggregateReportTypePromise
+  extends Promise<AggregateReportType>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateReportTypeSubscription
+  extends Promise<AsyncIterator<AggregateReportType>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -2354,6 +2608,7 @@ export interface ReportPreviousValues {
   image: String;
   lat: Float;
   lng: Float;
+  deadline: DateTimeOutput;
   createdAt: DateTimeOutput;
 }
 
@@ -2364,6 +2619,7 @@ export interface ReportPreviousValuesPromise
   image: () => Promise<String>;
   lat: () => Promise<Float>;
   lng: () => Promise<Float>;
+  deadline: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
 }
 
@@ -2374,6 +2630,7 @@ export interface ReportPreviousValuesSubscription
   image: () => Promise<AsyncIterator<String>>;
   lat: () => Promise<AsyncIterator<Float>>;
   lng: () => Promise<AsyncIterator<Float>>;
+  deadline: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
@@ -2422,6 +2679,50 @@ export interface ReportCommentPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   comment: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface ReportTypeSubscriptionPayload {
+  mutation: MutationType;
+  node: ReportType;
+  updatedFields: String[];
+  previousValues: ReportTypePreviousValues;
+}
+
+export interface ReportTypeSubscriptionPayloadPromise
+  extends Promise<ReportTypeSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ReportTypePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ReportTypePreviousValuesPromise>() => T;
+}
+
+export interface ReportTypeSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ReportTypeSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ReportTypeSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ReportTypePreviousValuesSubscription>() => T;
+}
+
+export interface ReportTypePreviousValues {
+  id: ID_Output;
+  name: String;
+}
+
+export interface ReportTypePreviousValuesPromise
+  extends Promise<ReportTypePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+}
+
+export interface ReportTypePreviousValuesSubscription
+  extends Promise<AsyncIterator<ReportTypePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
 }
 
 export interface RoleSubscriptionPayload {
@@ -2621,6 +2922,10 @@ export const models: Model[] = [
   },
   {
     name: "People",
+    embedded: false
+  },
+  {
+    name: "ReportType",
     embedded: false
   },
   {

@@ -15,6 +15,10 @@ type AggregateReportComment {
   count: Int!
 }
 
+type AggregateReportType {
+  count: Int!
+}
+
 type AggregateRole {
   count: Int!
 }
@@ -54,6 +58,12 @@ type Mutation {
   upsertReportComment(where: ReportCommentWhereUniqueInput!, create: ReportCommentCreateInput!, update: ReportCommentUpdateInput!): ReportComment!
   deleteReportComment(where: ReportCommentWhereUniqueInput!): ReportComment
   deleteManyReportComments(where: ReportCommentWhereInput): BatchPayload!
+  createReportType(data: ReportTypeCreateInput!): ReportType!
+  updateReportType(data: ReportTypeUpdateInput!, where: ReportTypeWhereUniqueInput!): ReportType
+  updateManyReportTypes(data: ReportTypeUpdateManyMutationInput!, where: ReportTypeWhereInput): BatchPayload!
+  upsertReportType(where: ReportTypeWhereUniqueInput!, create: ReportTypeCreateInput!, update: ReportTypeUpdateInput!): ReportType!
+  deleteReportType(where: ReportTypeWhereUniqueInput!): ReportType
+  deleteManyReportTypes(where: ReportTypeWhereInput): BatchPayload!
   createRole(data: RoleCreateInput!): Role!
   updateRole(data: RoleUpdateInput!, where: RoleWhereUniqueInput!): Role
   updateManyRoles(data: RoleUpdateManyMutationInput!, where: RoleWhereInput): BatchPayload!
@@ -299,6 +309,9 @@ type Query {
   reportComment(where: ReportCommentWhereUniqueInput!): ReportComment
   reportComments(where: ReportCommentWhereInput, orderBy: ReportCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ReportComment]!
   reportCommentsConnection(where: ReportCommentWhereInput, orderBy: ReportCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ReportCommentConnection!
+  reportType(where: ReportTypeWhereUniqueInput!): ReportType
+  reportTypes(where: ReportTypeWhereInput, orderBy: ReportTypeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ReportType]!
+  reportTypesConnection(where: ReportTypeWhereInput, orderBy: ReportTypeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ReportTypeConnection!
   role(where: RoleWhereUniqueInput!): Role
   roles(where: RoleWhereInput, orderBy: RoleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Role]!
   rolesConnection(where: RoleWhereInput, orderBy: RoleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RoleConnection!
@@ -319,6 +332,8 @@ type Report {
   creator: People!
   comments(where: ReportCommentWhereInput, orderBy: ReportCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ReportComment!]
   status: Status!
+  type: ReportType!
+  deadline: DateTime!
   createdAt: DateTime!
 }
 
@@ -589,6 +604,8 @@ input ReportCreateInput {
   creator: PeopleCreateOneWithoutReportsInput!
   comments: ReportCommentCreateManyWithoutReportInput
   status: StatusCreateOneInput!
+  type: ReportTypeCreateOneInput!
+  deadline: DateTime!
 }
 
 input ReportCreateManyWithoutCreatorInput {
@@ -607,6 +624,8 @@ input ReportCreateWithoutCommentsInput {
   lng: Float!
   creator: PeopleCreateOneWithoutReportsInput!
   status: StatusCreateOneInput!
+  type: ReportTypeCreateOneInput!
+  deadline: DateTime!
 }
 
 input ReportCreateWithoutCreatorInput {
@@ -615,6 +634,8 @@ input ReportCreateWithoutCreatorInput {
   lng: Float!
   comments: ReportCommentCreateManyWithoutReportInput
   status: StatusCreateOneInput!
+  type: ReportTypeCreateOneInput!
+  deadline: DateTime!
 }
 
 type ReportEdge {
@@ -631,6 +652,8 @@ enum ReportOrderByInput {
   lat_DESC
   lng_ASC
   lng_DESC
+  deadline_ASC
+  deadline_DESC
   createdAt_ASC
   createdAt_DESC
 }
@@ -640,6 +663,7 @@ type ReportPreviousValues {
   image: String!
   lat: Float!
   lng: Float!
+  deadline: DateTime!
   createdAt: DateTime!
 }
 
@@ -682,6 +706,14 @@ input ReportScalarWhereInput {
   lng_lte: Float
   lng_gt: Float
   lng_gte: Float
+  deadline: DateTime
+  deadline_not: DateTime
+  deadline_in: [DateTime!]
+  deadline_not_in: [DateTime!]
+  deadline_lt: DateTime
+  deadline_lte: DateTime
+  deadline_gt: DateTime
+  deadline_gte: DateTime
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -713,6 +745,124 @@ input ReportSubscriptionWhereInput {
   NOT: [ReportSubscriptionWhereInput!]
 }
 
+type ReportType {
+  id: ID!
+  name: String!
+}
+
+type ReportTypeConnection {
+  pageInfo: PageInfo!
+  edges: [ReportTypeEdge]!
+  aggregate: AggregateReportType!
+}
+
+input ReportTypeCreateInput {
+  id: ID
+  name: String!
+}
+
+input ReportTypeCreateOneInput {
+  create: ReportTypeCreateInput
+  connect: ReportTypeWhereUniqueInput
+}
+
+type ReportTypeEdge {
+  node: ReportType!
+  cursor: String!
+}
+
+enum ReportTypeOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+}
+
+type ReportTypePreviousValues {
+  id: ID!
+  name: String!
+}
+
+type ReportTypeSubscriptionPayload {
+  mutation: MutationType!
+  node: ReportType
+  updatedFields: [String!]
+  previousValues: ReportTypePreviousValues
+}
+
+input ReportTypeSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ReportTypeWhereInput
+  AND: [ReportTypeSubscriptionWhereInput!]
+  OR: [ReportTypeSubscriptionWhereInput!]
+  NOT: [ReportTypeSubscriptionWhereInput!]
+}
+
+input ReportTypeUpdateDataInput {
+  name: String
+}
+
+input ReportTypeUpdateInput {
+  name: String
+}
+
+input ReportTypeUpdateManyMutationInput {
+  name: String
+}
+
+input ReportTypeUpdateOneRequiredInput {
+  create: ReportTypeCreateInput
+  update: ReportTypeUpdateDataInput
+  upsert: ReportTypeUpsertNestedInput
+  connect: ReportTypeWhereUniqueInput
+}
+
+input ReportTypeUpsertNestedInput {
+  update: ReportTypeUpdateDataInput!
+  create: ReportTypeCreateInput!
+}
+
+input ReportTypeWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  AND: [ReportTypeWhereInput!]
+  OR: [ReportTypeWhereInput!]
+  NOT: [ReportTypeWhereInput!]
+}
+
+input ReportTypeWhereUniqueInput {
+  id: ID
+}
+
 input ReportUpdateInput {
   image: String
   lat: Float
@@ -720,18 +870,22 @@ input ReportUpdateInput {
   creator: PeopleUpdateOneRequiredWithoutReportsInput
   comments: ReportCommentUpdateManyWithoutReportInput
   status: StatusUpdateOneRequiredInput
+  type: ReportTypeUpdateOneRequiredInput
+  deadline: DateTime
 }
 
 input ReportUpdateManyDataInput {
   image: String
   lat: Float
   lng: Float
+  deadline: DateTime
 }
 
 input ReportUpdateManyMutationInput {
   image: String
   lat: Float
   lng: Float
+  deadline: DateTime
 }
 
 input ReportUpdateManyWithoutCreatorInput {
@@ -764,6 +918,8 @@ input ReportUpdateWithoutCommentsDataInput {
   lng: Float
   creator: PeopleUpdateOneRequiredWithoutReportsInput
   status: StatusUpdateOneRequiredInput
+  type: ReportTypeUpdateOneRequiredInput
+  deadline: DateTime
 }
 
 input ReportUpdateWithoutCreatorDataInput {
@@ -772,6 +928,8 @@ input ReportUpdateWithoutCreatorDataInput {
   lng: Float
   comments: ReportCommentUpdateManyWithoutReportInput
   status: StatusUpdateOneRequiredInput
+  type: ReportTypeUpdateOneRequiredInput
+  deadline: DateTime
 }
 
 input ReportUpdateWithWhereUniqueWithoutCreatorInput {
@@ -834,6 +992,15 @@ input ReportWhereInput {
   comments_some: ReportCommentWhereInput
   comments_none: ReportCommentWhereInput
   status: StatusWhereInput
+  type: ReportTypeWhereInput
+  deadline: DateTime
+  deadline_not: DateTime
+  deadline_in: [DateTime!]
+  deadline_not_in: [DateTime!]
+  deadline_lt: DateTime
+  deadline_lte: DateTime
+  deadline_gt: DateTime
+  deadline_gte: DateTime
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -1091,6 +1258,7 @@ type Subscription {
   people(where: PeopleSubscriptionWhereInput): PeopleSubscriptionPayload
   report(where: ReportSubscriptionWhereInput): ReportSubscriptionPayload
   reportComment(where: ReportCommentSubscriptionWhereInput): ReportCommentSubscriptionPayload
+  reportType(where: ReportTypeSubscriptionWhereInput): ReportTypeSubscriptionPayload
   role(where: RoleSubscriptionWhereInput): RoleSubscriptionPayload
   status(where: StatusSubscriptionWhereInput): StatusSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload

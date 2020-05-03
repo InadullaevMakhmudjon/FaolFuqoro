@@ -17,6 +17,11 @@ type People {
   reports: [Report!] @relation(name: "ReportForCreator", onDelete: SET_NULL)
 }
 
+type ReportType {
+  id: ID! @id
+  name: String!
+}
+
 type User {
   id: ID! @id
   name: String!
@@ -37,7 +42,9 @@ type Report {
   lng: Float!
   creator: People! @relation(name: "ReportForCreator", onDelete: SET_NULL)
   comments: [ReportComment !]! @relation(name: "CommentForReport", onDelete: CASCADE)
-  status: Status! @relation(name: "ReportStatus", onDelete: SET_NULL) 
+  status: Status! @relation(name: "ReportStatus", onDelete: SET_NULL)
+  type: ReportType! @relation(name: "ReportType")
+  deadline: DateTime! 
   createdAt: DateTime! @createdAt
 }
 
