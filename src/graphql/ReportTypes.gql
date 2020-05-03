@@ -1,0 +1,6 @@
+query {
+  reportTypes{
+    id
+    name
+  }
+}

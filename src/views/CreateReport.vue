@@ -3,9 +3,9 @@
     v-row
       v-col(cols="4")
         v-text-field(v-model="image" outlined placeholder="Image Link")
-        v-textarea(outlined placeholder="Comment text"
-        v-model="comment"
-        )
+        v-textarea(outlined placeholder="Comment text" v-model="comment")
+        v-select(v-model="type" :items="types" dense label="types" item-text="name" item-value="id")
+        v-date-picker(v-model="date").mb-5
         GmapMap(
           :options="map.options"
           :center="map.center"
@@ -20,6 +20,7 @@
 </template>
 <script>
 import CREATEREPORT from '@/graphql/CreateReport.gql';
+import REPORTTYPES from '@/graphql/ReportTypes.gql';
 
 export default {
   name: 'CreateReport',
@@ -30,6 +31,9 @@ export default {
       lat: 41.311081,
       lng: 69.240562,
       zoom: 11,
+      types: [],
+      type: null,
+      date: new Date().toISOString().substr(0, 10),
       map: {
         center: {
           lat: 41.311081,
@@ -47,6 +51,17 @@ export default {
       },
     };
   },
+  apollo: {
+    types: {
+      query: REPORTTYPES,
+      update: (data) => data.reportTypes,
+    },
+  },
+  watch: {
+    type(value) {
+      console.log(value);
+    },
+  },
   methods: {
     clicked(value) {
       this.lat = value.latLng.lat();
@@ -55,6 +70,8 @@ export default {
     submit() {
       if (!this.image) return;
       if (!this.comment) return;
+      if (!this.type) return;
+      if (!this.date) return;
       this.$apollo.mutate({
         mutation: CREATEREPORT,
         variables: {
@@ -62,6 +79,8 @@ export default {
           lat: this.lat,
           lng: this.lng,
           comment: this.comment,
+          type: this.type,
+          date: this.date,
         },
       }).then(() => { window.location.reload(); });
     },

@@ -1,10 +1,12 @@
-mutation ($image: String!, $lat: Float!, $lng: Float!, $comment: String!){
+mutation ($image: String!, $lat: Float!, $lng: Float!, $comment: String!, $type: ID!, $date: DateTime!){
   createReport(data: {
     image: $image
     lat: $lat
     lng: $lng
     creator: { connect: { id: 1 } }
     status: { connect: { id: 1 } }
+    type: { connect: { id: $type } }
+    deadline: $date
     comments: {
       create: { 
       	comment: $comment
