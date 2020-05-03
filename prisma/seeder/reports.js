@@ -6,7 +6,7 @@ module.exports = [
     creator: { connect: { id: 1 } },
     status: { connect: { id: 1 } },
     type: { connect: { id: 2 } },
-    deadline: '09-09-2020',
+    deadline: '2020-09-09',
     comments: {
       create: {
         comment: 'People commented',
@@ -32,7 +32,7 @@ module.exports = [
     },
     status: { connect: { id: 1 } },
     type: { connect: { id: 2 } },
-    deadline: '09-09-2020',
+    deadline: '2020-09-09',
     comments: {
       create: {
         comment: 'People commented',
@@ -56,7 +56,7 @@ module.exports = [
     creator: { connect: { id: 4 } },
     status: { connect: { id: 2 } },
     type: { connect: { id: 2 } },
-    deadline: '09-09-2020',
+    deadline: '2020-09-09',
     comments: {
       create: [
         {
@@ -78,7 +78,7 @@ module.exports = [
     image: 'https://whc.unesco.org/uploads/thumbs/site_0385_0018-1200-630-20151105162902.jpg',
     creator: { connect: { id: 5 } },
     type: { connect: { id: 2 } },
-    deadline: '09-09-2020',
+    deadline: '2020-09-09',
     status: { connect: { id: 2 } },
     comments: {
       create: [
@@ -101,7 +101,7 @@ module.exports = [
     image: 'https://cdn.ostrovok.ru/t/640x400/content/7f/9f/7f9f4aba32fbd1bf6595b041b4713f068369fc49.jpeg',
     creator: { connect: { id: 5 } },
     type: { connect: { id: 2 } },
-    deadline: '09-09-2020',
+    deadline: '2020-09-09',
     status: { connect: { id: 2 } },
     comments: {
       create: [
@@ -125,7 +125,7 @@ module.exports = [
     creator: { connect: { id: 4 } },
     status: { connect: { id: 4 } },
     type: { connect: { id: 2 } },
-    deadline: '09-09-2020',
+    deadline: '2020-09-09',
     comments: {
       create: [
         {
@@ -157,7 +157,7 @@ module.exports = [
     image: 'https://previews.123rf.com/images/perekotypole/perekotypole1712/perekotypole171200013/92158325-view-of-the-old-city-jerusalem-from-the-walls-israel.jpg',
     creator: { connect: { id: 3 } },
     type: { connect: { id: 2 } },
-    deadline: '09-09-2020',
+    deadline: '2020-09-09',
     status: { connect: { id: 4 } },
     comments: {
       create: [
@@ -190,7 +190,7 @@ module.exports = [
     image: 'https://www.touristisrael.com/wp-content/uploads/Tower-of-David.jpg',
     creator: { connect: { id: 2 } },
     type: { connect: { id: 2 } },
-    deadline: '09-09-2020',
+    deadline: '2020-09-09',
     status: { connect: { id: 4 } },
     comments: {
       create: [
