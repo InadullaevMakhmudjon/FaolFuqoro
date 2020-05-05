@@ -6,7 +6,6 @@ mutation ($image: String!, $lat: Float!, $lng: Float!, $comment: String!, $type:
     creator: { connect: { id: 1 } }
     status: { connect: { id: 1 } }
     type: { connect: { id: $type } }
-    deadline: $date
     comments: {
       create: { 
       	comment: $comment

@@ -5,7 +5,6 @@
         v-text-field(v-model="image" outlined placeholder="Image Link")
         v-textarea(outlined placeholder="Comment text" v-model="comment")
         v-select(v-model="type" :items="types" dense label="types" item-text="name" item-value="id")
-        v-date-picker(v-model="date").mb-5
         GmapMap(
           :options="map.options"
           :center="map.center"
@@ -33,7 +32,6 @@ export default {
       zoom: 11,
       types: [],
       type: null,
-      date: new Date().toISOString().substr(0, 10),
       map: {
         center: {
           lat: 41.311081,
@@ -80,7 +78,6 @@ export default {
           lng: this.lng,
           comment: this.comment,
           type: this.type,
-          date: this.date,
         },
       }).then(() => { window.location.reload(); });
     },

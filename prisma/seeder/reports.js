@@ -6,7 +6,6 @@ module.exports = [
     creator: { connect: { id: 1 } },
     status: { connect: { id: 1 } },
     type: { connect: { id: 2 } },
-    deadline: '2020-09-09',
     comments: {
       create: {
         comment: 'People commented',
@@ -32,7 +31,6 @@ module.exports = [
     },
     status: { connect: { id: 1 } },
     type: { connect: { id: 2 } },
-    deadline: '2020-09-09',
     comments: {
       create: {
         comment: 'People commented',

@@ -3,10 +3,23 @@
      v-dialog(v-model="open" width="500")
       v-card
         v-container.pa-5
-          v-select(v-model="selected" item-text="name" item-value="id" :items="selectItems.items" :label="selectItems.title" )
+          v-select(
+            v-model="selected"
+            item-text="name"
+            item-value="id"
+            :items="selectItems.items"
+            :label="selectItems.title"
+          )
+          DatePicker(v-if="condition" @date="date = $event" v-model="openDate")
           v-textarea(solo label="Izoh" v-model="commentText")
           v-btn(outlined @click="delegate") Topshirish
-     v-btn(v-for="(button, i) in buttons" v-if="button.show" :key="i" @click="button.callBack" outlined).ma-2 {{ button.name }}
+     v-btn(
+       v-for="(button, i) in buttons"
+       v-if="button.show"
+       :key="i"
+       @click="button.callBack"
+       outlined
+      ).ma-2 {{ button.name }}
      v-row
          v-col(cols="6")
              div(:style="`background-image: url('${report.image}')`").custom-container
@@ -28,7 +41,8 @@ import EMPLOYEES from '@/graphql/employees.gql';
 import DELEGATETOORG from '@/graphql/DelegateToOrg.gql';
 import DELEGATETOEMPLOYEE from '@/graphql/DelegateToEmployee.gql';
 import FINISHREPORT from '@/graphql/FinishReport.gql';
-import * as types from '@/utils/status.js';
+import * as types from '@/utils/status';
+import DatePicker from '@/components/DatePicker.vue';
 
 export default {
   data() {
@@ -37,6 +51,8 @@ export default {
       report: null,
       selected: null,
       commentText: '',
+      openDate: false,
+      date: '',
       options: {
         zoomControl: true,
         mapTypeControl: false,
@@ -51,6 +67,9 @@ export default {
     };
   },
   computed: {
+    condition() {
+      return ['1', '2'].includes(this.$getRole());
+    },
     getStatus() {
       if (this.report) {
         return this.$reportStatus(this.report.status);
@@ -124,13 +143,10 @@ export default {
       });
     },
     delegate() {
+      const generic = { comment: this.commentText, to: this.selected, id: this.report.id };
       this.$apollo.mutate({
-        mutation: ['1', '2'].includes(this.$getRole()) ? DELEGATETOORG : DELEGATETOEMPLOYEE,
-        variables: {
-          comment: this.commentText,
-          to: this.selected,
-          id: this.report.id,
-        },
+        mutation: this.condition ? DELEGATETOORG : DELEGATETOEMPLOYEE,
+        variables: this.condition ? { ...generic, date: this.date } : generic,
       }).then(() => {
         this.$router.push({ name: 'Reports', params: { reload: true } });
       });
@@ -143,6 +159,9 @@ export default {
         this.$router.push({ name: 'Reports', params: { reload: true } });
       });
     },
+  },
+  components: {
+    DatePicker,
   },
   mounted() {
     const { id } = this.$route.params;

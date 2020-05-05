@@ -1,5 +1,6 @@
-mutation ($comment: String!, $to: ID!, $id: Int!){
+mutation ($comment: String!, $to: ID!, $id: Int!, $date: DateTime!){
   updateReport(data: {
+    deadline: $date
     status: {
       connect: {
         id: 2
