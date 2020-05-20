@@ -39,5 +39,7 @@ app.post('/api/check', (req, res) => {
 
 const server = createServer(app);
 
-server.listen(process.env.PORT || 3030);
-server.on('listening', () => console.log('Listening...'));
+const port = process.env.PORT || 3030;
+
+server.listen(port);
+server.on('listening', () => console.log(`Listening on ${port}`));
