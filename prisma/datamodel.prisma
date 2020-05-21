@@ -11,7 +11,7 @@ type Status {
 type People {
   id: ID! @id
   name: String!
-  phone: String!
+  phone: String! @unique
   password: String!
   image: String!
   reports: [Report!] @relation(name: "ReportForCreator", onDelete: SET_NULL)
