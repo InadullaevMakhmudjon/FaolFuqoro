@@ -35,4 +35,25 @@ module.exports = [
     password: 'user',
     image: 'https://img.icons8.com/plasticine/2x/user.png',
   },
+  {
+    id: 6,
+    name: 'Makhmudjon',
+    phone: '+998994287668',
+    password: 'user',
+    image: 'https://img.icons8.com/plasticine/2x/user.png',
+  },
+  {
+    id: 7,
+    name: 'Steve',
+    phone: '+998994457668',
+    password: 'user',
+    image: 'https://img.icons8.com/plasticine/2x/user.png',
+  },
+  {
+    id: 7,
+    name: 'Bill Gates',
+    phone: '+998909647853',
+    password: 'user',
+    image: 'https://img.icons8.com/plasticine/2x/user.png',
+  },
 ];
