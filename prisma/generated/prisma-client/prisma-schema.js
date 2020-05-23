@@ -297,6 +297,7 @@ input PeopleWhereInput {
 
 input PeopleWhereUniqueInput {
   id: ID
+  phone: String
 }
 
 type Query {
@@ -333,7 +334,7 @@ type Report {
   comments(where: ReportCommentWhereInput, orderBy: ReportCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ReportComment!]
   status: Status!
   type: ReportType!
-  deadline: DateTime!
+  deadline: DateTime
   createdAt: DateTime!
 }
 
@@ -605,7 +606,7 @@ input ReportCreateInput {
   comments: ReportCommentCreateManyWithoutReportInput
   status: StatusCreateOneInput!
   type: ReportTypeCreateOneInput!
-  deadline: DateTime!
+  deadline: DateTime
 }
 
 input ReportCreateManyWithoutCreatorInput {
@@ -625,7 +626,7 @@ input ReportCreateWithoutCommentsInput {
   creator: PeopleCreateOneWithoutReportsInput!
   status: StatusCreateOneInput!
   type: ReportTypeCreateOneInput!
-  deadline: DateTime!
+  deadline: DateTime
 }
 
 input ReportCreateWithoutCreatorInput {
@@ -635,7 +636,7 @@ input ReportCreateWithoutCreatorInput {
   comments: ReportCommentCreateManyWithoutReportInput
   status: StatusCreateOneInput!
   type: ReportTypeCreateOneInput!
-  deadline: DateTime!
+  deadline: DateTime
 }
 
 type ReportEdge {
@@ -663,7 +664,7 @@ type ReportPreviousValues {
   image: String!
   lat: Float!
   lng: Float!
-  deadline: DateTime!
+  deadline: DateTime
   createdAt: DateTime!
 }
 

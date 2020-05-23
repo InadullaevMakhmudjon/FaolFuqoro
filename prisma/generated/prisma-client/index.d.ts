@@ -407,6 +407,7 @@ export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
 export type PeopleWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
+  phone?: Maybe<String>;
 }>;
 
 export interface ReportWhereInput {
@@ -846,7 +847,7 @@ export interface ReportCreateWithoutCreatorInput {
   comments?: Maybe<ReportCommentCreateManyWithoutReportInput>;
   status: StatusCreateOneInput;
   type: ReportTypeCreateOneInput;
-  deadline: DateTimeInput;
+  deadline?: Maybe<DateTimeInput>;
 }
 
 export interface ReportCommentCreateManyWithoutReportInput {
@@ -950,7 +951,7 @@ export interface ReportCreateWithoutCommentsInput {
   creator: PeopleCreateOneWithoutReportsInput;
   status: StatusCreateOneInput;
   type: ReportTypeCreateOneInput;
-  deadline: DateTimeInput;
+  deadline?: Maybe<DateTimeInput>;
 }
 
 export interface PeopleCreateOneWithoutReportsInput {
@@ -1564,7 +1565,7 @@ export interface ReportCreateInput {
   comments?: Maybe<ReportCommentCreateManyWithoutReportInput>;
   status: StatusCreateOneInput;
   type: ReportTypeCreateOneInput;
-  deadline: DateTimeInput;
+  deadline?: Maybe<DateTimeInput>;
 }
 
 export interface ReportUpdateInput {
@@ -1822,7 +1823,7 @@ export interface Report {
   image: String;
   lat: Float;
   lng: Float;
-  deadline: DateTimeOutput;
+  deadline?: DateTimeOutput;
   createdAt: DateTimeOutput;
 }
 
@@ -2608,7 +2609,7 @@ export interface ReportPreviousValues {
   image: String;
   lat: Float;
   lng: Float;
-  deadline: DateTimeOutput;
+  deadline?: DateTimeOutput;
   createdAt: DateTimeOutput;
 }
 

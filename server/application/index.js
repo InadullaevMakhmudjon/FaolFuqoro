@@ -33,9 +33,10 @@ router.post('/check', (req, res) => {
 router.post('/upload', (req, res) => {
   if (req.files) {
     const { file } = req.files;
+    console.log(req.body);
     const filename = `${(new Date().toISOString())}-${file.name}`;
     file.mv(`./files/${filename}`, (error) => {
-      if (error) { res.status(500).json(error); } else {
+      if (error) { res.status(502).json(error); } else {
         res.status(200).json({ uri: `${BASE_URL}/files/${filename}` });
       }
     });
