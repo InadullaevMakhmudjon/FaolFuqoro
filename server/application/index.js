@@ -111,6 +111,12 @@ router.post('/create-report', (req, res) => {
     file.mv(`./files/${filename}`, (error) => {
       if (error) { res.status(502).json(error); } else {
         console.log('File inserted');
+        console.log({
+          image: `${BASE_URL}/files/${filename}`,
+          lat,
+          lng,
+          comment,
+        });
         prisma.createReport({
           image: `${BASE_URL}/files/${filename}`,
           lat,
