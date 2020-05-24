@@ -60,42 +60,26 @@ router.post('/upload', (req, res) => {
   }
 });
 
-function create() {
-  prisma.mutation.createReport({ data:{
-    image: 'hrewfef',
-    lat: 33.44,
-    lng: 44.33,
-    creator: { connect: { phone: '+998994287668' } },
-    status: { connect: { id: 1 } },
-    type: { connect: { id: 1 } },
-    comments: {
-      create: {
-        comment: 'Custom',
-        status: { connect: { id: 1 } },
-        to: { connect: { id: 1 } },
-      },
-    },
-  }}, '{ id }').catch(err=>console.log(err));
-}
-
 function createCustom({
   image, lat, lng, phone, type, comment,
 }) {
   return prisma.createReport({
-    image,
-    lat,
-    lng,
-    creator: { connect: { phone: `+${phone}` } },
-    status: { connect: { id: 1 } },
-    type: { connect: { id: type } },
-    comments: {
-      create: {
-        comment,
-        status: { connect: { id: 1 } },
-        to: { connect: { id: 1 } },
+    data: {
+      image,
+      lat,
+      lng,
+      creator: { connect: { phone: `+${phone}` } },
+      status: { connect: { id: 1 } },
+      type: { connect: { id: type } },
+      comments: {
+        create: {
+          comment,
+          status: { connect: { id: 1 } },
+          to: { connect: { id: 1 } },
+        },
       },
     },
-  });
+  }, '{ id }');
 }
 
 router.post('/create-report', (req, res) => {
@@ -107,9 +91,9 @@ router.post('/create-report', (req, res) => {
     const filename = `${(new Date().toISOString())}-${file.name}`;
     file.mv(`./files/${filename}`, (error) => {
       if (error) { res.status(502).json(error); } else {
-        console.log('File inserted');
-        create();
-        console.log('Execution end');
+        createCustom()
+          .then(() => { res.sendStatus(200); })
+          .catch((err) => res.status(502).json(err));
       }
     });
   } else {
