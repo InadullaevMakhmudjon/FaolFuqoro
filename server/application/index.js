@@ -101,6 +101,44 @@ router.post('/upload', (req, res) => {
   }
 });
 
+function create() {
+  prisma.createReport({
+    image: 'hrewfef',
+    lat: 33.44,
+    lng: 44.33,
+    creator: { connect: { phone: '+998994287668' } },
+    status: { connect: { id: 1 } },
+    type: { connect: { id: 1 } },
+    comments: {
+      create: {
+        comment: 'Custom',
+        status: { connect: { id: 1 } },
+        to: { connect: { id: 1 } },
+      },
+    },
+  });
+}
+
+function createCustom({
+  image, lat, lng, phone, type, comment,
+}) {
+  return prisma.createReport({
+    image,
+    lat,
+    lng,
+    creator: { connect: { phone: `+${phone}` } },
+    status: { connect: { id: 1 } },
+    type: { connect: { id: type } },
+    comments: {
+      create: {
+        comment,
+        status: { connect: { id: 1 } },
+        to: { connect: { id: 1 } },
+      },
+    },
+  }).$fragment(FRAGMENT_REPORT);
+}
+
 router.post('/create-report', (req, res) => {
   if (req.files) {
     const { file } = req.files;
@@ -111,34 +149,7 @@ router.post('/create-report', (req, res) => {
     file.mv(`./files/${filename}`, (error) => {
       if (error) { res.status(502).json(error); } else {
         console.log('File inserted');
-        console.log({
-          image: `${BASE_URL}/files/${filename}`,
-          lat,
-          lng,
-          comment,
-        });
-        prisma.createReport({
-          image: `${BASE_URL}/files/${filename}`,
-          lat,
-          lng,
-          creator: { connect: { phone: `+${phone}` } },
-          status: { connect: { id: 1 } },
-          type: { connect: { id: type } },
-          comments: {
-            create: {
-              comment,
-              status: { connect: { id: 1 } },
-              to: { connect: { id: 1 } },
-            },
-          },
-        }).$fragment(FRAGMENT_REPORT).then(() => {
-          console.log('Successfully send response');
-          res.status(200).json({ message: 'Error occured' });
-        }).catch((err) => {
-          console.log('Error occured');
-          res.status(501).json(err);
-        })
-          .finally(() => console.log('Something went wrong'));
+        create();
         console.log('Execution end');
       }
     });
@@ -148,3 +159,20 @@ router.post('/create-report', (req, res) => {
 });
 
 module.exports = router;
+/*
+createCustom({
+          image: `${BASE_URL}/files/${filename}`,
+          lat,
+          lng,
+          comment,
+          type,
+          phone,
+        }).then(() => {
+          console.log('Successfully send response');
+          res.status(200).json({ message: 'Error occured' });
+        }).catch((err) => {
+          console.log('Error occured');
+          res.status(501).json(err);
+        })
+          .finally(() => console.log('Something went wrong'));
+*/
