@@ -91,7 +91,14 @@ router.post('/create-report', (req, res) => {
     const filename = `${(new Date().toISOString())}-${file.name}`;
     file.mv(`./files/${filename}`, (error) => {
       if (error) { res.status(502).json(error); } else {
-        createCustom()
+        createCustom({
+          image: `${BASE_URL}/files/${filename}`,
+          lat,
+          lng,
+          comment,
+          type,
+          phone,
+        })
           .then(() => { res.sendStatus(200); })
           .catch((err) => res.status(502).json(err));
       }
