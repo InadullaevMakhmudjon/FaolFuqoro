@@ -63,7 +63,7 @@ router.post('/upload', (req, res) => {
 function createCustom({
   image, lat, lng, phone, type, comment,
 }) {
-  return prisma.createReport({
+  return prisma.mutation.createReport({
     data: {
       image,
       lat,
