@@ -3,6 +3,54 @@ const twilio = require('twilio');
 const { prisma } = require('../../prisma/generated/prisma-client');
 require('dotenv').config();
 
+const FRAGMENT_REPORT = `
+fragment ReportWithData on Report {
+  id
+  image
+  lat
+  lng
+  creator{
+    id
+    name
+    phone
+    password
+    image
+  }
+  comments{
+    id
+    comment
+    status{
+      id
+      name
+    }
+    to{
+      id
+      name
+      phone
+      username
+      password
+      image
+      role{
+        id
+        name
+      }
+    }
+    createdAt
+  }
+  status{
+    id
+    name
+  }
+  type{
+    id
+    name
+  }
+  deadline
+  createdAt
+}
+`;
+
+
 const { BASE_URL, TWILIO_SID, TWILIO_TOKEN } = process.env;
 
 const client = twilio(TWILIO_SID, TWILIO_TOKEN);
@@ -77,13 +125,14 @@ router.post('/create-report', (req, res) => {
               to: { connect: { id: 1 } },
             },
           },
-        }).then(() => {
+        }).$fragment(FRAGMENT_REPORT).then(() => {
           console.log('Successfully send response');
           res.status(200).json({ message: 'Error occured' });
         }).catch((err) => {
           console.log('Error occured');
           res.status(501).json(err);
-        });
+        })
+          .finally(() => console.log('Something went wrong'));
         console.log('Execution end');
       }
     });
