@@ -54,6 +54,7 @@ router.post('/upload', (req, res) => {
 });
 
 router.post('/create-report', (req, res) => {
+  console.log(req.body);
   if (req.files) {
     const { file } = req.files;
     const {
