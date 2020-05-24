@@ -54,7 +54,6 @@ router.post('/upload', (req, res) => {
 });
 
 router.post('/create-report', (req, res) => {
-  console.log(req.body);
   if (req.files) {
     const { file } = req.files;
     const {
@@ -63,6 +62,7 @@ router.post('/create-report', (req, res) => {
     const filename = `${(new Date().toISOString())}-${file.name}`;
     file.mv(`./files/${filename}`, (error) => {
       if (error) { res.status(502).json(error); } else {
+        console.log('File inserted');
         prisma.createReport({
           image: `${BASE_URL}/files/${filename}`,
           lat,
@@ -77,8 +77,14 @@ router.post('/create-report', (req, res) => {
               to: { connect: { id: 1 } },
             },
           },
-        }).then(() => res.sendStatus(200))
-          .catch((err) => res.status(501).json(err));
+        }).then(() => {
+          console.log('Successfully send response');
+          res.status(200).json({ message: 'Error occured' });
+        }).catch((err) => {
+          console.log('Error occured');
+          res.status(501).json(err);
+        });
+        console.log('Execution end');
       }
     });
   } else {
