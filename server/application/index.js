@@ -61,7 +61,7 @@ router.post('/upload', (req, res) => {
 });
 
 function create() {
-  prisma.createReport({
+  prisma.mutation.createReport({ data:{
     image: 'hrewfef',
     lat: 33.44,
     lng: 44.33,
@@ -75,7 +75,7 @@ function create() {
         to: { connect: { id: 1 } },
       },
     },
-  });
+  }}, '{ id }').catch(err=>console.log(err));
 }
 
 function createCustom({
