@@ -65,19 +65,17 @@ function createCustom({
   image, lat, lng, phone, type, comment,
 }) {
   return prisma.createReport({
-    data: {
-      image,
-      lat: Number(lat),
-      lng: Number(lng),
-      creator: { connect: { phone: `+${phone}` } },
-      status: { connect: { id: 1 } },
-      type: { connect: { id: type } },
-      comments: {
-        create: {
-          comment,
-          status: { connect: { id: 1 } },
-          to: { connect: { id: 1 } },
-        },
+    image,
+    lat: Number(lat),
+    lng: Number(lng),
+    creator: { connect: { phone: `+${phone}` } },
+    status: { connect: { id: 1 } },
+    type: { connect: { id: type } },
+    comments: {
+      create: {
+        comment,
+        status: { connect: { id: 1 } },
+        to: { connect: { id: 1 } },
       },
     },
   }, '{ id }');
