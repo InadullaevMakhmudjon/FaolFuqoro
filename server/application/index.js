@@ -66,8 +66,8 @@ function createCustom({
   return prisma.mutation.createReport({
     data: {
       image,
-      lat,
-      lng,
+      lat: Number(lat),
+      lng: Number(lng),
       creator: { connect: { phone: `+${phone}` } },
       status: { connect: { id: 1 } },
       type: { connect: { id: type } },
