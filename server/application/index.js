@@ -2,8 +2,9 @@ const router = require('express').Router();
 const twilio = require('twilio');
 const { Prisma } = require('prisma-binding');
 const { typeDefs } = require('../../prisma/generated/prisma-client/prisma-schema');
+const { prisma } = require('../../prisma/generated/prisma-client');
 
-const prisma = new Prisma({
+const prismaCustom = new Prisma({
   typeDefs,
   endpoint: 'http://localhost:4466',
 });
@@ -63,7 +64,7 @@ router.post('/upload', (req, res) => {
 function createCustom({
   image, lat, lng, phone, type, comment,
 }) {
-  return prisma.mutation.createReport({
+  return prisma.createReport({
     data: {
       image,
       lat: Number(lat),
