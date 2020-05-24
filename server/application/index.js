@@ -1,13 +1,6 @@
 const router = require('express').Router();
 const twilio = require('twilio');
-const { Prisma } = require('prisma-binding');
-const { typeDefs } = require('../../prisma/generated/prisma-client/prisma-schema');
 const { prisma } = require('../../prisma/generated/prisma-client');
-
-const prismaCustom = new Prisma({
-  typeDefs,
-  endpoint: 'http://localhost:4466',
-});
 
 require('dotenv').config();
 
@@ -108,20 +101,3 @@ router.post('/create-report', (req, res) => {
 });
 
 module.exports = router;
-/*
-createCustom({
-          image: `${BASE_URL}/files/${filename}`,
-          lat,
-          lng,
-          comment,
-          type,
-          phone,
-        }).then(() => {
-          console.log('Successfully send response');
-          res.status(200).json({ message: 'Error occured' });
-        }).catch((err) => {
-          console.log('Error occured');
-          res.status(501).json(err);
-        })
-          .finally(() => console.log('Something went wrong'));
-*/
