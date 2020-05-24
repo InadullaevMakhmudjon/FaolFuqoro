@@ -50,7 +50,7 @@ module.exports = [
     image: 'https://img.icons8.com/plasticine/2x/user.png',
   },
   {
-    id: 7,
+    id: 8,
     name: 'Bill Gates',
     phone: '+998909647853',
     password: 'user',
