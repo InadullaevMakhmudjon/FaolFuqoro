@@ -33,7 +33,7 @@ router.post('/check', (req, res) => {
           if (exists) {
             res.status(200).json({ message: 'Successfully confirmed' });
           } else {
-            res.status(405).json({ status: 405, message: 'User is not registered yet' });
+            res.status(202).json({ status: 202 });
           }
         }).catch((err) => res.status(502).json(err));
       } else res.status(401).json({ message: 'Code is not confirmed' });
