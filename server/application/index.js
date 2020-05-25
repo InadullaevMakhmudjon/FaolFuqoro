@@ -21,7 +21,7 @@ router.post('/send', (req, res) => {
         }).then(() => res.sendStatus(200))
           .catch((err) => res.status(502).json(err));
       } else {
-        res.status(401).json({ message: 'User is not registered yet' });
+        res.status(405).json({ status: 405, message: 'User is not registered yet' });
       }
     }).catch((err) => res.status(502).json(err));
   } else res.sendStatus(403);
@@ -75,7 +75,6 @@ function createCustom({
 }
 
 router.post('/create-report', (req, res) => {
-   console.log(req.body);
   if (req.files) {
     const { file } = req.files;
     const {
@@ -98,6 +97,19 @@ router.post('/create-report', (req, res) => {
     });
   } else {
     res.status(403).json({ message: 'File broken' });
+  }
+});
+
+router.post('/sign-up', (req, res) => {
+  const { phone, name } = req.query;
+  if (phone && name) {
+    prisma.createPeople({
+      image: 'https://img.icons8.com/officel/2x/user.png',
+      name,
+      phone,
+      password: '1234',
+    }, '{ id }').then(() => res.sendStatus(200))
+      .catch((err) => res.status(502).json(err));
   }
 });
 
