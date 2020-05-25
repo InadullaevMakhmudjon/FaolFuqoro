@@ -107,7 +107,7 @@ router.post('/sign-up', (req, res) => {
     prisma.createPeople({
       image: 'https://img.icons8.com/officel/2x/user.png',
       name,
-      phone,
+      phone: `+${phone}`,
       password: '1234',
     }, '{ id }').then(() => res.sendStatus(200))
       .catch((err) => res.status(502).json(err));
