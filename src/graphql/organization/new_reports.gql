@@ -4,7 +4,7 @@ query ($id: ID){
       {status: { id: 2 }},
       {comments_some: { to: { id: $id } }}
     ]
-  }) {
+  } orderBy: createdAt_DESC) {
     id
     lat
     lng

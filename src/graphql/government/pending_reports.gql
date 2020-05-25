@@ -6,7 +6,7 @@ query {
         { id_not: 4 }
       ]
     }
-  }) {
+  } orderBy: createdAt_DESC) {
     id
     lat
     lng

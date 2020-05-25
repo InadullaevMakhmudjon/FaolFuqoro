@@ -32,7 +32,7 @@
         v-col(v-if="type === 0" v-for="(card, i) in cards" :key="i" cols="4").text-center
           .title {{ card.title }}
           Report(
-            v-for="(item, index) in card.items"
+            v-for="(item, index) in card.items.slice(0, 3)"
             :key="index"
             :report="item"
             @click="report = $event"

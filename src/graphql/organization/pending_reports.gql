@@ -3,7 +3,7 @@ query {
     status: {
       id: 3
     }
-  }) {
+  } orderBy: createdAt_DESC) {
     id
     lat
     lng
