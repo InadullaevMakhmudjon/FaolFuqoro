@@ -77,6 +77,7 @@ function createCustom({
 
 router.post('/create-report', (req, res) => {
   if (req.files) {
+    console.log('Files');
     const { file } = req.files;
     const {
       lat, lng, comment, type, phone,
