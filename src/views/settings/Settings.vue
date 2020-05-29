@@ -36,7 +36,7 @@ export default {
           caption: `Total: ${this.operatorsCount}`,
           icon: 'people_alt',
           path: { name: 'Operators', params: { orgId: this.$store.state.user.id } },
-          v: ['1', '2'].includes(this.$store.state.user.role.id),
+          v: ['1'].includes(this.$store.state.user.role.id),
         },
         {
           name: 'Employees',
