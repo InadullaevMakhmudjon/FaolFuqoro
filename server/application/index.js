@@ -117,9 +117,12 @@ router.post('/sign-up', (req, res) => {
 
 router.get('/counts', async (req, res) => {
   try {
-    const reviewed /* { aggregate: { count: reviewed } } */ = await prisma.reportsConnection({ where: { status: { id_not: 4 } } }).aggregate().count(); // Ko'rib chiqilgan
-    const closed /* { aggregate: { count: closed } } */ = await prisma.reportsConnection({ where: { status: { id: 4 } } }).aggregate().count(); // Yopilganlar
-    const all /* { aggregate: { count: all } } */ = await prisma.reportsConnection().aggregate().count(); // Xammasi
+    const reviewed = await prisma.reportsConnection({ where: { status: { id_not: 4 } } })
+      .aggregate().count(); // Ko'rib chiqilgan
+    const closed = await prisma.reportsConnection({ where: { status: { id: 4 } } })
+      .aggregate().count(); // Yopilganlar
+    const all = await prisma.reportsConnection()
+      .aggregate().count(); // Xammasi
     const rejected = 0;
     res.status(200).json({
       reviewed,
