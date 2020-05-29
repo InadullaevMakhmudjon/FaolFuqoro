@@ -76,7 +76,7 @@ export default {
           name: 'Sozlamar',
           path: 'Settings',
           icon: 'settings',
-          v: ['1', '3'].includes(this.$store.state.user.role.id),
+          v: ['1', '2', '3'].includes(this.$store.state.user.role.id),
         },
       ];
     },

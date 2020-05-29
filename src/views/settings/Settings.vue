@@ -29,14 +29,14 @@ export default {
           caption: `Total: ${this.organizationsCount}`,
           icon: 'domain',
           path: { name: 'Organizations' },
-          v: this.$store.state.user.role.id == '1',
+          v: ['1', '2'].includes(this.$store.state.user.role.id),
         },
         {
           name: 'Operators',
           caption: `Total: ${this.operatorsCount}`,
           icon: 'people_alt',
           path: { name: 'Operators', params: { orgId: this.$store.state.user.id } },
-          v: this.$store.state.user.role.id == '1',
+          v: ['1', '2'].includes(this.$store.state.user.role.id),
         },
         {
           name: 'Employees',
