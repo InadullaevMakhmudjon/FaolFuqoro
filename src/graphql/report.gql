@@ -6,29 +6,28 @@ query ($id: Int!){
     lat
     lng
     image
-    status{
-      id
-      name
-    }
     creator{
       name
       phone
       image
     }
-    comments {
+    comments(orderBy: createdAt_DESC){
       comment
       status{
         id
         name
       }
-      to{
-        name
-        image
-        role{
-          name
-        }
-      }
+      createdAt
     }
+    status{
+      id
+      name
+    }
+    type{
+      id
+      name
+    }
+    deadline
     createdAt
   }
 }
