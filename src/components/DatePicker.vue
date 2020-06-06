@@ -1,6 +1,6 @@
 <template lang="pug">
     v-menu(
-        v-model="value"
+        v-model="isOpen"
         transition="scale-transition"
         offset-y
         max-width="290px"
@@ -28,6 +28,14 @@ export default {
     return {
       date: (new Date()).toISOString().substr(0, 10),
     };
+  },
+  computed: {
+    isOpen: {
+      get() {
+        return this.value;
+      },
+      set() {},
+    },
   },
   watch: {
     date(value) {
