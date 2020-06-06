@@ -12,8 +12,13 @@ query ($id: Int!){
       image
     }
     comments(orderBy: createdAt_DESC){
+      id
       comment
       status{
+        id
+        name
+      }
+      to{
         id
         name
       }

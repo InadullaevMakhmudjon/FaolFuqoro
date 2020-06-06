@@ -16,7 +16,7 @@
             :items="selectItems.items"
             :label="selectItems.title"
           )
-          DatePicker(v-if="condition" @date="date = $event" v-model="openDate")
+          date-picker(v-if="condition" @date="date = $event" v-model="openDate")
           v-textarea(solo label="Izoh" v-model="commentText")
           v-btn(outlined @click="delegate") Topshirish
      v-btn(
@@ -28,28 +28,7 @@
       ).white--text.ma-2 {{ button.name }}
      v-row
         v-col(cols="4" ).paper-background
-          div(style="background: white; overflow: hidden; border-radius: 5px")
-            div(:style="`background-image: url('${report.image}')`").custom-container
-            div(style="padding: 8px")
-              v-row
-                v-col(cols="4")
-                  div(style="display: flex; align-items: center; justify-content: center; height: 100%")
-                    img(style="width: 100px; height: 100px" :src="reportDetails.creatorImage")
-                v-col(cols="8")
-                  div(style="display: flex; flex-direction: column")
-                    span {{ `Nomer: ${reportDetails.number}` }}
-                    span {{ `Kimdan: ${reportDetails.creatorName}` }}
-                    span {{ `Telifon: ${reportDetails.creatorPhone}` }}
-                    span {{ `Vaqti: ${reportDetails.reportDate}` }}
-                    span {{ `Gacha: ${reportDetails.reportDeadline}` }}
-          v-row.pa-2
-            div(
-              v-for="(item, index) in reportDetails.comments"
-              :style="`background: ${index === 0 ? 'lightgreen' : 'lightblue'}`"
-            ).custom-comment
-              h4.text-center {{ `${item.status} - ${item.date}` }}
-              span {{ item.comment }}
-
+          report-details(:report="report")
 </template>
 <script>
 import REPORT from '@/graphql/report.gql';
@@ -61,7 +40,7 @@ import DELEGATETOEMPLOYEE from '@/graphql/DelegateToEmployee.gql';
 import FINISHREPORT from '@/graphql/FinishReport.gql';
 import * as types from '@/utils/status';
 import DatePicker from '@/components/DatePicker.vue';
-import moment from 'moment';
+import ReportComponent from '@/components/report/ReportDetails.vue';
 
 export default {
   data() {
@@ -86,21 +65,6 @@ export default {
     };
   },
   computed: {
-    reportDetails() {
-      if (this.report) {
-        console.log(this.report);
-        return {
-          number: this.report.id,
-          reportDate: moment(this.report.createdAt).format('DD-MM-YYYY HH:MM'),
-          reportDeadline: this.report.deadline ? moment(this.report.deadline).format('DD-MM-YYYY HH:MM') : '-',
-          creatorImage: this.report.creator.image || 'https://clubsports.gcu.edu/wp-content/uploads/Coach-Avator.png',
-          creatorPhone: this.report.creator.phone,
-          creatorName: this.report.creator.name,
-          comments: this.report.comments.map(({ comment, createdAt, status }) => ({ comment, status: status.name, date: moment(createdAt).format('DD-MM-YYYY') })),
-        };
-      }
-      return {};
-    },
     condition() {
       return ['1', '2'].includes(this.$getRole());
     },
@@ -140,7 +104,7 @@ export default {
       }
     },
     buttons() {
-      return [
+      const something = [
         {
           name: 'Orqaga',
           show: true,
@@ -159,6 +123,8 @@ export default {
           callBack: () => { this.open = true; },
           color: 'green',
         },
+      ];
+      return [
         {
           name: 'Bajarildi',
           show: this.$isEmployee(),
@@ -199,7 +165,8 @@ export default {
     },
   },
   components: {
-    DatePicker,
+    'date-picker': DatePicker,
+    'report-details': ReportComponent,
   },
   mounted() {
     const { id } = this.$route.params;
@@ -234,21 +201,6 @@ export default {
     top: 0px;
     right: 0;
     z-index: 0;
-  }
-  .custom-comment {
-    width: 100%;
-    min-height: 100px;
-    padding-left: 25px;
-    padding-bottom: 10px;
-    padding-right: 10px;
-    border-bottom-left-radius: 65px;
-    margin: 5px;
-    text-align: center;
-    background: lightblue;
-    box-shadow: 0 -15px 15px rgba(255, 255, 255, 0.05),
-                inset 0 -1px 1px rgba(255, 255, 255, 0.05),
-                0 15px 15px rgba(0, 0, 0, 0.3),
-                inset 0 1px 1px rgba(0, 0, 0, 0.3);
   }
   .paper-background {
     z-index: 1;
