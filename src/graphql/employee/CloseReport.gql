@@ -1,0 +1,22 @@
+mutation ($reportId: Int!, $closer: ID!, $toWhom: ID!, $comment: String!, $image: String!){
+  updateReport(data: {
+    status: { connect: { id: "4"} }
+    closer: {
+      create: {
+        image: $image
+        user: { connect: { id: $closer} }
+      }
+    }
+    comments: {
+      create: {
+        comment: $comment
+        status: { connect: { id: "4" } }
+        to: {
+          connect: { id: $toWhom }
+        }        
+      }
+    }
+  } where: { id: $reportId }) {
+    id
+  }
+}

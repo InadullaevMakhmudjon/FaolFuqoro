@@ -18,5 +18,8 @@ query ($username: String!, $password: String!) {
       id
       name
     }
+    manager{
+      id
+    }
   }
 }
