@@ -4,12 +4,10 @@
       v-col(cols="4")
         v-text-field(v-model="image" outlined placeholder="Image Link")
         v-textarea(outlined placeholder="Comment text" v-model="comment")
-        v-select(v-model="type" :items="types" dense label="types" item-text="name" item-value="id")
         GmapMap(
           :options="map.options"
           :center="map.center"
           :zoom="zoom"
-          @click="clicked"
           style="width: 100%; height: 400px"
         )
           GmapMarker(:position="{ lat, lng }")
@@ -18,24 +16,27 @@
         img(:src="image")
 </template>
 <script>
-import CREATEREPORT from '@/graphql/CreateReport.gql';
-import REPORTTYPES from '@/graphql/ReportTypes.gql';
+import CREATEREPORT from '@/graphql/employee/CloseReport.gql';
+import REPORT from '@/graphql/report.gql';
 
 export default {
   name: 'CreateReport',
   data() {
     return {
+      report: {},
       image: '',
       comment: '',
-      lat: 41.311081,
-      lng: 69.240562,
       zoom: 11,
-      types: [],
-      type: null,
-      map: {
+    };
+  },
+  computed: {
+    lat() { return this.report.lat || 0; },
+    lng() { return this.report.lng || 0; },
+    map() {
+      return {
         center: {
-          lat: 41.311081,
-          lng: 69.240562,
+          lat: this.lat,
+          lng: this.lng,
         },
         options: {
           zoomControl: true,
@@ -46,41 +47,30 @@ export default {
           fullscreenControl: true,
           disableDefaultUI: false,
         },
-      },
-    };
-  },
-  apollo: {
-    types: {
-      query: REPORTTYPES,
-      update: (data) => data.reportTypes,
-    },
-  },
-  watch: {
-    type(value) {
-      console.log(value);
+      };
     },
   },
   methods: {
-    clicked(value) {
-      this.lat = value.latLng.lat();
-      this.lng = value.latLng.lng();
-    },
     submit() {
       if (!this.image) return;
       if (!this.comment) return;
-      if (!this.type) return;
-      if (!this.date) return;
       this.$apollo.mutate({
         mutation: CREATEREPORT,
         variables: {
-          image: this.image,
-          lat: this.lat,
-          lng: this.lng,
+          reportId: Number(this.report.id),
+          closer: this.$store.state.user.id,
+          toWhom: this.$store.state.user.manager.id,
           comment: this.comment,
-          type: this.type,
+          image: this.image,
         },
-      }).then(() => { window.location.reload(); });
+      }).then(() => { this.$router.push({ name: 'Reports' }); });
     },
+  },
+  mounted() {
+    this.$apollo.query({
+      query: REPORT,
+      variables: { id: this.$route.params.id },
+    }).then(({ data }) => { this.report = data.report; });
   },
 };
 </script>

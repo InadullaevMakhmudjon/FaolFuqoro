@@ -27,7 +27,7 @@
           v-col(cols="12").py-0
             report-comments(:report="report")
           v-col(cols="12").py-0
-            report-actions(:reject="reject" :finish="finish" :status="report.status" :delegate="() => { open = true }")
+            report-actions(:reject="reject" :SubmitVisible="!report.closer" :finish="finish" :status="report.status" :delegate="() => { open = true }")
 
 </template>
 <script>
@@ -37,7 +37,6 @@ import DELEGATETOEMPLOYEE from '@/graphql/DelegateToEmployee.gql';
 import DatePicker from '@/components/DatePicker.vue';
 import ORGS from '@/graphql/organizations.gql';
 import EMPLOYEES from '@/graphql/employees.gql';
-import FINISHREPORT from '@/graphql/FinishReport.gql';
 import Info from './PersonInfo.vue';
 import RerportInfo from './ReportInfo.vue';
 import Header from './Header.vue';
@@ -110,12 +109,17 @@ export default {
       });
     },
     finish() {
+      if (this.$isEmployee()) {
+        this.$router.push({ name: 'CreateReport', params: { id: this.report.id } });
+      }
+      /*
       this.$apollo.mutate({
         mutation: FINISHREPORT,
         variables: { id: this.report.id },
       }).then(() => {
         this.$router.push({ name: 'Reports', params: { reload: true } });
       });
+      */
     },
   },
   mounted() {

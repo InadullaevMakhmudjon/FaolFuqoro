@@ -3,7 +3,11 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregatePeople {
+/* GraphQL */ `type AggregateCloser {
+  count: Int!
+}
+
+type AggregatePeople {
   count: Int!
 }
 
@@ -35,11 +39,254 @@ type BatchPayload {
   count: Long!
 }
 
+type Closer {
+  id: ID!
+  image: String!
+  user: User!
+  report: Report!
+  createdAt: DateTime!
+}
+
+type CloserConnection {
+  pageInfo: PageInfo!
+  edges: [CloserEdge]!
+  aggregate: AggregateCloser!
+}
+
+input CloserCreateInput {
+  id: ID
+  image: String!
+  user: UserCreateOneWithoutClosedReportsInput!
+  report: ReportCreateOneWithoutCloserInput!
+}
+
+input CloserCreateManyWithoutUserInput {
+  create: [CloserCreateWithoutUserInput!]
+  connect: [CloserWhereUniqueInput!]
+}
+
+input CloserCreateOneWithoutReportInput {
+  create: CloserCreateWithoutReportInput
+  connect: CloserWhereUniqueInput
+}
+
+input CloserCreateWithoutReportInput {
+  id: ID
+  image: String!
+  user: UserCreateOneWithoutClosedReportsInput!
+}
+
+input CloserCreateWithoutUserInput {
+  id: ID
+  image: String!
+  report: ReportCreateOneWithoutCloserInput!
+}
+
+type CloserEdge {
+  node: Closer!
+  cursor: String!
+}
+
+enum CloserOrderByInput {
+  id_ASC
+  id_DESC
+  image_ASC
+  image_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type CloserPreviousValues {
+  id: ID!
+  image: String!
+  createdAt: DateTime!
+}
+
+input CloserScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  image: String
+  image_not: String
+  image_in: [String!]
+  image_not_in: [String!]
+  image_lt: String
+  image_lte: String
+  image_gt: String
+  image_gte: String
+  image_contains: String
+  image_not_contains: String
+  image_starts_with: String
+  image_not_starts_with: String
+  image_ends_with: String
+  image_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [CloserScalarWhereInput!]
+  OR: [CloserScalarWhereInput!]
+  NOT: [CloserScalarWhereInput!]
+}
+
+type CloserSubscriptionPayload {
+  mutation: MutationType!
+  node: Closer
+  updatedFields: [String!]
+  previousValues: CloserPreviousValues
+}
+
+input CloserSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: CloserWhereInput
+  AND: [CloserSubscriptionWhereInput!]
+  OR: [CloserSubscriptionWhereInput!]
+  NOT: [CloserSubscriptionWhereInput!]
+}
+
+input CloserUpdateInput {
+  image: String
+  user: UserUpdateOneRequiredWithoutClosedReportsInput
+  report: ReportUpdateOneRequiredWithoutCloserInput
+}
+
+input CloserUpdateManyDataInput {
+  image: String
+}
+
+input CloserUpdateManyMutationInput {
+  image: String
+}
+
+input CloserUpdateManyWithoutUserInput {
+  create: [CloserCreateWithoutUserInput!]
+  delete: [CloserWhereUniqueInput!]
+  connect: [CloserWhereUniqueInput!]
+  set: [CloserWhereUniqueInput!]
+  disconnect: [CloserWhereUniqueInput!]
+  update: [CloserUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [CloserUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [CloserScalarWhereInput!]
+  updateMany: [CloserUpdateManyWithWhereNestedInput!]
+}
+
+input CloserUpdateManyWithWhereNestedInput {
+  where: CloserScalarWhereInput!
+  data: CloserUpdateManyDataInput!
+}
+
+input CloserUpdateOneWithoutReportInput {
+  create: CloserCreateWithoutReportInput
+  update: CloserUpdateWithoutReportDataInput
+  upsert: CloserUpsertWithoutReportInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: CloserWhereUniqueInput
+}
+
+input CloserUpdateWithoutReportDataInput {
+  image: String
+  user: UserUpdateOneRequiredWithoutClosedReportsInput
+}
+
+input CloserUpdateWithoutUserDataInput {
+  image: String
+  report: ReportUpdateOneRequiredWithoutCloserInput
+}
+
+input CloserUpdateWithWhereUniqueWithoutUserInput {
+  where: CloserWhereUniqueInput!
+  data: CloserUpdateWithoutUserDataInput!
+}
+
+input CloserUpsertWithoutReportInput {
+  update: CloserUpdateWithoutReportDataInput!
+  create: CloserCreateWithoutReportInput!
+}
+
+input CloserUpsertWithWhereUniqueWithoutUserInput {
+  where: CloserWhereUniqueInput!
+  update: CloserUpdateWithoutUserDataInput!
+  create: CloserCreateWithoutUserInput!
+}
+
+input CloserWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  image: String
+  image_not: String
+  image_in: [String!]
+  image_not_in: [String!]
+  image_lt: String
+  image_lte: String
+  image_gt: String
+  image_gte: String
+  image_contains: String
+  image_not_contains: String
+  image_starts_with: String
+  image_not_starts_with: String
+  image_ends_with: String
+  image_not_ends_with: String
+  user: UserWhereInput
+  report: ReportWhereInput
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [CloserWhereInput!]
+  OR: [CloserWhereInput!]
+  NOT: [CloserWhereInput!]
+}
+
+input CloserWhereUniqueInput {
+  id: ID
+}
+
 scalar DateTime
 
 scalar Long
 
 type Mutation {
+  createCloser(data: CloserCreateInput!): Closer!
+  updateCloser(data: CloserUpdateInput!, where: CloserWhereUniqueInput!): Closer
+  updateManyClosers(data: CloserUpdateManyMutationInput!, where: CloserWhereInput): BatchPayload!
+  upsertCloser(where: CloserWhereUniqueInput!, create: CloserCreateInput!, update: CloserUpdateInput!): Closer!
+  deleteCloser(where: CloserWhereUniqueInput!): Closer
+  deleteManyClosers(where: CloserWhereInput): BatchPayload!
   createPeople(data: PeopleCreateInput!): People!
   updatePeople(data: PeopleUpdateInput!, where: PeopleWhereUniqueInput!): People
   updateManyPeoples(data: PeopleUpdateManyMutationInput!, where: PeopleWhereInput): BatchPayload!
@@ -301,6 +548,9 @@ input PeopleWhereUniqueInput {
 }
 
 type Query {
+  closer(where: CloserWhereUniqueInput!): Closer
+  closers(where: CloserWhereInput, orderBy: CloserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Closer]!
+  closersConnection(where: CloserWhereInput, orderBy: CloserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CloserConnection!
   people(where: PeopleWhereUniqueInput!): People
   peoples(where: PeopleWhereInput, orderBy: PeopleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [People]!
   peoplesConnection(where: PeopleWhereInput, orderBy: PeopleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PeopleConnection!
@@ -331,6 +581,7 @@ type Report {
   lat: Float!
   lng: Float!
   creator: People!
+  closer: Closer
   comments(where: ReportCommentWhereInput, orderBy: ReportCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ReportComment!]
   status: Status!
   type: ReportType!
@@ -603,6 +854,7 @@ input ReportCreateInput {
   lat: Float!
   lng: Float!
   creator: PeopleCreateOneWithoutReportsInput!
+  closer: CloserCreateOneWithoutReportInput
   comments: ReportCommentCreateManyWithoutReportInput
   status: StatusCreateOneInput!
   type: ReportTypeCreateOneInput!
@@ -614,9 +866,25 @@ input ReportCreateManyWithoutCreatorInput {
   connect: [ReportWhereUniqueInput!]
 }
 
+input ReportCreateOneWithoutCloserInput {
+  create: ReportCreateWithoutCloserInput
+  connect: ReportWhereUniqueInput
+}
+
 input ReportCreateOneWithoutCommentsInput {
   create: ReportCreateWithoutCommentsInput
   connect: ReportWhereUniqueInput
+}
+
+input ReportCreateWithoutCloserInput {
+  image: String!
+  lat: Float!
+  lng: Float!
+  creator: PeopleCreateOneWithoutReportsInput!
+  comments: ReportCommentCreateManyWithoutReportInput
+  status: StatusCreateOneInput!
+  type: ReportTypeCreateOneInput!
+  deadline: DateTime
 }
 
 input ReportCreateWithoutCommentsInput {
@@ -624,6 +892,7 @@ input ReportCreateWithoutCommentsInput {
   lat: Float!
   lng: Float!
   creator: PeopleCreateOneWithoutReportsInput!
+  closer: CloserCreateOneWithoutReportInput
   status: StatusCreateOneInput!
   type: ReportTypeCreateOneInput!
   deadline: DateTime
@@ -633,6 +902,7 @@ input ReportCreateWithoutCreatorInput {
   image: String!
   lat: Float!
   lng: Float!
+  closer: CloserCreateOneWithoutReportInput
   comments: ReportCommentCreateManyWithoutReportInput
   status: StatusCreateOneInput!
   type: ReportTypeCreateOneInput!
@@ -869,6 +1139,7 @@ input ReportUpdateInput {
   lat: Float
   lng: Float
   creator: PeopleUpdateOneRequiredWithoutReportsInput
+  closer: CloserUpdateOneWithoutReportInput
   comments: ReportCommentUpdateManyWithoutReportInput
   status: StatusUpdateOneRequiredInput
   type: ReportTypeUpdateOneRequiredInput
@@ -906,6 +1177,13 @@ input ReportUpdateManyWithWhereNestedInput {
   data: ReportUpdateManyDataInput!
 }
 
+input ReportUpdateOneRequiredWithoutCloserInput {
+  create: ReportCreateWithoutCloserInput
+  update: ReportUpdateWithoutCloserDataInput
+  upsert: ReportUpsertWithoutCloserInput
+  connect: ReportWhereUniqueInput
+}
+
 input ReportUpdateOneRequiredWithoutCommentsInput {
   create: ReportCreateWithoutCommentsInput
   update: ReportUpdateWithoutCommentsDataInput
@@ -913,11 +1191,23 @@ input ReportUpdateOneRequiredWithoutCommentsInput {
   connect: ReportWhereUniqueInput
 }
 
+input ReportUpdateWithoutCloserDataInput {
+  image: String
+  lat: Float
+  lng: Float
+  creator: PeopleUpdateOneRequiredWithoutReportsInput
+  comments: ReportCommentUpdateManyWithoutReportInput
+  status: StatusUpdateOneRequiredInput
+  type: ReportTypeUpdateOneRequiredInput
+  deadline: DateTime
+}
+
 input ReportUpdateWithoutCommentsDataInput {
   image: String
   lat: Float
   lng: Float
   creator: PeopleUpdateOneRequiredWithoutReportsInput
+  closer: CloserUpdateOneWithoutReportInput
   status: StatusUpdateOneRequiredInput
   type: ReportTypeUpdateOneRequiredInput
   deadline: DateTime
@@ -927,6 +1217,7 @@ input ReportUpdateWithoutCreatorDataInput {
   image: String
   lat: Float
   lng: Float
+  closer: CloserUpdateOneWithoutReportInput
   comments: ReportCommentUpdateManyWithoutReportInput
   status: StatusUpdateOneRequiredInput
   type: ReportTypeUpdateOneRequiredInput
@@ -936,6 +1227,11 @@ input ReportUpdateWithoutCreatorDataInput {
 input ReportUpdateWithWhereUniqueWithoutCreatorInput {
   where: ReportWhereUniqueInput!
   data: ReportUpdateWithoutCreatorDataInput!
+}
+
+input ReportUpsertWithoutCloserInput {
+  update: ReportUpdateWithoutCloserDataInput!
+  create: ReportCreateWithoutCloserInput!
 }
 
 input ReportUpsertWithoutCommentsInput {
@@ -989,6 +1285,7 @@ input ReportWhereInput {
   lng_gt: Float
   lng_gte: Float
   creator: PeopleWhereInput
+  closer: CloserWhereInput
   comments_every: ReportCommentWhereInput
   comments_some: ReportCommentWhereInput
   comments_none: ReportCommentWhereInput
@@ -1256,6 +1553,7 @@ input StatusWhereUniqueInput {
 }
 
 type Subscription {
+  closer(where: CloserSubscriptionWhereInput): CloserSubscriptionPayload
   people(where: PeopleSubscriptionWhereInput): PeopleSubscriptionPayload
   report(where: ReportSubscriptionWhereInput): ReportSubscriptionPayload
   reportComment(where: ReportCommentSubscriptionWhereInput): ReportCommentSubscriptionPayload
@@ -1273,9 +1571,10 @@ type User {
   password: String!
   image: String!
   role: Role!
-  reports(where: ReportCommentWhereInput, orderBy: ReportCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ReportComment!]
   employees(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   manager: User
+  reports(where: ReportCommentWhereInput, orderBy: ReportCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ReportComment!]
+  closedReports(where: CloserWhereInput, orderBy: CloserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Closer!]
 }
 
 type UserConnection {
@@ -1292,14 +1591,20 @@ input UserCreateInput {
   password: String!
   image: String!
   role: RoleCreateOneInput!
-  reports: ReportCommentCreateManyWithoutToInput
   employees: UserCreateManyWithoutManagerInput
   manager: UserCreateOneWithoutEmployeesInput
+  reports: ReportCommentCreateManyWithoutToInput
+  closedReports: CloserCreateManyWithoutUserInput
 }
 
 input UserCreateManyWithoutManagerInput {
   create: [UserCreateWithoutManagerInput!]
   connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateOneWithoutClosedReportsInput {
+  create: UserCreateWithoutClosedReportsInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutEmployeesInput {
@@ -1312,6 +1617,19 @@ input UserCreateOneWithoutReportsInput {
   connect: UserWhereUniqueInput
 }
 
+input UserCreateWithoutClosedReportsInput {
+  id: ID
+  name: String!
+  phone: String!
+  username: String!
+  password: String!
+  image: String!
+  role: RoleCreateOneInput!
+  employees: UserCreateManyWithoutManagerInput
+  manager: UserCreateOneWithoutEmployeesInput
+  reports: ReportCommentCreateManyWithoutToInput
+}
+
 input UserCreateWithoutEmployeesInput {
   id: ID
   name: String!
@@ -1320,8 +1638,9 @@ input UserCreateWithoutEmployeesInput {
   password: String!
   image: String!
   role: RoleCreateOneInput!
-  reports: ReportCommentCreateManyWithoutToInput
   manager: UserCreateOneWithoutEmployeesInput
+  reports: ReportCommentCreateManyWithoutToInput
+  closedReports: CloserCreateManyWithoutUserInput
 }
 
 input UserCreateWithoutManagerInput {
@@ -1332,8 +1651,9 @@ input UserCreateWithoutManagerInput {
   password: String!
   image: String!
   role: RoleCreateOneInput!
-  reports: ReportCommentCreateManyWithoutToInput
   employees: UserCreateManyWithoutManagerInput
+  reports: ReportCommentCreateManyWithoutToInput
+  closedReports: CloserCreateManyWithoutUserInput
 }
 
 input UserCreateWithoutReportsInput {
@@ -1346,6 +1666,7 @@ input UserCreateWithoutReportsInput {
   role: RoleCreateOneInput!
   employees: UserCreateManyWithoutManagerInput
   manager: UserCreateOneWithoutEmployeesInput
+  closedReports: CloserCreateManyWithoutUserInput
 }
 
 type UserEdge {
@@ -1492,9 +1813,10 @@ input UserUpdateInput {
   password: String
   image: String
   role: RoleUpdateOneRequiredInput
-  reports: ReportCommentUpdateManyWithoutToInput
   employees: UserUpdateManyWithoutManagerInput
   manager: UserUpdateOneWithoutEmployeesInput
+  reports: ReportCommentUpdateManyWithoutToInput
+  closedReports: CloserUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyDataInput {
@@ -1530,6 +1852,13 @@ input UserUpdateManyWithWhereNestedInput {
   data: UserUpdateManyDataInput!
 }
 
+input UserUpdateOneRequiredWithoutClosedReportsInput {
+  create: UserCreateWithoutClosedReportsInput
+  update: UserUpdateWithoutClosedReportsDataInput
+  upsert: UserUpsertWithoutClosedReportsInput
+  connect: UserWhereUniqueInput
+}
+
 input UserUpdateOneRequiredWithoutReportsInput {
   create: UserCreateWithoutReportsInput
   update: UserUpdateWithoutReportsDataInput
@@ -1546,6 +1875,18 @@ input UserUpdateOneWithoutEmployeesInput {
   connect: UserWhereUniqueInput
 }
 
+input UserUpdateWithoutClosedReportsDataInput {
+  name: String
+  phone: String
+  username: String
+  password: String
+  image: String
+  role: RoleUpdateOneRequiredInput
+  employees: UserUpdateManyWithoutManagerInput
+  manager: UserUpdateOneWithoutEmployeesInput
+  reports: ReportCommentUpdateManyWithoutToInput
+}
+
 input UserUpdateWithoutEmployeesDataInput {
   name: String
   phone: String
@@ -1553,8 +1894,9 @@ input UserUpdateWithoutEmployeesDataInput {
   password: String
   image: String
   role: RoleUpdateOneRequiredInput
-  reports: ReportCommentUpdateManyWithoutToInput
   manager: UserUpdateOneWithoutEmployeesInput
+  reports: ReportCommentUpdateManyWithoutToInput
+  closedReports: CloserUpdateManyWithoutUserInput
 }
 
 input UserUpdateWithoutManagerDataInput {
@@ -1564,8 +1906,9 @@ input UserUpdateWithoutManagerDataInput {
   password: String
   image: String
   role: RoleUpdateOneRequiredInput
-  reports: ReportCommentUpdateManyWithoutToInput
   employees: UserUpdateManyWithoutManagerInput
+  reports: ReportCommentUpdateManyWithoutToInput
+  closedReports: CloserUpdateManyWithoutUserInput
 }
 
 input UserUpdateWithoutReportsDataInput {
@@ -1577,11 +1920,17 @@ input UserUpdateWithoutReportsDataInput {
   role: RoleUpdateOneRequiredInput
   employees: UserUpdateManyWithoutManagerInput
   manager: UserUpdateOneWithoutEmployeesInput
+  closedReports: CloserUpdateManyWithoutUserInput
 }
 
 input UserUpdateWithWhereUniqueWithoutManagerInput {
   where: UserWhereUniqueInput!
   data: UserUpdateWithoutManagerDataInput!
+}
+
+input UserUpsertWithoutClosedReportsInput {
+  update: UserUpdateWithoutClosedReportsDataInput!
+  create: UserCreateWithoutClosedReportsInput!
 }
 
 input UserUpsertWithoutEmployeesInput {
@@ -1686,13 +2035,16 @@ input UserWhereInput {
   image_ends_with: String
   image_not_ends_with: String
   role: RoleWhereInput
-  reports_every: ReportCommentWhereInput
-  reports_some: ReportCommentWhereInput
-  reports_none: ReportCommentWhereInput
   employees_every: UserWhereInput
   employees_some: UserWhereInput
   employees_none: UserWhereInput
   manager: UserWhereInput
+  reports_every: ReportCommentWhereInput
+  reports_some: ReportCommentWhereInput
+  reports_none: ReportCommentWhereInput
+  closedReports_every: CloserWhereInput
+  closedReports_some: CloserWhereInput
+  closedReports_none: CloserWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

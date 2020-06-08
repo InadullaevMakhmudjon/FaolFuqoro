@@ -123,8 +123,6 @@ export default {
           callBack: () => { this.open = true; },
           color: 'green',
         },
-      ];
-      return [
         {
           name: 'Bajarildi',
           show: this.$isEmployee(),
@@ -132,6 +130,7 @@ export default {
           color: 'green',
         },
       ];
+      return [];
     },
   },
   methods: {

@@ -16,6 +16,7 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
+  closer: (where?: CloserWhereInput) => Promise<boolean>;
   people: (where?: PeopleWhereInput) => Promise<boolean>;
   report: (where?: ReportWhereInput) => Promise<boolean>;
   reportComment: (where?: ReportCommentWhereInput) => Promise<boolean>;
@@ -44,6 +45,25 @@ export interface Prisma {
    * Queries
    */
 
+  closer: (where: CloserWhereUniqueInput) => CloserNullablePromise;
+  closers: (args?: {
+    where?: CloserWhereInput;
+    orderBy?: CloserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Closer>;
+  closersConnection: (args?: {
+    where?: CloserWhereInput;
+    orderBy?: CloserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => CloserConnectionPromise;
   people: (where: PeopleWhereUniqueInput) => PeopleNullablePromise;
   peoples: (args?: {
     where?: PeopleWhereInput;
@@ -185,6 +205,22 @@ export interface Prisma {
    * Mutations
    */
 
+  createCloser: (data: CloserCreateInput) => CloserPromise;
+  updateCloser: (args: {
+    data: CloserUpdateInput;
+    where: CloserWhereUniqueInput;
+  }) => CloserPromise;
+  updateManyClosers: (args: {
+    data: CloserUpdateManyMutationInput;
+    where?: CloserWhereInput;
+  }) => BatchPayloadPromise;
+  upsertCloser: (args: {
+    where: CloserWhereUniqueInput;
+    create: CloserCreateInput;
+    update: CloserUpdateInput;
+  }) => CloserPromise;
+  deleteCloser: (where: CloserWhereUniqueInput) => CloserPromise;
+  deleteManyClosers: (where?: CloserWhereInput) => BatchPayloadPromise;
   createPeople: (data: PeopleCreateInput) => PeoplePromise;
   updatePeople: (args: {
     data: PeopleUpdateInput;
@@ -310,6 +346,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  closer: (
+    where?: CloserSubscriptionWhereInput
+  ) => CloserSubscriptionPayloadSubscription;
   people: (
     where?: PeopleSubscriptionWhereInput
   ) => PeopleSubscriptionPayloadSubscription;
@@ -341,6 +380,28 @@ export interface ClientConstructor<T> {
  * Types
  */
 
+export type UserOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "phone_ASC"
+  | "phone_DESC"
+  | "username_ASC"
+  | "username_DESC"
+  | "password_ASC"
+  | "password_DESC"
+  | "image_ASC"
+  | "image_DESC";
+
+export type ReportCommentOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "comment_ASC"
+  | "comment_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC";
+
 export type ReportOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -355,27 +416,13 @@ export type ReportOrderByInput =
   | "createdAt_ASC"
   | "createdAt_DESC";
 
-export type ReportCommentOrderByInput =
+export type CloserOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "comment_ASC"
-  | "comment_DESC"
+  | "image_ASC"
+  | "image_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC";
-
-export type UserOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "name_ASC"
-  | "name_DESC"
-  | "phone_ASC"
-  | "phone_DESC"
-  | "username_ASC"
-  | "username_DESC"
-  | "password_ASC"
-  | "password_DESC"
-  | "image_ASC"
-  | "image_DESC";
 
 export type PeopleOrderByInput =
   | "id_ASC"
@@ -405,10 +452,223 @@ export type StatusOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export type PeopleWhereUniqueInput = AtLeastOne<{
+export type CloserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
-  phone?: Maybe<String>;
 }>;
+
+export interface UserWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  phone?: Maybe<String>;
+  phone_not?: Maybe<String>;
+  phone_in?: Maybe<String[] | String>;
+  phone_not_in?: Maybe<String[] | String>;
+  phone_lt?: Maybe<String>;
+  phone_lte?: Maybe<String>;
+  phone_gt?: Maybe<String>;
+  phone_gte?: Maybe<String>;
+  phone_contains?: Maybe<String>;
+  phone_not_contains?: Maybe<String>;
+  phone_starts_with?: Maybe<String>;
+  phone_not_starts_with?: Maybe<String>;
+  phone_ends_with?: Maybe<String>;
+  phone_not_ends_with?: Maybe<String>;
+  username?: Maybe<String>;
+  username_not?: Maybe<String>;
+  username_in?: Maybe<String[] | String>;
+  username_not_in?: Maybe<String[] | String>;
+  username_lt?: Maybe<String>;
+  username_lte?: Maybe<String>;
+  username_gt?: Maybe<String>;
+  username_gte?: Maybe<String>;
+  username_contains?: Maybe<String>;
+  username_not_contains?: Maybe<String>;
+  username_starts_with?: Maybe<String>;
+  username_not_starts_with?: Maybe<String>;
+  username_ends_with?: Maybe<String>;
+  username_not_ends_with?: Maybe<String>;
+  password?: Maybe<String>;
+  password_not?: Maybe<String>;
+  password_in?: Maybe<String[] | String>;
+  password_not_in?: Maybe<String[] | String>;
+  password_lt?: Maybe<String>;
+  password_lte?: Maybe<String>;
+  password_gt?: Maybe<String>;
+  password_gte?: Maybe<String>;
+  password_contains?: Maybe<String>;
+  password_not_contains?: Maybe<String>;
+  password_starts_with?: Maybe<String>;
+  password_not_starts_with?: Maybe<String>;
+  password_ends_with?: Maybe<String>;
+  password_not_ends_with?: Maybe<String>;
+  image?: Maybe<String>;
+  image_not?: Maybe<String>;
+  image_in?: Maybe<String[] | String>;
+  image_not_in?: Maybe<String[] | String>;
+  image_lt?: Maybe<String>;
+  image_lte?: Maybe<String>;
+  image_gt?: Maybe<String>;
+  image_gte?: Maybe<String>;
+  image_contains?: Maybe<String>;
+  image_not_contains?: Maybe<String>;
+  image_starts_with?: Maybe<String>;
+  image_not_starts_with?: Maybe<String>;
+  image_ends_with?: Maybe<String>;
+  image_not_ends_with?: Maybe<String>;
+  role?: Maybe<RoleWhereInput>;
+  employees_every?: Maybe<UserWhereInput>;
+  employees_some?: Maybe<UserWhereInput>;
+  employees_none?: Maybe<UserWhereInput>;
+  manager?: Maybe<UserWhereInput>;
+  reports_every?: Maybe<ReportCommentWhereInput>;
+  reports_some?: Maybe<ReportCommentWhereInput>;
+  reports_none?: Maybe<ReportCommentWhereInput>;
+  closedReports_every?: Maybe<CloserWhereInput>;
+  closedReports_some?: Maybe<CloserWhereInput>;
+  closedReports_none?: Maybe<CloserWhereInput>;
+  AND?: Maybe<UserWhereInput[] | UserWhereInput>;
+  OR?: Maybe<UserWhereInput[] | UserWhereInput>;
+  NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
+}
+
+export interface RoleWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  AND?: Maybe<RoleWhereInput[] | RoleWhereInput>;
+  OR?: Maybe<RoleWhereInput[] | RoleWhereInput>;
+  NOT?: Maybe<RoleWhereInput[] | RoleWhereInput>;
+}
+
+export interface ReportCommentWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  comment?: Maybe<String>;
+  comment_not?: Maybe<String>;
+  comment_in?: Maybe<String[] | String>;
+  comment_not_in?: Maybe<String[] | String>;
+  comment_lt?: Maybe<String>;
+  comment_lte?: Maybe<String>;
+  comment_gt?: Maybe<String>;
+  comment_gte?: Maybe<String>;
+  comment_contains?: Maybe<String>;
+  comment_not_contains?: Maybe<String>;
+  comment_starts_with?: Maybe<String>;
+  comment_not_starts_with?: Maybe<String>;
+  comment_ends_with?: Maybe<String>;
+  comment_not_ends_with?: Maybe<String>;
+  status?: Maybe<StatusWhereInput>;
+  report?: Maybe<ReportWhereInput>;
+  to?: Maybe<UserWhereInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<ReportCommentWhereInput[] | ReportCommentWhereInput>;
+  OR?: Maybe<ReportCommentWhereInput[] | ReportCommentWhereInput>;
+  NOT?: Maybe<ReportCommentWhereInput[] | ReportCommentWhereInput>;
+}
+
+export interface StatusWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  AND?: Maybe<StatusWhereInput[] | StatusWhereInput>;
+  OR?: Maybe<StatusWhereInput[] | StatusWhereInput>;
+  NOT?: Maybe<StatusWhereInput[] | StatusWhereInput>;
+}
 
 export interface ReportWhereInput {
   id?: Maybe<Int>;
@@ -450,6 +710,7 @@ export interface ReportWhereInput {
   lng_gt?: Maybe<Float>;
   lng_gte?: Maybe<Float>;
   creator?: Maybe<PeopleWhereInput>;
+  closer?: Maybe<CloserWhereInput>;
   comments_every?: Maybe<ReportCommentWhereInput>;
   comments_some?: Maybe<ReportCommentWhereInput>;
   comments_none?: Maybe<ReportCommentWhereInput>;
@@ -555,7 +816,7 @@ export interface PeopleWhereInput {
   NOT?: Maybe<PeopleWhereInput[] | PeopleWhereInput>;
 }
 
-export interface ReportCommentWhereInput {
+export interface CloserWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -570,141 +831,6 @@ export interface ReportCommentWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  comment?: Maybe<String>;
-  comment_not?: Maybe<String>;
-  comment_in?: Maybe<String[] | String>;
-  comment_not_in?: Maybe<String[] | String>;
-  comment_lt?: Maybe<String>;
-  comment_lte?: Maybe<String>;
-  comment_gt?: Maybe<String>;
-  comment_gte?: Maybe<String>;
-  comment_contains?: Maybe<String>;
-  comment_not_contains?: Maybe<String>;
-  comment_starts_with?: Maybe<String>;
-  comment_not_starts_with?: Maybe<String>;
-  comment_ends_with?: Maybe<String>;
-  comment_not_ends_with?: Maybe<String>;
-  status?: Maybe<StatusWhereInput>;
-  report?: Maybe<ReportWhereInput>;
-  to?: Maybe<UserWhereInput>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<ReportCommentWhereInput[] | ReportCommentWhereInput>;
-  OR?: Maybe<ReportCommentWhereInput[] | ReportCommentWhereInput>;
-  NOT?: Maybe<ReportCommentWhereInput[] | ReportCommentWhereInput>;
-}
-
-export interface StatusWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  AND?: Maybe<StatusWhereInput[] | StatusWhereInput>;
-  OR?: Maybe<StatusWhereInput[] | StatusWhereInput>;
-  NOT?: Maybe<StatusWhereInput[] | StatusWhereInput>;
-}
-
-export interface UserWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  phone?: Maybe<String>;
-  phone_not?: Maybe<String>;
-  phone_in?: Maybe<String[] | String>;
-  phone_not_in?: Maybe<String[] | String>;
-  phone_lt?: Maybe<String>;
-  phone_lte?: Maybe<String>;
-  phone_gt?: Maybe<String>;
-  phone_gte?: Maybe<String>;
-  phone_contains?: Maybe<String>;
-  phone_not_contains?: Maybe<String>;
-  phone_starts_with?: Maybe<String>;
-  phone_not_starts_with?: Maybe<String>;
-  phone_ends_with?: Maybe<String>;
-  phone_not_ends_with?: Maybe<String>;
-  username?: Maybe<String>;
-  username_not?: Maybe<String>;
-  username_in?: Maybe<String[] | String>;
-  username_not_in?: Maybe<String[] | String>;
-  username_lt?: Maybe<String>;
-  username_lte?: Maybe<String>;
-  username_gt?: Maybe<String>;
-  username_gte?: Maybe<String>;
-  username_contains?: Maybe<String>;
-  username_not_contains?: Maybe<String>;
-  username_starts_with?: Maybe<String>;
-  username_not_starts_with?: Maybe<String>;
-  username_ends_with?: Maybe<String>;
-  username_not_ends_with?: Maybe<String>;
-  password?: Maybe<String>;
-  password_not?: Maybe<String>;
-  password_in?: Maybe<String[] | String>;
-  password_not_in?: Maybe<String[] | String>;
-  password_lt?: Maybe<String>;
-  password_lte?: Maybe<String>;
-  password_gt?: Maybe<String>;
-  password_gte?: Maybe<String>;
-  password_contains?: Maybe<String>;
-  password_not_contains?: Maybe<String>;
-  password_starts_with?: Maybe<String>;
-  password_not_starts_with?: Maybe<String>;
-  password_ends_with?: Maybe<String>;
-  password_not_ends_with?: Maybe<String>;
   image?: Maybe<String>;
   image_not?: Maybe<String>;
   image_in?: Maybe<String[] | String>;
@@ -719,51 +845,19 @@ export interface UserWhereInput {
   image_not_starts_with?: Maybe<String>;
   image_ends_with?: Maybe<String>;
   image_not_ends_with?: Maybe<String>;
-  role?: Maybe<RoleWhereInput>;
-  reports_every?: Maybe<ReportCommentWhereInput>;
-  reports_some?: Maybe<ReportCommentWhereInput>;
-  reports_none?: Maybe<ReportCommentWhereInput>;
-  employees_every?: Maybe<UserWhereInput>;
-  employees_some?: Maybe<UserWhereInput>;
-  employees_none?: Maybe<UserWhereInput>;
-  manager?: Maybe<UserWhereInput>;
-  AND?: Maybe<UserWhereInput[] | UserWhereInput>;
-  OR?: Maybe<UserWhereInput[] | UserWhereInput>;
-  NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
-}
-
-export interface RoleWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  AND?: Maybe<RoleWhereInput[] | RoleWhereInput>;
-  OR?: Maybe<RoleWhereInput[] | RoleWhereInput>;
-  NOT?: Maybe<RoleWhereInput[] | RoleWhereInput>;
+  user?: Maybe<UserWhereInput>;
+  report?: Maybe<ReportWhereInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<CloserWhereInput[] | CloserWhereInput>;
+  OR?: Maybe<CloserWhereInput[] | CloserWhereInput>;
+  NOT?: Maybe<CloserWhereInput[] | CloserWhereInput>;
 }
 
 export interface ReportTypeWhereInput {
@@ -800,6 +894,11 @@ export interface ReportTypeWhereInput {
   NOT?: Maybe<ReportTypeWhereInput[] | ReportTypeWhereInput>;
 }
 
+export type PeopleWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  phone?: Maybe<String>;
+}>;
+
 export type ReportWhereUniqueInput = AtLeastOne<{
   id: Maybe<Int>;
 }>;
@@ -824,65 +923,19 @@ export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface PeopleCreateInput {
+export interface CloserCreateInput {
   id?: Maybe<ID_Input>;
-  name: String;
-  phone: String;
-  password: String;
   image: String;
-  reports?: Maybe<ReportCreateManyWithoutCreatorInput>;
+  user: UserCreateOneWithoutClosedReportsInput;
+  report: ReportCreateOneWithoutCloserInput;
 }
 
-export interface ReportCreateManyWithoutCreatorInput {
-  create?: Maybe<
-    ReportCreateWithoutCreatorInput[] | ReportCreateWithoutCreatorInput
-  >;
-  connect?: Maybe<ReportWhereUniqueInput[] | ReportWhereUniqueInput>;
-}
-
-export interface ReportCreateWithoutCreatorInput {
-  image: String;
-  lat: Float;
-  lng: Float;
-  comments?: Maybe<ReportCommentCreateManyWithoutReportInput>;
-  status: StatusCreateOneInput;
-  type: ReportTypeCreateOneInput;
-  deadline?: Maybe<DateTimeInput>;
-}
-
-export interface ReportCommentCreateManyWithoutReportInput {
-  create?: Maybe<
-    | ReportCommentCreateWithoutReportInput[]
-    | ReportCommentCreateWithoutReportInput
-  >;
-  connect?: Maybe<
-    ReportCommentWhereUniqueInput[] | ReportCommentWhereUniqueInput
-  >;
-}
-
-export interface ReportCommentCreateWithoutReportInput {
-  id?: Maybe<ID_Input>;
-  comment?: Maybe<String>;
-  status: StatusCreateOneInput;
-  to: UserCreateOneWithoutReportsInput;
-}
-
-export interface StatusCreateOneInput {
-  create?: Maybe<StatusCreateInput>;
-  connect?: Maybe<StatusWhereUniqueInput>;
-}
-
-export interface StatusCreateInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-}
-
-export interface UserCreateOneWithoutReportsInput {
-  create?: Maybe<UserCreateWithoutReportsInput>;
+export interface UserCreateOneWithoutClosedReportsInput {
+  create?: Maybe<UserCreateWithoutClosedReportsInput>;
   connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface UserCreateWithoutReportsInput {
+export interface UserCreateWithoutClosedReportsInput {
   id?: Maybe<ID_Input>;
   name: String;
   phone: String;
@@ -892,6 +945,7 @@ export interface UserCreateWithoutReportsInput {
   role: RoleCreateOneInput;
   employees?: Maybe<UserCreateManyWithoutManagerInput>;
   manager?: Maybe<UserCreateOneWithoutEmployeesInput>;
+  reports?: Maybe<ReportCommentCreateManyWithoutToInput>;
 }
 
 export interface RoleCreateOneInput {
@@ -919,8 +973,9 @@ export interface UserCreateWithoutManagerInput {
   password: String;
   image: String;
   role: RoleCreateOneInput;
-  reports?: Maybe<ReportCommentCreateManyWithoutToInput>;
   employees?: Maybe<UserCreateManyWithoutManagerInput>;
+  reports?: Maybe<ReportCommentCreateManyWithoutToInput>;
+  closedReports?: Maybe<CloserCreateManyWithoutUserInput>;
 }
 
 export interface ReportCommentCreateManyWithoutToInput {
@@ -939,6 +994,16 @@ export interface ReportCommentCreateWithoutToInput {
   report: ReportCreateOneWithoutCommentsInput;
 }
 
+export interface StatusCreateOneInput {
+  create?: Maybe<StatusCreateInput>;
+  connect?: Maybe<StatusWhereUniqueInput>;
+}
+
+export interface StatusCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+}
+
 export interface ReportCreateOneWithoutCommentsInput {
   create?: Maybe<ReportCreateWithoutCommentsInput>;
   connect?: Maybe<ReportWhereUniqueInput>;
@@ -949,6 +1014,7 @@ export interface ReportCreateWithoutCommentsInput {
   lat: Float;
   lng: Float;
   creator: PeopleCreateOneWithoutReportsInput;
+  closer?: Maybe<CloserCreateOneWithoutReportInput>;
   status: StatusCreateOneInput;
   type: ReportTypeCreateOneInput;
   deadline?: Maybe<DateTimeInput>;
@@ -967,6 +1033,17 @@ export interface PeopleCreateWithoutReportsInput {
   image: String;
 }
 
+export interface CloserCreateOneWithoutReportInput {
+  create?: Maybe<CloserCreateWithoutReportInput>;
+  connect?: Maybe<CloserWhereUniqueInput>;
+}
+
+export interface CloserCreateWithoutReportInput {
+  id?: Maybe<ID_Input>;
+  image: String;
+  user: UserCreateOneWithoutClosedReportsInput;
+}
+
 export interface ReportTypeCreateOneInput {
   create?: Maybe<ReportTypeCreateInput>;
   connect?: Maybe<ReportTypeWhereUniqueInput>;
@@ -975,6 +1052,68 @@ export interface ReportTypeCreateOneInput {
 export interface ReportTypeCreateInput {
   id?: Maybe<ID_Input>;
   name: String;
+}
+
+export interface CloserCreateManyWithoutUserInput {
+  create?: Maybe<CloserCreateWithoutUserInput[] | CloserCreateWithoutUserInput>;
+  connect?: Maybe<CloserWhereUniqueInput[] | CloserWhereUniqueInput>;
+}
+
+export interface CloserCreateWithoutUserInput {
+  id?: Maybe<ID_Input>;
+  image: String;
+  report: ReportCreateOneWithoutCloserInput;
+}
+
+export interface ReportCreateOneWithoutCloserInput {
+  create?: Maybe<ReportCreateWithoutCloserInput>;
+  connect?: Maybe<ReportWhereUniqueInput>;
+}
+
+export interface ReportCreateWithoutCloserInput {
+  image: String;
+  lat: Float;
+  lng: Float;
+  creator: PeopleCreateOneWithoutReportsInput;
+  comments?: Maybe<ReportCommentCreateManyWithoutReportInput>;
+  status: StatusCreateOneInput;
+  type: ReportTypeCreateOneInput;
+  deadline?: Maybe<DateTimeInput>;
+}
+
+export interface ReportCommentCreateManyWithoutReportInput {
+  create?: Maybe<
+    | ReportCommentCreateWithoutReportInput[]
+    | ReportCommentCreateWithoutReportInput
+  >;
+  connect?: Maybe<
+    ReportCommentWhereUniqueInput[] | ReportCommentWhereUniqueInput
+  >;
+}
+
+export interface ReportCommentCreateWithoutReportInput {
+  id?: Maybe<ID_Input>;
+  comment?: Maybe<String>;
+  status: StatusCreateOneInput;
+  to: UserCreateOneWithoutReportsInput;
+}
+
+export interface UserCreateOneWithoutReportsInput {
+  create?: Maybe<UserCreateWithoutReportsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutReportsInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  phone: String;
+  username: String;
+  password: String;
+  image: String;
+  role: RoleCreateOneInput;
+  employees?: Maybe<UserCreateManyWithoutManagerInput>;
+  manager?: Maybe<UserCreateOneWithoutEmployeesInput>;
+  closedReports?: Maybe<CloserCreateManyWithoutUserInput>;
 }
 
 export interface UserCreateOneWithoutEmployeesInput {
@@ -990,123 +1129,25 @@ export interface UserCreateWithoutEmployeesInput {
   password: String;
   image: String;
   role: RoleCreateOneInput;
-  reports?: Maybe<ReportCommentCreateManyWithoutToInput>;
   manager?: Maybe<UserCreateOneWithoutEmployeesInput>;
+  reports?: Maybe<ReportCommentCreateManyWithoutToInput>;
+  closedReports?: Maybe<CloserCreateManyWithoutUserInput>;
 }
 
-export interface PeopleUpdateInput {
-  name?: Maybe<String>;
-  phone?: Maybe<String>;
-  password?: Maybe<String>;
+export interface CloserUpdateInput {
   image?: Maybe<String>;
-  reports?: Maybe<ReportUpdateManyWithoutCreatorInput>;
+  user?: Maybe<UserUpdateOneRequiredWithoutClosedReportsInput>;
+  report?: Maybe<ReportUpdateOneRequiredWithoutCloserInput>;
 }
 
-export interface ReportUpdateManyWithoutCreatorInput {
-  create?: Maybe<
-    ReportCreateWithoutCreatorInput[] | ReportCreateWithoutCreatorInput
-  >;
-  delete?: Maybe<ReportWhereUniqueInput[] | ReportWhereUniqueInput>;
-  connect?: Maybe<ReportWhereUniqueInput[] | ReportWhereUniqueInput>;
-  set?: Maybe<ReportWhereUniqueInput[] | ReportWhereUniqueInput>;
-  disconnect?: Maybe<ReportWhereUniqueInput[] | ReportWhereUniqueInput>;
-  update?: Maybe<
-    | ReportUpdateWithWhereUniqueWithoutCreatorInput[]
-    | ReportUpdateWithWhereUniqueWithoutCreatorInput
-  >;
-  upsert?: Maybe<
-    | ReportUpsertWithWhereUniqueWithoutCreatorInput[]
-    | ReportUpsertWithWhereUniqueWithoutCreatorInput
-  >;
-  deleteMany?: Maybe<ReportScalarWhereInput[] | ReportScalarWhereInput>;
-  updateMany?: Maybe<
-    | ReportUpdateManyWithWhereNestedInput[]
-    | ReportUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface ReportUpdateWithWhereUniqueWithoutCreatorInput {
-  where: ReportWhereUniqueInput;
-  data: ReportUpdateWithoutCreatorDataInput;
-}
-
-export interface ReportUpdateWithoutCreatorDataInput {
-  image?: Maybe<String>;
-  lat?: Maybe<Float>;
-  lng?: Maybe<Float>;
-  comments?: Maybe<ReportCommentUpdateManyWithoutReportInput>;
-  status?: Maybe<StatusUpdateOneRequiredInput>;
-  type?: Maybe<ReportTypeUpdateOneRequiredInput>;
-  deadline?: Maybe<DateTimeInput>;
-}
-
-export interface ReportCommentUpdateManyWithoutReportInput {
-  create?: Maybe<
-    | ReportCommentCreateWithoutReportInput[]
-    | ReportCommentCreateWithoutReportInput
-  >;
-  delete?: Maybe<
-    ReportCommentWhereUniqueInput[] | ReportCommentWhereUniqueInput
-  >;
-  connect?: Maybe<
-    ReportCommentWhereUniqueInput[] | ReportCommentWhereUniqueInput
-  >;
-  set?: Maybe<ReportCommentWhereUniqueInput[] | ReportCommentWhereUniqueInput>;
-  disconnect?: Maybe<
-    ReportCommentWhereUniqueInput[] | ReportCommentWhereUniqueInput
-  >;
-  update?: Maybe<
-    | ReportCommentUpdateWithWhereUniqueWithoutReportInput[]
-    | ReportCommentUpdateWithWhereUniqueWithoutReportInput
-  >;
-  upsert?: Maybe<
-    | ReportCommentUpsertWithWhereUniqueWithoutReportInput[]
-    | ReportCommentUpsertWithWhereUniqueWithoutReportInput
-  >;
-  deleteMany?: Maybe<
-    ReportCommentScalarWhereInput[] | ReportCommentScalarWhereInput
-  >;
-  updateMany?: Maybe<
-    | ReportCommentUpdateManyWithWhereNestedInput[]
-    | ReportCommentUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface ReportCommentUpdateWithWhereUniqueWithoutReportInput {
-  where: ReportCommentWhereUniqueInput;
-  data: ReportCommentUpdateWithoutReportDataInput;
-}
-
-export interface ReportCommentUpdateWithoutReportDataInput {
-  comment?: Maybe<String>;
-  status?: Maybe<StatusUpdateOneRequiredInput>;
-  to?: Maybe<UserUpdateOneRequiredWithoutReportsInput>;
-}
-
-export interface StatusUpdateOneRequiredInput {
-  create?: Maybe<StatusCreateInput>;
-  update?: Maybe<StatusUpdateDataInput>;
-  upsert?: Maybe<StatusUpsertNestedInput>;
-  connect?: Maybe<StatusWhereUniqueInput>;
-}
-
-export interface StatusUpdateDataInput {
-  name?: Maybe<String>;
-}
-
-export interface StatusUpsertNestedInput {
-  update: StatusUpdateDataInput;
-  create: StatusCreateInput;
-}
-
-export interface UserUpdateOneRequiredWithoutReportsInput {
-  create?: Maybe<UserCreateWithoutReportsInput>;
-  update?: Maybe<UserUpdateWithoutReportsDataInput>;
-  upsert?: Maybe<UserUpsertWithoutReportsInput>;
+export interface UserUpdateOneRequiredWithoutClosedReportsInput {
+  create?: Maybe<UserCreateWithoutClosedReportsInput>;
+  update?: Maybe<UserUpdateWithoutClosedReportsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutClosedReportsInput>;
   connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface UserUpdateWithoutReportsDataInput {
+export interface UserUpdateWithoutClosedReportsDataInput {
   name?: Maybe<String>;
   phone?: Maybe<String>;
   username?: Maybe<String>;
@@ -1115,6 +1156,7 @@ export interface UserUpdateWithoutReportsDataInput {
   role?: Maybe<RoleUpdateOneRequiredInput>;
   employees?: Maybe<UserUpdateManyWithoutManagerInput>;
   manager?: Maybe<UserUpdateOneWithoutEmployeesInput>;
+  reports?: Maybe<ReportCommentUpdateManyWithoutToInput>;
 }
 
 export interface RoleUpdateOneRequiredInput {
@@ -1167,8 +1209,9 @@ export interface UserUpdateWithoutManagerDataInput {
   password?: Maybe<String>;
   image?: Maybe<String>;
   role?: Maybe<RoleUpdateOneRequiredInput>;
-  reports?: Maybe<ReportCommentUpdateManyWithoutToInput>;
   employees?: Maybe<UserUpdateManyWithoutManagerInput>;
+  reports?: Maybe<ReportCommentUpdateManyWithoutToInput>;
+  closedReports?: Maybe<CloserUpdateManyWithoutUserInput>;
 }
 
 export interface ReportCommentUpdateManyWithoutToInput {
@@ -1213,6 +1256,22 @@ export interface ReportCommentUpdateWithoutToDataInput {
   report?: Maybe<ReportUpdateOneRequiredWithoutCommentsInput>;
 }
 
+export interface StatusUpdateOneRequiredInput {
+  create?: Maybe<StatusCreateInput>;
+  update?: Maybe<StatusUpdateDataInput>;
+  upsert?: Maybe<StatusUpsertNestedInput>;
+  connect?: Maybe<StatusWhereUniqueInput>;
+}
+
+export interface StatusUpdateDataInput {
+  name?: Maybe<String>;
+}
+
+export interface StatusUpsertNestedInput {
+  update: StatusUpdateDataInput;
+  create: StatusCreateInput;
+}
+
 export interface ReportUpdateOneRequiredWithoutCommentsInput {
   create?: Maybe<ReportCreateWithoutCommentsInput>;
   update?: Maybe<ReportUpdateWithoutCommentsDataInput>;
@@ -1225,6 +1284,7 @@ export interface ReportUpdateWithoutCommentsDataInput {
   lat?: Maybe<Float>;
   lng?: Maybe<Float>;
   creator?: Maybe<PeopleUpdateOneRequiredWithoutReportsInput>;
+  closer?: Maybe<CloserUpdateOneWithoutReportInput>;
   status?: Maybe<StatusUpdateOneRequiredInput>;
   type?: Maybe<ReportTypeUpdateOneRequiredInput>;
   deadline?: Maybe<DateTimeInput>;
@@ -1247,6 +1307,25 @@ export interface PeopleUpdateWithoutReportsDataInput {
 export interface PeopleUpsertWithoutReportsInput {
   update: PeopleUpdateWithoutReportsDataInput;
   create: PeopleCreateWithoutReportsInput;
+}
+
+export interface CloserUpdateOneWithoutReportInput {
+  create?: Maybe<CloserCreateWithoutReportInput>;
+  update?: Maybe<CloserUpdateWithoutReportDataInput>;
+  upsert?: Maybe<CloserUpsertWithoutReportInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<CloserWhereUniqueInput>;
+}
+
+export interface CloserUpdateWithoutReportDataInput {
+  image?: Maybe<String>;
+  user?: Maybe<UserUpdateOneRequiredWithoutClosedReportsInput>;
+}
+
+export interface CloserUpsertWithoutReportInput {
+  update: CloserUpdateWithoutReportDataInput;
+  create: CloserCreateWithoutReportInput;
 }
 
 export interface ReportTypeUpdateOneRequiredInput {
@@ -1325,6 +1404,216 @@ export interface ReportCommentUpdateManyWithWhereNestedInput {
 
 export interface ReportCommentUpdateManyDataInput {
   comment?: Maybe<String>;
+}
+
+export interface CloserUpdateManyWithoutUserInput {
+  create?: Maybe<CloserCreateWithoutUserInput[] | CloserCreateWithoutUserInput>;
+  delete?: Maybe<CloserWhereUniqueInput[] | CloserWhereUniqueInput>;
+  connect?: Maybe<CloserWhereUniqueInput[] | CloserWhereUniqueInput>;
+  set?: Maybe<CloserWhereUniqueInput[] | CloserWhereUniqueInput>;
+  disconnect?: Maybe<CloserWhereUniqueInput[] | CloserWhereUniqueInput>;
+  update?: Maybe<
+    | CloserUpdateWithWhereUniqueWithoutUserInput[]
+    | CloserUpdateWithWhereUniqueWithoutUserInput
+  >;
+  upsert?: Maybe<
+    | CloserUpsertWithWhereUniqueWithoutUserInput[]
+    | CloserUpsertWithWhereUniqueWithoutUserInput
+  >;
+  deleteMany?: Maybe<CloserScalarWhereInput[] | CloserScalarWhereInput>;
+  updateMany?: Maybe<
+    | CloserUpdateManyWithWhereNestedInput[]
+    | CloserUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface CloserUpdateWithWhereUniqueWithoutUserInput {
+  where: CloserWhereUniqueInput;
+  data: CloserUpdateWithoutUserDataInput;
+}
+
+export interface CloserUpdateWithoutUserDataInput {
+  image?: Maybe<String>;
+  report?: Maybe<ReportUpdateOneRequiredWithoutCloserInput>;
+}
+
+export interface ReportUpdateOneRequiredWithoutCloserInput {
+  create?: Maybe<ReportCreateWithoutCloserInput>;
+  update?: Maybe<ReportUpdateWithoutCloserDataInput>;
+  upsert?: Maybe<ReportUpsertWithoutCloserInput>;
+  connect?: Maybe<ReportWhereUniqueInput>;
+}
+
+export interface ReportUpdateWithoutCloserDataInput {
+  image?: Maybe<String>;
+  lat?: Maybe<Float>;
+  lng?: Maybe<Float>;
+  creator?: Maybe<PeopleUpdateOneRequiredWithoutReportsInput>;
+  comments?: Maybe<ReportCommentUpdateManyWithoutReportInput>;
+  status?: Maybe<StatusUpdateOneRequiredInput>;
+  type?: Maybe<ReportTypeUpdateOneRequiredInput>;
+  deadline?: Maybe<DateTimeInput>;
+}
+
+export interface ReportCommentUpdateManyWithoutReportInput {
+  create?: Maybe<
+    | ReportCommentCreateWithoutReportInput[]
+    | ReportCommentCreateWithoutReportInput
+  >;
+  delete?: Maybe<
+    ReportCommentWhereUniqueInput[] | ReportCommentWhereUniqueInput
+  >;
+  connect?: Maybe<
+    ReportCommentWhereUniqueInput[] | ReportCommentWhereUniqueInput
+  >;
+  set?: Maybe<ReportCommentWhereUniqueInput[] | ReportCommentWhereUniqueInput>;
+  disconnect?: Maybe<
+    ReportCommentWhereUniqueInput[] | ReportCommentWhereUniqueInput
+  >;
+  update?: Maybe<
+    | ReportCommentUpdateWithWhereUniqueWithoutReportInput[]
+    | ReportCommentUpdateWithWhereUniqueWithoutReportInput
+  >;
+  upsert?: Maybe<
+    | ReportCommentUpsertWithWhereUniqueWithoutReportInput[]
+    | ReportCommentUpsertWithWhereUniqueWithoutReportInput
+  >;
+  deleteMany?: Maybe<
+    ReportCommentScalarWhereInput[] | ReportCommentScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | ReportCommentUpdateManyWithWhereNestedInput[]
+    | ReportCommentUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface ReportCommentUpdateWithWhereUniqueWithoutReportInput {
+  where: ReportCommentWhereUniqueInput;
+  data: ReportCommentUpdateWithoutReportDataInput;
+}
+
+export interface ReportCommentUpdateWithoutReportDataInput {
+  comment?: Maybe<String>;
+  status?: Maybe<StatusUpdateOneRequiredInput>;
+  to?: Maybe<UserUpdateOneRequiredWithoutReportsInput>;
+}
+
+export interface UserUpdateOneRequiredWithoutReportsInput {
+  create?: Maybe<UserCreateWithoutReportsInput>;
+  update?: Maybe<UserUpdateWithoutReportsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutReportsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutReportsDataInput {
+  name?: Maybe<String>;
+  phone?: Maybe<String>;
+  username?: Maybe<String>;
+  password?: Maybe<String>;
+  image?: Maybe<String>;
+  role?: Maybe<RoleUpdateOneRequiredInput>;
+  employees?: Maybe<UserUpdateManyWithoutManagerInput>;
+  manager?: Maybe<UserUpdateOneWithoutEmployeesInput>;
+  closedReports?: Maybe<CloserUpdateManyWithoutUserInput>;
+}
+
+export interface UserUpdateOneWithoutEmployeesInput {
+  create?: Maybe<UserCreateWithoutEmployeesInput>;
+  update?: Maybe<UserUpdateWithoutEmployeesDataInput>;
+  upsert?: Maybe<UserUpsertWithoutEmployeesInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutEmployeesDataInput {
+  name?: Maybe<String>;
+  phone?: Maybe<String>;
+  username?: Maybe<String>;
+  password?: Maybe<String>;
+  image?: Maybe<String>;
+  role?: Maybe<RoleUpdateOneRequiredInput>;
+  manager?: Maybe<UserUpdateOneWithoutEmployeesInput>;
+  reports?: Maybe<ReportCommentUpdateManyWithoutToInput>;
+  closedReports?: Maybe<CloserUpdateManyWithoutUserInput>;
+}
+
+export interface UserUpsertWithoutEmployeesInput {
+  update: UserUpdateWithoutEmployeesDataInput;
+  create: UserCreateWithoutEmployeesInput;
+}
+
+export interface UserUpsertWithoutReportsInput {
+  update: UserUpdateWithoutReportsDataInput;
+  create: UserCreateWithoutReportsInput;
+}
+
+export interface ReportCommentUpsertWithWhereUniqueWithoutReportInput {
+  where: ReportCommentWhereUniqueInput;
+  update: ReportCommentUpdateWithoutReportDataInput;
+  create: ReportCommentCreateWithoutReportInput;
+}
+
+export interface ReportUpsertWithoutCloserInput {
+  update: ReportUpdateWithoutCloserDataInput;
+  create: ReportCreateWithoutCloserInput;
+}
+
+export interface CloserUpsertWithWhereUniqueWithoutUserInput {
+  where: CloserWhereUniqueInput;
+  update: CloserUpdateWithoutUserDataInput;
+  create: CloserCreateWithoutUserInput;
+}
+
+export interface CloserScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  image?: Maybe<String>;
+  image_not?: Maybe<String>;
+  image_in?: Maybe<String[] | String>;
+  image_not_in?: Maybe<String[] | String>;
+  image_lt?: Maybe<String>;
+  image_lte?: Maybe<String>;
+  image_gt?: Maybe<String>;
+  image_gte?: Maybe<String>;
+  image_contains?: Maybe<String>;
+  image_not_contains?: Maybe<String>;
+  image_starts_with?: Maybe<String>;
+  image_not_starts_with?: Maybe<String>;
+  image_ends_with?: Maybe<String>;
+  image_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<CloserScalarWhereInput[] | CloserScalarWhereInput>;
+  OR?: Maybe<CloserScalarWhereInput[] | CloserScalarWhereInput>;
+  NOT?: Maybe<CloserScalarWhereInput[] | CloserScalarWhereInput>;
+}
+
+export interface CloserUpdateManyWithWhereNestedInput {
+  where: CloserScalarWhereInput;
+  data: CloserUpdateManyDataInput;
+}
+
+export interface CloserUpdateManyDataInput {
+  image?: Maybe<String>;
 }
 
 export interface UserUpsertWithWhereUniqueWithoutManagerInput {
@@ -1436,40 +1725,87 @@ export interface UserUpdateManyDataInput {
   image?: Maybe<String>;
 }
 
-export interface UserUpdateOneWithoutEmployeesInput {
-  create?: Maybe<UserCreateWithoutEmployeesInput>;
-  update?: Maybe<UserUpdateWithoutEmployeesDataInput>;
-  upsert?: Maybe<UserUpsertWithoutEmployeesInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<UserWhereUniqueInput>;
+export interface UserUpsertWithoutClosedReportsInput {
+  update: UserUpdateWithoutClosedReportsDataInput;
+  create: UserCreateWithoutClosedReportsInput;
 }
 
-export interface UserUpdateWithoutEmployeesDataInput {
+export interface CloserUpdateManyMutationInput {
+  image?: Maybe<String>;
+}
+
+export interface PeopleCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  phone: String;
+  password: String;
+  image: String;
+  reports?: Maybe<ReportCreateManyWithoutCreatorInput>;
+}
+
+export interface ReportCreateManyWithoutCreatorInput {
+  create?: Maybe<
+    ReportCreateWithoutCreatorInput[] | ReportCreateWithoutCreatorInput
+  >;
+  connect?: Maybe<ReportWhereUniqueInput[] | ReportWhereUniqueInput>;
+}
+
+export interface ReportCreateWithoutCreatorInput {
+  image: String;
+  lat: Float;
+  lng: Float;
+  closer?: Maybe<CloserCreateOneWithoutReportInput>;
+  comments?: Maybe<ReportCommentCreateManyWithoutReportInput>;
+  status: StatusCreateOneInput;
+  type: ReportTypeCreateOneInput;
+  deadline?: Maybe<DateTimeInput>;
+}
+
+export interface PeopleUpdateInput {
   name?: Maybe<String>;
   phone?: Maybe<String>;
-  username?: Maybe<String>;
   password?: Maybe<String>;
   image?: Maybe<String>;
-  role?: Maybe<RoleUpdateOneRequiredInput>;
-  reports?: Maybe<ReportCommentUpdateManyWithoutToInput>;
-  manager?: Maybe<UserUpdateOneWithoutEmployeesInput>;
+  reports?: Maybe<ReportUpdateManyWithoutCreatorInput>;
 }
 
-export interface UserUpsertWithoutEmployeesInput {
-  update: UserUpdateWithoutEmployeesDataInput;
-  create: UserCreateWithoutEmployeesInput;
+export interface ReportUpdateManyWithoutCreatorInput {
+  create?: Maybe<
+    ReportCreateWithoutCreatorInput[] | ReportCreateWithoutCreatorInput
+  >;
+  delete?: Maybe<ReportWhereUniqueInput[] | ReportWhereUniqueInput>;
+  connect?: Maybe<ReportWhereUniqueInput[] | ReportWhereUniqueInput>;
+  set?: Maybe<ReportWhereUniqueInput[] | ReportWhereUniqueInput>;
+  disconnect?: Maybe<ReportWhereUniqueInput[] | ReportWhereUniqueInput>;
+  update?: Maybe<
+    | ReportUpdateWithWhereUniqueWithoutCreatorInput[]
+    | ReportUpdateWithWhereUniqueWithoutCreatorInput
+  >;
+  upsert?: Maybe<
+    | ReportUpsertWithWhereUniqueWithoutCreatorInput[]
+    | ReportUpsertWithWhereUniqueWithoutCreatorInput
+  >;
+  deleteMany?: Maybe<ReportScalarWhereInput[] | ReportScalarWhereInput>;
+  updateMany?: Maybe<
+    | ReportUpdateManyWithWhereNestedInput[]
+    | ReportUpdateManyWithWhereNestedInput
+  >;
 }
 
-export interface UserUpsertWithoutReportsInput {
-  update: UserUpdateWithoutReportsDataInput;
-  create: UserCreateWithoutReportsInput;
+export interface ReportUpdateWithWhereUniqueWithoutCreatorInput {
+  where: ReportWhereUniqueInput;
+  data: ReportUpdateWithoutCreatorDataInput;
 }
 
-export interface ReportCommentUpsertWithWhereUniqueWithoutReportInput {
-  where: ReportCommentWhereUniqueInput;
-  update: ReportCommentUpdateWithoutReportDataInput;
-  create: ReportCommentCreateWithoutReportInput;
+export interface ReportUpdateWithoutCreatorDataInput {
+  image?: Maybe<String>;
+  lat?: Maybe<Float>;
+  lng?: Maybe<Float>;
+  closer?: Maybe<CloserUpdateOneWithoutReportInput>;
+  comments?: Maybe<ReportCommentUpdateManyWithoutReportInput>;
+  status?: Maybe<StatusUpdateOneRequiredInput>;
+  type?: Maybe<ReportTypeUpdateOneRequiredInput>;
+  deadline?: Maybe<DateTimeInput>;
 }
 
 export interface ReportUpsertWithWhereUniqueWithoutCreatorInput {
@@ -1562,6 +1898,7 @@ export interface ReportCreateInput {
   lat: Float;
   lng: Float;
   creator: PeopleCreateOneWithoutReportsInput;
+  closer?: Maybe<CloserCreateOneWithoutReportInput>;
   comments?: Maybe<ReportCommentCreateManyWithoutReportInput>;
   status: StatusCreateOneInput;
   type: ReportTypeCreateOneInput;
@@ -1573,6 +1910,7 @@ export interface ReportUpdateInput {
   lat?: Maybe<Float>;
   lng?: Maybe<Float>;
   creator?: Maybe<PeopleUpdateOneRequiredWithoutReportsInput>;
+  closer?: Maybe<CloserUpdateOneWithoutReportInput>;
   comments?: Maybe<ReportCommentUpdateManyWithoutReportInput>;
   status?: Maybe<StatusUpdateOneRequiredInput>;
   type?: Maybe<ReportTypeUpdateOneRequiredInput>;
@@ -1637,9 +1975,10 @@ export interface UserCreateInput {
   password: String;
   image: String;
   role: RoleCreateOneInput;
-  reports?: Maybe<ReportCommentCreateManyWithoutToInput>;
   employees?: Maybe<UserCreateManyWithoutManagerInput>;
   manager?: Maybe<UserCreateOneWithoutEmployeesInput>;
+  reports?: Maybe<ReportCommentCreateManyWithoutToInput>;
+  closedReports?: Maybe<CloserCreateManyWithoutUserInput>;
 }
 
 export interface UserUpdateInput {
@@ -1649,9 +1988,10 @@ export interface UserUpdateInput {
   password?: Maybe<String>;
   image?: Maybe<String>;
   role?: Maybe<RoleUpdateOneRequiredInput>;
-  reports?: Maybe<ReportCommentUpdateManyWithoutToInput>;
   employees?: Maybe<UserUpdateManyWithoutManagerInput>;
   manager?: Maybe<UserUpdateOneWithoutEmployeesInput>;
+  reports?: Maybe<ReportCommentUpdateManyWithoutToInput>;
+  closedReports?: Maybe<CloserUpdateManyWithoutUserInput>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -1660,6 +2000,17 @@ export interface UserUpdateManyMutationInput {
   username?: Maybe<String>;
   password?: Maybe<String>;
   image?: Maybe<String>;
+}
+
+export interface CloserSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<CloserWhereInput>;
+  AND?: Maybe<CloserSubscriptionWhereInput[] | CloserSubscriptionWhereInput>;
+  OR?: Maybe<CloserSubscriptionWhereInput[] | CloserSubscriptionWhereInput>;
+  NOT?: Maybe<CloserSubscriptionWhereInput[] | CloserSubscriptionWhereInput>;
 }
 
 export interface PeopleSubscriptionWhereInput {
@@ -1755,23 +2106,79 @@ export interface NodeNode {
   id: ID_Output;
 }
 
-export interface People {
+export interface Closer {
+  id: ID_Output;
+  image: String;
+  createdAt: DateTimeOutput;
+}
+
+export interface CloserPromise extends Promise<Closer>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  image: () => Promise<String>;
+  user: <T = UserPromise>() => T;
+  report: <T = ReportPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface CloserSubscription
+  extends Promise<AsyncIterator<Closer>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  image: () => Promise<AsyncIterator<String>>;
+  user: <T = UserSubscription>() => T;
+  report: <T = ReportSubscription>() => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface CloserNullablePromise
+  extends Promise<Closer | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  image: () => Promise<String>;
+  user: <T = UserPromise>() => T;
+  report: <T = ReportPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface User {
   id: ID_Output;
   name: String;
   phone: String;
+  username: String;
   password: String;
   image: String;
 }
 
-export interface PeoplePromise extends Promise<People>, Fragmentable {
+export interface UserPromise extends Promise<User>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   phone: () => Promise<String>;
+  username: () => Promise<String>;
   password: () => Promise<String>;
   image: () => Promise<String>;
-  reports: <T = FragmentableArray<Report>>(args?: {
-    where?: ReportWhereInput;
-    orderBy?: ReportOrderByInput;
+  role: <T = RolePromise>() => T;
+  employees: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  manager: <T = UserPromise>() => T;
+  reports: <T = FragmentableArray<ReportComment>>(args?: {
+    where?: ReportCommentWhereInput;
+    orderBy?: ReportCommentOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  closedReports: <T = FragmentableArray<Closer>>(args?: {
+    where?: CloserWhereInput;
+    orderBy?: CloserOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -1780,17 +2187,38 @@ export interface PeoplePromise extends Promise<People>, Fragmentable {
   }) => T;
 }
 
-export interface PeopleSubscription
-  extends Promise<AsyncIterator<People>>,
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   phone: () => Promise<AsyncIterator<String>>;
+  username: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
-  reports: <T = Promise<AsyncIterator<ReportSubscription>>>(args?: {
-    where?: ReportWhereInput;
-    orderBy?: ReportOrderByInput;
+  role: <T = RoleSubscription>() => T;
+  employees: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  manager: <T = UserSubscription>() => T;
+  reports: <T = Promise<AsyncIterator<ReportCommentSubscription>>>(args?: {
+    where?: ReportCommentWhereInput;
+    orderBy?: ReportCommentOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  closedReports: <T = Promise<AsyncIterator<CloserSubscription>>>(args?: {
+    where?: CloserWhereInput;
+    orderBy?: CloserOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -1799,41 +2227,27 @@ export interface PeopleSubscription
   }) => T;
 }
 
-export interface PeopleNullablePromise
-  extends Promise<People | null>,
+export interface UserNullablePromise
+  extends Promise<User | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   phone: () => Promise<String>;
+  username: () => Promise<String>;
   password: () => Promise<String>;
   image: () => Promise<String>;
-  reports: <T = FragmentableArray<Report>>(args?: {
-    where?: ReportWhereInput;
-    orderBy?: ReportOrderByInput;
+  role: <T = RolePromise>() => T;
+  employees: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
   }) => T;
-}
-
-export interface Report {
-  id: Int;
-  image: String;
-  lat: Float;
-  lng: Float;
-  deadline?: DateTimeOutput;
-  createdAt: DateTimeOutput;
-}
-
-export interface ReportPromise extends Promise<Report>, Fragmentable {
-  id: () => Promise<Int>;
-  image: () => Promise<String>;
-  lat: () => Promise<Float>;
-  lng: () => Promise<Float>;
-  creator: <T = PeoplePromise>() => T;
-  comments: <T = FragmentableArray<ReportComment>>(args?: {
+  manager: <T = UserPromise>() => T;
+  reports: <T = FragmentableArray<ReportComment>>(args?: {
     where?: ReportCommentWhereInput;
     orderBy?: ReportCommentOrderByInput;
     skip?: Int;
@@ -1842,56 +2256,39 @@ export interface ReportPromise extends Promise<Report>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
-  status: <T = StatusPromise>() => T;
-  type: <T = ReportTypePromise>() => T;
-  deadline: () => Promise<DateTimeOutput>;
-  createdAt: () => Promise<DateTimeOutput>;
+  closedReports: <T = FragmentableArray<Closer>>(args?: {
+    where?: CloserWhereInput;
+    orderBy?: CloserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
-export interface ReportSubscription
-  extends Promise<AsyncIterator<Report>>,
+export interface Role {
+  id: ID_Output;
+  name: String;
+}
+
+export interface RolePromise extends Promise<Role>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+}
+
+export interface RoleSubscription
+  extends Promise<AsyncIterator<Role>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<Int>>;
-  image: () => Promise<AsyncIterator<String>>;
-  lat: () => Promise<AsyncIterator<Float>>;
-  lng: () => Promise<AsyncIterator<Float>>;
-  creator: <T = PeopleSubscription>() => T;
-  comments: <T = Promise<AsyncIterator<ReportCommentSubscription>>>(args?: {
-    where?: ReportCommentWhereInput;
-    orderBy?: ReportCommentOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  status: <T = StatusSubscription>() => T;
-  type: <T = ReportTypeSubscription>() => T;
-  deadline: () => Promise<AsyncIterator<DateTimeOutput>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
 }
 
-export interface ReportNullablePromise
-  extends Promise<Report | null>,
+export interface RoleNullablePromise
+  extends Promise<Role | null>,
     Fragmentable {
-  id: () => Promise<Int>;
-  image: () => Promise<String>;
-  lat: () => Promise<Float>;
-  lng: () => Promise<Float>;
-  creator: <T = PeoplePromise>() => T;
-  comments: <T = FragmentableArray<ReportComment>>(args?: {
-    where?: ReportCommentWhereInput;
-    orderBy?: ReportCommentOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  status: <T = StatusPromise>() => T;
-  type: <T = ReportTypePromise>() => T;
-  deadline: () => Promise<DateTimeOutput>;
-  createdAt: () => Promise<DateTimeOutput>;
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
 }
 
 export interface ReportComment {
@@ -1957,128 +2354,146 @@ export interface StatusNullablePromise
   name: () => Promise<String>;
 }
 
-export interface User {
+export interface Report {
+  id: Int;
+  image: String;
+  lat: Float;
+  lng: Float;
+  deadline?: DateTimeOutput;
+  createdAt: DateTimeOutput;
+}
+
+export interface ReportPromise extends Promise<Report>, Fragmentable {
+  id: () => Promise<Int>;
+  image: () => Promise<String>;
+  lat: () => Promise<Float>;
+  lng: () => Promise<Float>;
+  creator: <T = PeoplePromise>() => T;
+  closer: <T = CloserPromise>() => T;
+  comments: <T = FragmentableArray<ReportComment>>(args?: {
+    where?: ReportCommentWhereInput;
+    orderBy?: ReportCommentOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  status: <T = StatusPromise>() => T;
+  type: <T = ReportTypePromise>() => T;
+  deadline: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface ReportSubscription
+  extends Promise<AsyncIterator<Report>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<Int>>;
+  image: () => Promise<AsyncIterator<String>>;
+  lat: () => Promise<AsyncIterator<Float>>;
+  lng: () => Promise<AsyncIterator<Float>>;
+  creator: <T = PeopleSubscription>() => T;
+  closer: <T = CloserSubscription>() => T;
+  comments: <T = Promise<AsyncIterator<ReportCommentSubscription>>>(args?: {
+    where?: ReportCommentWhereInput;
+    orderBy?: ReportCommentOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  status: <T = StatusSubscription>() => T;
+  type: <T = ReportTypeSubscription>() => T;
+  deadline: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface ReportNullablePromise
+  extends Promise<Report | null>,
+    Fragmentable {
+  id: () => Promise<Int>;
+  image: () => Promise<String>;
+  lat: () => Promise<Float>;
+  lng: () => Promise<Float>;
+  creator: <T = PeoplePromise>() => T;
+  closer: <T = CloserPromise>() => T;
+  comments: <T = FragmentableArray<ReportComment>>(args?: {
+    where?: ReportCommentWhereInput;
+    orderBy?: ReportCommentOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  status: <T = StatusPromise>() => T;
+  type: <T = ReportTypePromise>() => T;
+  deadline: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface People {
   id: ID_Output;
   name: String;
   phone: String;
-  username: String;
   password: String;
   image: String;
 }
 
-export interface UserPromise extends Promise<User>, Fragmentable {
+export interface PeoplePromise extends Promise<People>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   phone: () => Promise<String>;
-  username: () => Promise<String>;
   password: () => Promise<String>;
   image: () => Promise<String>;
-  role: <T = RolePromise>() => T;
-  reports: <T = FragmentableArray<ReportComment>>(args?: {
-    where?: ReportCommentWhereInput;
-    orderBy?: ReportCommentOrderByInput;
+  reports: <T = FragmentableArray<Report>>(args?: {
+    where?: ReportWhereInput;
+    orderBy?: ReportOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
   }) => T;
-  employees: <T = FragmentableArray<User>>(args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  manager: <T = UserPromise>() => T;
 }
 
-export interface UserSubscription
-  extends Promise<AsyncIterator<User>>,
+export interface PeopleSubscription
+  extends Promise<AsyncIterator<People>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   phone: () => Promise<AsyncIterator<String>>;
-  username: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
-  role: <T = RoleSubscription>() => T;
-  reports: <T = Promise<AsyncIterator<ReportCommentSubscription>>>(args?: {
-    where?: ReportCommentWhereInput;
-    orderBy?: ReportCommentOrderByInput;
+  reports: <T = Promise<AsyncIterator<ReportSubscription>>>(args?: {
+    where?: ReportWhereInput;
+    orderBy?: ReportOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
   }) => T;
-  employees: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  manager: <T = UserSubscription>() => T;
 }
 
-export interface UserNullablePromise
-  extends Promise<User | null>,
+export interface PeopleNullablePromise
+  extends Promise<People | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   phone: () => Promise<String>;
-  username: () => Promise<String>;
   password: () => Promise<String>;
   image: () => Promise<String>;
-  role: <T = RolePromise>() => T;
-  reports: <T = FragmentableArray<ReportComment>>(args?: {
-    where?: ReportCommentWhereInput;
-    orderBy?: ReportCommentOrderByInput;
+  reports: <T = FragmentableArray<Report>>(args?: {
+    where?: ReportWhereInput;
+    orderBy?: ReportOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
   }) => T;
-  employees: <T = FragmentableArray<User>>(args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  manager: <T = UserPromise>() => T;
-}
-
-export interface Role {
-  id: ID_Output;
-  name: String;
-}
-
-export interface RolePromise extends Promise<Role>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-}
-
-export interface RoleSubscription
-  extends Promise<AsyncIterator<Role>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-}
-
-export interface RoleNullablePromise
-  extends Promise<Role | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
 }
 
 export interface ReportType {
@@ -2105,25 +2520,25 @@ export interface ReportTypeNullablePromise
   name: () => Promise<String>;
 }
 
-export interface PeopleConnection {
+export interface CloserConnection {
   pageInfo: PageInfo;
-  edges: PeopleEdge[];
+  edges: CloserEdge[];
 }
 
-export interface PeopleConnectionPromise
-  extends Promise<PeopleConnection>,
+export interface CloserConnectionPromise
+  extends Promise<CloserConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<PeopleEdge>>() => T;
-  aggregate: <T = AggregatePeoplePromise>() => T;
+  edges: <T = FragmentableArray<CloserEdge>>() => T;
+  aggregate: <T = AggregateCloserPromise>() => T;
 }
 
-export interface PeopleConnectionSubscription
-  extends Promise<AsyncIterator<PeopleConnection>>,
+export interface CloserConnectionSubscription
+  extends Promise<AsyncIterator<CloserConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<PeopleEdgeSubscription>>>() => T;
-  aggregate: <T = AggregatePeopleSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CloserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCloserSubscription>() => T;
 }
 
 export interface PageInfo {
@@ -2147,6 +2562,60 @@ export interface PageInfoSubscription
   hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
   startCursor: () => Promise<AsyncIterator<String>>;
   endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface CloserEdge {
+  node: Closer;
+  cursor: String;
+}
+
+export interface CloserEdgePromise extends Promise<CloserEdge>, Fragmentable {
+  node: <T = CloserPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface CloserEdgeSubscription
+  extends Promise<AsyncIterator<CloserEdge>>,
+    Fragmentable {
+  node: <T = CloserSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateCloser {
+  count: Int;
+}
+
+export interface AggregateCloserPromise
+  extends Promise<AggregateCloser>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateCloserSubscription
+  extends Promise<AsyncIterator<AggregateCloser>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface PeopleConnection {
+  pageInfo: PageInfo;
+  edges: PeopleEdge[];
+}
+
+export interface PeopleConnectionPromise
+  extends Promise<PeopleConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PeopleEdge>>() => T;
+  aggregate: <T = AggregatePeoplePromise>() => T;
+}
+
+export interface PeopleConnectionSubscription
+  extends Promise<AsyncIterator<PeopleConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PeopleEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePeopleSubscription>() => T;
 }
 
 export interface PeopleEdge {
@@ -2524,6 +2993,53 @@ export interface BatchPayloadSubscription
   extends Promise<AsyncIterator<BatchPayload>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface CloserSubscriptionPayload {
+  mutation: MutationType;
+  node: Closer;
+  updatedFields: String[];
+  previousValues: CloserPreviousValues;
+}
+
+export interface CloserSubscriptionPayloadPromise
+  extends Promise<CloserSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = CloserPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = CloserPreviousValuesPromise>() => T;
+}
+
+export interface CloserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<CloserSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = CloserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = CloserPreviousValuesSubscription>() => T;
+}
+
+export interface CloserPreviousValues {
+  id: ID_Output;
+  image: String;
+  createdAt: DateTimeOutput;
+}
+
+export interface CloserPreviousValuesPromise
+  extends Promise<CloserPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  image: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface CloserPreviousValuesSubscription
+  extends Promise<AsyncIterator<CloserPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  image: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface PeopleSubscriptionPayload {
@@ -2931,6 +3447,10 @@ export const models: Model[] = [
   },
   {
     name: "User",
+    embedded: false
+  },
+  {
+    name: "Closer",
     embedded: false
   },
   {

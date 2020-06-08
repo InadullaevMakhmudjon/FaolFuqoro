@@ -7,6 +7,8 @@
                 v-icon(color="green").ml-1 image
             v-col(cols="12").py-0
               div(:style="`background-image: url('${image}')`").custom-container
+            v-col(cols="12" v-if="closedImage").mt-2.py-0
+              div(:style="`background-image: url('${closedImage}')`").custom-container
             v-col(cols="11")
                     v-icon(medium color="green").ma-1 chat
                     span {{ comment }}
@@ -22,6 +24,9 @@ export default {
   computed: {
     image() {
       return this.report.image;
+    },
+    closedImage() {
+      return this.report.closer ? this.report.closer.image : null;
     },
     status() {
       switch (this.$getRole()) {

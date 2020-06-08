@@ -26,6 +26,10 @@ export default {
       type: Function,
       required: true,
     },
+    SubmitVisible: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     getStatus() {
@@ -47,7 +51,7 @@ export default {
         },
         {
           name: 'Bajarildi',
-          show: this.$isEmployee(),
+          show: this.$isEmployee() && this.SubmitVisible,
           callBack: this.finish,
           color: 'green',
         },
