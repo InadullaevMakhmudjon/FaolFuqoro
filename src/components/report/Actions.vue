@@ -1,7 +1,7 @@
 <template lang="pug">
     v-container
         v-row
-            v-col(v-for="item in buttons" :cols="counts" v-if="item.show").pa-0
+            v-col(v-for="item in buttons" :cols="counts" v-if="item.show" :key="item.name").pa-0
                 v-btn(block outlined :color="item.color" @click="item.callBack") {{ item.name }}
 </template>
 <script>
