@@ -30,9 +30,18 @@ type User {
   password: String!
   image: String!
   role: Role! @relation(name: "RoleForUser", onDelete: SET_NULL)
-  reports: [ReportComment!] @relation(name: "ReportForUser", onDelete: CASCADE)
   employees: [User!]! @relation(name: "UserEmployees", onDelete: CASCADE)
   manager: User @relation(name: "UserEmployees", onDelete: SET_NULL)
+  reports: [ReportComment!] @relation(name: "ReportForUser", onDelete: CASCADE)
+  closedReports: [Closer!]!
+}
+
+type Closer {
+  id: ID! @id
+  image: String!
+  user: User! @relation(link: INLINE)
+  report: Report!
+  createdAt: DateTime! @createdAt
 }
 
 type Report {
@@ -41,6 +50,7 @@ type Report {
   lat: Float!
   lng: Float!
   creator: People! @relation(name: "ReportForCreator", onDelete: SET_NULL)
+  closer: Closer @relation(link: INLINE)
   comments: [ReportComment !]! @relation(name: "CommentForReport", onDelete: CASCADE)
   status: Status! @relation(name: "ReportStatus", onDelete: SET_NULL)
   type: ReportType! @relation(name: "ReportType")
