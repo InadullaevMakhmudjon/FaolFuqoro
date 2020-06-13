@@ -11,6 +11,10 @@ type Status {
 type People {
   id: ID! @id
   name: String!
+  surname: String!
+  street: String!
+  address: String!
+  home: String!
   phone: String! @unique
   password: String!
   image: String!
@@ -19,7 +23,9 @@ type People {
 
 type ReportType {
   id: ID! @id
-  name: String!
+  name_uz: String!
+  name_ru: String!
+  name_en: String!
 }
 
 type User {

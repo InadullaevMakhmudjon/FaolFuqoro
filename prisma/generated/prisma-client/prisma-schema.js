@@ -351,6 +351,10 @@ type PageInfo {
 type People {
   id: ID!
   name: String!
+  surname: String!
+  street: String!
+  address: String!
+  home: String!
   phone: String!
   password: String!
   image: String!
@@ -366,6 +370,10 @@ type PeopleConnection {
 input PeopleCreateInput {
   id: ID
   name: String!
+  surname: String!
+  street: String!
+  address: String!
+  home: String!
   phone: String!
   password: String!
   image: String!
@@ -380,6 +388,10 @@ input PeopleCreateOneWithoutReportsInput {
 input PeopleCreateWithoutReportsInput {
   id: ID
   name: String!
+  surname: String!
+  street: String!
+  address: String!
+  home: String!
   phone: String!
   password: String!
   image: String!
@@ -395,6 +407,14 @@ enum PeopleOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  surname_ASC
+  surname_DESC
+  street_ASC
+  street_DESC
+  address_ASC
+  address_DESC
+  home_ASC
+  home_DESC
   phone_ASC
   phone_DESC
   password_ASC
@@ -406,6 +426,10 @@ enum PeopleOrderByInput {
 type PeoplePreviousValues {
   id: ID!
   name: String!
+  surname: String!
+  street: String!
+  address: String!
+  home: String!
   phone: String!
   password: String!
   image: String!
@@ -431,6 +455,10 @@ input PeopleSubscriptionWhereInput {
 
 input PeopleUpdateInput {
   name: String
+  surname: String
+  street: String
+  address: String
+  home: String
   phone: String
   password: String
   image: String
@@ -439,6 +467,10 @@ input PeopleUpdateInput {
 
 input PeopleUpdateManyMutationInput {
   name: String
+  surname: String
+  street: String
+  address: String
+  home: String
   phone: String
   password: String
   image: String
@@ -453,6 +485,10 @@ input PeopleUpdateOneRequiredWithoutReportsInput {
 
 input PeopleUpdateWithoutReportsDataInput {
   name: String
+  surname: String
+  street: String
+  address: String
+  home: String
   phone: String
   password: String
   image: String
@@ -492,6 +528,62 @@ input PeopleWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
+  surname: String
+  surname_not: String
+  surname_in: [String!]
+  surname_not_in: [String!]
+  surname_lt: String
+  surname_lte: String
+  surname_gt: String
+  surname_gte: String
+  surname_contains: String
+  surname_not_contains: String
+  surname_starts_with: String
+  surname_not_starts_with: String
+  surname_ends_with: String
+  surname_not_ends_with: String
+  street: String
+  street_not: String
+  street_in: [String!]
+  street_not_in: [String!]
+  street_lt: String
+  street_lte: String
+  street_gt: String
+  street_gte: String
+  street_contains: String
+  street_not_contains: String
+  street_starts_with: String
+  street_not_starts_with: String
+  street_ends_with: String
+  street_not_ends_with: String
+  address: String
+  address_not: String
+  address_in: [String!]
+  address_not_in: [String!]
+  address_lt: String
+  address_lte: String
+  address_gt: String
+  address_gte: String
+  address_contains: String
+  address_not_contains: String
+  address_starts_with: String
+  address_not_starts_with: String
+  address_ends_with: String
+  address_not_ends_with: String
+  home: String
+  home_not: String
+  home_in: [String!]
+  home_not_in: [String!]
+  home_lt: String
+  home_lte: String
+  home_gt: String
+  home_gte: String
+  home_contains: String
+  home_not_contains: String
+  home_starts_with: String
+  home_not_starts_with: String
+  home_ends_with: String
+  home_not_ends_with: String
   phone: String
   phone_not: String
   phone_in: [String!]
@@ -1018,7 +1110,9 @@ input ReportSubscriptionWhereInput {
 
 type ReportType {
   id: ID!
-  name: String!
+  name_uz: String!
+  name_ru: String!
+  name_en: String!
 }
 
 type ReportTypeConnection {
@@ -1029,7 +1123,9 @@ type ReportTypeConnection {
 
 input ReportTypeCreateInput {
   id: ID
-  name: String!
+  name_uz: String!
+  name_ru: String!
+  name_en: String!
 }
 
 input ReportTypeCreateOneInput {
@@ -1045,13 +1141,19 @@ type ReportTypeEdge {
 enum ReportTypeOrderByInput {
   id_ASC
   id_DESC
-  name_ASC
-  name_DESC
+  name_uz_ASC
+  name_uz_DESC
+  name_ru_ASC
+  name_ru_DESC
+  name_en_ASC
+  name_en_DESC
 }
 
 type ReportTypePreviousValues {
   id: ID!
-  name: String!
+  name_uz: String!
+  name_ru: String!
+  name_en: String!
 }
 
 type ReportTypeSubscriptionPayload {
@@ -1073,15 +1175,21 @@ input ReportTypeSubscriptionWhereInput {
 }
 
 input ReportTypeUpdateDataInput {
-  name: String
+  name_uz: String
+  name_ru: String
+  name_en: String
 }
 
 input ReportTypeUpdateInput {
-  name: String
+  name_uz: String
+  name_ru: String
+  name_en: String
 }
 
 input ReportTypeUpdateManyMutationInput {
-  name: String
+  name_uz: String
+  name_ru: String
+  name_en: String
 }
 
 input ReportTypeUpdateOneRequiredInput {
@@ -1111,20 +1219,48 @@ input ReportTypeWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  name: String
-  name_not: String
-  name_in: [String!]
-  name_not_in: [String!]
-  name_lt: String
-  name_lte: String
-  name_gt: String
-  name_gte: String
-  name_contains: String
-  name_not_contains: String
-  name_starts_with: String
-  name_not_starts_with: String
-  name_ends_with: String
-  name_not_ends_with: String
+  name_uz: String
+  name_uz_not: String
+  name_uz_in: [String!]
+  name_uz_not_in: [String!]
+  name_uz_lt: String
+  name_uz_lte: String
+  name_uz_gt: String
+  name_uz_gte: String
+  name_uz_contains: String
+  name_uz_not_contains: String
+  name_uz_starts_with: String
+  name_uz_not_starts_with: String
+  name_uz_ends_with: String
+  name_uz_not_ends_with: String
+  name_ru: String
+  name_ru_not: String
+  name_ru_in: [String!]
+  name_ru_not_in: [String!]
+  name_ru_lt: String
+  name_ru_lte: String
+  name_ru_gt: String
+  name_ru_gte: String
+  name_ru_contains: String
+  name_ru_not_contains: String
+  name_ru_starts_with: String
+  name_ru_not_starts_with: String
+  name_ru_ends_with: String
+  name_ru_not_ends_with: String
+  name_en: String
+  name_en_not: String
+  name_en_in: [String!]
+  name_en_not_in: [String!]
+  name_en_lt: String
+  name_en_lte: String
+  name_en_gt: String
+  name_en_gte: String
+  name_en_contains: String
+  name_en_not_contains: String
+  name_en_starts_with: String
+  name_en_not_starts_with: String
+  name_en_ends_with: String
+  name_en_not_ends_with: String
   AND: [ReportTypeWhereInput!]
   OR: [ReportTypeWhereInput!]
   NOT: [ReportTypeWhereInput!]

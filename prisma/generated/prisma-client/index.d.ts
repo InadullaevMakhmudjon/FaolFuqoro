@@ -429,6 +429,14 @@ export type PeopleOrderByInput =
   | "id_DESC"
   | "name_ASC"
   | "name_DESC"
+  | "surname_ASC"
+  | "surname_DESC"
+  | "street_ASC"
+  | "street_DESC"
+  | "address_ASC"
+  | "address_DESC"
+  | "home_ASC"
+  | "home_DESC"
   | "phone_ASC"
   | "phone_DESC"
   | "password_ASC"
@@ -439,8 +447,12 @@ export type PeopleOrderByInput =
 export type ReportTypeOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "name_ASC"
-  | "name_DESC";
+  | "name_uz_ASC"
+  | "name_uz_DESC"
+  | "name_ru_ASC"
+  | "name_ru_DESC"
+  | "name_en_ASC"
+  | "name_en_DESC";
 
 export type RoleOrderByInput = "id_ASC" | "id_DESC" | "name_ASC" | "name_DESC";
 
@@ -766,6 +778,62 @@ export interface PeopleWhereInput {
   name_not_starts_with?: Maybe<String>;
   name_ends_with?: Maybe<String>;
   name_not_ends_with?: Maybe<String>;
+  surname?: Maybe<String>;
+  surname_not?: Maybe<String>;
+  surname_in?: Maybe<String[] | String>;
+  surname_not_in?: Maybe<String[] | String>;
+  surname_lt?: Maybe<String>;
+  surname_lte?: Maybe<String>;
+  surname_gt?: Maybe<String>;
+  surname_gte?: Maybe<String>;
+  surname_contains?: Maybe<String>;
+  surname_not_contains?: Maybe<String>;
+  surname_starts_with?: Maybe<String>;
+  surname_not_starts_with?: Maybe<String>;
+  surname_ends_with?: Maybe<String>;
+  surname_not_ends_with?: Maybe<String>;
+  street?: Maybe<String>;
+  street_not?: Maybe<String>;
+  street_in?: Maybe<String[] | String>;
+  street_not_in?: Maybe<String[] | String>;
+  street_lt?: Maybe<String>;
+  street_lte?: Maybe<String>;
+  street_gt?: Maybe<String>;
+  street_gte?: Maybe<String>;
+  street_contains?: Maybe<String>;
+  street_not_contains?: Maybe<String>;
+  street_starts_with?: Maybe<String>;
+  street_not_starts_with?: Maybe<String>;
+  street_ends_with?: Maybe<String>;
+  street_not_ends_with?: Maybe<String>;
+  address?: Maybe<String>;
+  address_not?: Maybe<String>;
+  address_in?: Maybe<String[] | String>;
+  address_not_in?: Maybe<String[] | String>;
+  address_lt?: Maybe<String>;
+  address_lte?: Maybe<String>;
+  address_gt?: Maybe<String>;
+  address_gte?: Maybe<String>;
+  address_contains?: Maybe<String>;
+  address_not_contains?: Maybe<String>;
+  address_starts_with?: Maybe<String>;
+  address_not_starts_with?: Maybe<String>;
+  address_ends_with?: Maybe<String>;
+  address_not_ends_with?: Maybe<String>;
+  home?: Maybe<String>;
+  home_not?: Maybe<String>;
+  home_in?: Maybe<String[] | String>;
+  home_not_in?: Maybe<String[] | String>;
+  home_lt?: Maybe<String>;
+  home_lte?: Maybe<String>;
+  home_gt?: Maybe<String>;
+  home_gte?: Maybe<String>;
+  home_contains?: Maybe<String>;
+  home_not_contains?: Maybe<String>;
+  home_starts_with?: Maybe<String>;
+  home_not_starts_with?: Maybe<String>;
+  home_ends_with?: Maybe<String>;
+  home_not_ends_with?: Maybe<String>;
   phone?: Maybe<String>;
   phone_not?: Maybe<String>;
   phone_in?: Maybe<String[] | String>;
@@ -875,20 +943,48 @@ export interface ReportTypeWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
+  name_uz?: Maybe<String>;
+  name_uz_not?: Maybe<String>;
+  name_uz_in?: Maybe<String[] | String>;
+  name_uz_not_in?: Maybe<String[] | String>;
+  name_uz_lt?: Maybe<String>;
+  name_uz_lte?: Maybe<String>;
+  name_uz_gt?: Maybe<String>;
+  name_uz_gte?: Maybe<String>;
+  name_uz_contains?: Maybe<String>;
+  name_uz_not_contains?: Maybe<String>;
+  name_uz_starts_with?: Maybe<String>;
+  name_uz_not_starts_with?: Maybe<String>;
+  name_uz_ends_with?: Maybe<String>;
+  name_uz_not_ends_with?: Maybe<String>;
+  name_ru?: Maybe<String>;
+  name_ru_not?: Maybe<String>;
+  name_ru_in?: Maybe<String[] | String>;
+  name_ru_not_in?: Maybe<String[] | String>;
+  name_ru_lt?: Maybe<String>;
+  name_ru_lte?: Maybe<String>;
+  name_ru_gt?: Maybe<String>;
+  name_ru_gte?: Maybe<String>;
+  name_ru_contains?: Maybe<String>;
+  name_ru_not_contains?: Maybe<String>;
+  name_ru_starts_with?: Maybe<String>;
+  name_ru_not_starts_with?: Maybe<String>;
+  name_ru_ends_with?: Maybe<String>;
+  name_ru_not_ends_with?: Maybe<String>;
+  name_en?: Maybe<String>;
+  name_en_not?: Maybe<String>;
+  name_en_in?: Maybe<String[] | String>;
+  name_en_not_in?: Maybe<String[] | String>;
+  name_en_lt?: Maybe<String>;
+  name_en_lte?: Maybe<String>;
+  name_en_gt?: Maybe<String>;
+  name_en_gte?: Maybe<String>;
+  name_en_contains?: Maybe<String>;
+  name_en_not_contains?: Maybe<String>;
+  name_en_starts_with?: Maybe<String>;
+  name_en_not_starts_with?: Maybe<String>;
+  name_en_ends_with?: Maybe<String>;
+  name_en_not_ends_with?: Maybe<String>;
   AND?: Maybe<ReportTypeWhereInput[] | ReportTypeWhereInput>;
   OR?: Maybe<ReportTypeWhereInput[] | ReportTypeWhereInput>;
   NOT?: Maybe<ReportTypeWhereInput[] | ReportTypeWhereInput>;
@@ -1028,6 +1124,10 @@ export interface PeopleCreateOneWithoutReportsInput {
 export interface PeopleCreateWithoutReportsInput {
   id?: Maybe<ID_Input>;
   name: String;
+  surname: String;
+  street: String;
+  address: String;
+  home: String;
   phone: String;
   password: String;
   image: String;
@@ -1051,7 +1151,9 @@ export interface ReportTypeCreateOneInput {
 
 export interface ReportTypeCreateInput {
   id?: Maybe<ID_Input>;
-  name: String;
+  name_uz: String;
+  name_ru: String;
+  name_en: String;
 }
 
 export interface CloserCreateManyWithoutUserInput {
@@ -1299,6 +1401,10 @@ export interface PeopleUpdateOneRequiredWithoutReportsInput {
 
 export interface PeopleUpdateWithoutReportsDataInput {
   name?: Maybe<String>;
+  surname?: Maybe<String>;
+  street?: Maybe<String>;
+  address?: Maybe<String>;
+  home?: Maybe<String>;
   phone?: Maybe<String>;
   password?: Maybe<String>;
   image?: Maybe<String>;
@@ -1336,7 +1442,9 @@ export interface ReportTypeUpdateOneRequiredInput {
 }
 
 export interface ReportTypeUpdateDataInput {
-  name?: Maybe<String>;
+  name_uz?: Maybe<String>;
+  name_ru?: Maybe<String>;
+  name_en?: Maybe<String>;
 }
 
 export interface ReportTypeUpsertNestedInput {
@@ -1737,6 +1845,10 @@ export interface CloserUpdateManyMutationInput {
 export interface PeopleCreateInput {
   id?: Maybe<ID_Input>;
   name: String;
+  surname: String;
+  street: String;
+  address: String;
+  home: String;
   phone: String;
   password: String;
   image: String;
@@ -1763,6 +1875,10 @@ export interface ReportCreateWithoutCreatorInput {
 
 export interface PeopleUpdateInput {
   name?: Maybe<String>;
+  surname?: Maybe<String>;
+  street?: Maybe<String>;
+  address?: Maybe<String>;
+  home?: Maybe<String>;
   phone?: Maybe<String>;
   password?: Maybe<String>;
   image?: Maybe<String>;
@@ -1888,6 +2004,10 @@ export interface ReportUpdateManyDataInput {
 
 export interface PeopleUpdateManyMutationInput {
   name?: Maybe<String>;
+  surname?: Maybe<String>;
+  street?: Maybe<String>;
+  address?: Maybe<String>;
+  home?: Maybe<String>;
   phone?: Maybe<String>;
   password?: Maybe<String>;
   image?: Maybe<String>;
@@ -1944,11 +2064,15 @@ export interface ReportCommentUpdateManyMutationInput {
 }
 
 export interface ReportTypeUpdateInput {
-  name?: Maybe<String>;
+  name_uz?: Maybe<String>;
+  name_ru?: Maybe<String>;
+  name_en?: Maybe<String>;
 }
 
 export interface ReportTypeUpdateManyMutationInput {
-  name?: Maybe<String>;
+  name_uz?: Maybe<String>;
+  name_ru?: Maybe<String>;
+  name_en?: Maybe<String>;
 }
 
 export interface RoleUpdateInput {
@@ -2436,6 +2560,10 @@ export interface ReportNullablePromise
 export interface People {
   id: ID_Output;
   name: String;
+  surname: String;
+  street: String;
+  address: String;
+  home: String;
   phone: String;
   password: String;
   image: String;
@@ -2444,6 +2572,10 @@ export interface People {
 export interface PeoplePromise extends Promise<People>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  surname: () => Promise<String>;
+  street: () => Promise<String>;
+  address: () => Promise<String>;
+  home: () => Promise<String>;
   phone: () => Promise<String>;
   password: () => Promise<String>;
   image: () => Promise<String>;
@@ -2463,6 +2595,10 @@ export interface PeopleSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
+  surname: () => Promise<AsyncIterator<String>>;
+  street: () => Promise<AsyncIterator<String>>;
+  address: () => Promise<AsyncIterator<String>>;
+  home: () => Promise<AsyncIterator<String>>;
   phone: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
@@ -2482,6 +2618,10 @@ export interface PeopleNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  surname: () => Promise<String>;
+  street: () => Promise<String>;
+  address: () => Promise<String>;
+  home: () => Promise<String>;
   phone: () => Promise<String>;
   password: () => Promise<String>;
   image: () => Promise<String>;
@@ -2498,26 +2638,34 @@ export interface PeopleNullablePromise
 
 export interface ReportType {
   id: ID_Output;
-  name: String;
+  name_uz: String;
+  name_ru: String;
+  name_en: String;
 }
 
 export interface ReportTypePromise extends Promise<ReportType>, Fragmentable {
   id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
+  name_uz: () => Promise<String>;
+  name_ru: () => Promise<String>;
+  name_en: () => Promise<String>;
 }
 
 export interface ReportTypeSubscription
   extends Promise<AsyncIterator<ReportType>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
+  name_uz: () => Promise<AsyncIterator<String>>;
+  name_ru: () => Promise<AsyncIterator<String>>;
+  name_en: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ReportTypeNullablePromise
   extends Promise<ReportType | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
+  name_uz: () => Promise<String>;
+  name_ru: () => Promise<String>;
+  name_en: () => Promise<String>;
 }
 
 export interface CloserConnection {
@@ -3070,6 +3218,10 @@ export interface PeopleSubscriptionPayloadSubscription
 export interface PeoplePreviousValues {
   id: ID_Output;
   name: String;
+  surname: String;
+  street: String;
+  address: String;
+  home: String;
   phone: String;
   password: String;
   image: String;
@@ -3080,6 +3232,10 @@ export interface PeoplePreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  surname: () => Promise<String>;
+  street: () => Promise<String>;
+  address: () => Promise<String>;
+  home: () => Promise<String>;
   phone: () => Promise<String>;
   password: () => Promise<String>;
   image: () => Promise<String>;
@@ -3090,6 +3246,10 @@ export interface PeoplePreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
+  surname: () => Promise<AsyncIterator<String>>;
+  street: () => Promise<AsyncIterator<String>>;
+  address: () => Promise<AsyncIterator<String>>;
+  home: () => Promise<AsyncIterator<String>>;
   phone: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
@@ -3225,21 +3385,27 @@ export interface ReportTypeSubscriptionPayloadSubscription
 
 export interface ReportTypePreviousValues {
   id: ID_Output;
-  name: String;
+  name_uz: String;
+  name_ru: String;
+  name_en: String;
 }
 
 export interface ReportTypePreviousValuesPromise
   extends Promise<ReportTypePreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
+  name_uz: () => Promise<String>;
+  name_ru: () => Promise<String>;
+  name_en: () => Promise<String>;
 }
 
 export interface ReportTypePreviousValuesSubscription
   extends Promise<AsyncIterator<ReportTypePreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
+  name_uz: () => Promise<AsyncIterator<String>>;
+  name_ru: () => Promise<AsyncIterator<String>>;
+  name_en: () => Promise<AsyncIterator<String>>;
 }
 
 export interface RoleSubscriptionPayload {

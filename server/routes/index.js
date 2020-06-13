@@ -103,15 +103,22 @@ router.post('/create-report', (req, res) => {
 });
 
 router.post('/sign-up', (req, res) => {
-  const { phone, name } = req.query;
-  if (phone && name) {
+  const { phone } = req.query;
+  if (phone) {
+    // !There is not any validation for request body.
     prisma.createPeople({
       image: 'https://img.icons8.com/officel/2x/user.png',
-      name,
+      name: req.body.name,
+      surname: req.body.surname,
+      street: req.body.street,
+      address: req.body.address,
+      home: req.body.home,
       phone: `+${phone}`,
       password: '1234',
     }, '{ id }').then(() => res.sendStatus(200))
       .catch((err) => res.status(502).json(err));
+  } else {
+    res.status(403).json({ message: 'Phone is required' })
   }
 });
 
@@ -133,6 +140,20 @@ router.get('/counts', async (req, res) => {
   } catch (e) {
     res.status(502).json(e);
   }
+});
+
+router.get('/problems', async (req, res) => {
+  try {
+    const types = await prisma.reportTypes();
+    res.status(200).json(types);
+  } catch (e) {
+    res.status(502).json(e);
+  }
+})
+
+router.post('/test', (req, res) => {
+    console.log(req.body);
+    res.send(200);
 });
 
 module.exports = router;
